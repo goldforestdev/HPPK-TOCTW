@@ -24,5 +24,14 @@
         android:id="@+id/settingsFragment"
         android:name="com.hppk.toctw.ui.settings.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_developersFragment"
+            app:destination="@id/developersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/developersFragment"
+        android:name="com.hppk.toctw.ui.settings.DevelopersFragment"
+        android:label="fragment_developers"
+        tools:layout="@layout/fragment_developers" />
 </navigation>

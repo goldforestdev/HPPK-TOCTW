@@ -1,10 +1,30 @@
 <resources>
+    <!-- Preferences -->
+    <string name="key_rating_review" translatable="false">key_rating_review</string>
+    <string name="key_feedback">key_feedback</string>
+    <string name="key_version" translatable="false">key_version</string>
+    <string name="key_developers" translatable="false">key_developers</string>
+
     <string name="app_name">TOCTW</string>
     <string name="home">Home</string>
     <string name="schedule">Schedule</string>
     <string name="stamp">Stamp</string>
     <string name="settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_info">App Information</string>
+    <string name="rating_review"><![CDATA[Rating & Review]]></string>
+    <string name="rating_review_details">Do you like App? Rate it for other users!</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="send_feedback_details">Report technical issues or suggest new features</string>
+    <string name="email" translatable="false">goldforestdev@gmail.com</string>
+    <string name="send_feedback_email_subject">[%1$s][%2$s] send feedback</string>
+    <string name="send_feedback_email_details">Device Model: \nAndroid OS Version: \nIssue: \n</string>
+    <string name="version" translatable="false">Version</string>
+    <string name="developers">Developers</string>
+    <string name="dev_yjlim">Yeonjung Lim</string>
+    <string name="dev_yjlim_email" translatable="false">yeonjung.lim@hp.com</string>
+    <string name="dev_hjkim">Hyeongju Teddy Kim</string>
+    <string name="dev_hjkim_email" translatable="false">hyeongju.kim@hp.com</string>
+    <string name="dev_yhkim">Yoonho Aarom Kim</string>
+    <string name="dev_yhkim_email" translatable="false">yoonho.kim@hp.com</string>
 </resources>

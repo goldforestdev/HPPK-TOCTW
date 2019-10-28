@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="@string/settings">
+
+    <PreferenceCategory android:title="@string/app_info">
+        <Preference
+            app:key="@string/key_rating_review"
+            app:title="@string/rating_review"
+            app:summary="@string/rating_review_details" />
+
+        <Preference
+            app:key="@string/key_feedback"
+            app:title="@string/send_feedback"
+            app:summary="@string/send_feedback_details" />
+
+        <Preference
+            app:key="@string/key_version"
+            app:title="@string/version"
+            app:summary="" />
+
+        <Preference
+            app:key="@string/key_developers"
+            app:title="@string/developers"
+            app:summary="" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
