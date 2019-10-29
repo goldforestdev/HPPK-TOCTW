@@ -26,7 +26,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         tv_more_booth.setOnClickListener{
-            findNavController().navigate(R.id.action_homeFragment_to_schedulesFragment)
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSchedulesFragment())
         }
     }
 }

@@ -37,5 +37,14 @@
         android:id="@+id/developersFragment"
         android:name="com.hppk.toctw.ui.settings.DevelopersFragment"
         android:label="@string/developers"
-        tools:layout="@layout/fragment_developers" />
+        tools:layout="@layout/fragment_developers" >
+        <action
+            android:id="@+id/action_developersFragment_to_authFragment"
+            app:destination="@id/authFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="com.hppk.toctw.auth.AuthFragment"
+        android:label="@string/authentication"
+        tools:layout="@layout/fragment_auth" />
 </navigation>
