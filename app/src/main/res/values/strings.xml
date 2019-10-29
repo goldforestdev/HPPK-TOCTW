@@ -31,4 +31,6 @@
     <string name="more_booth_info">모든 부스 정보 보기</string>
     <string name="notice">공지</string>
     <string name="authentication">인증</string>
+    <string name="add_notice">공지 추가하기</string>
+    <string name="sign_out">로그아웃</string>
 </resources>
