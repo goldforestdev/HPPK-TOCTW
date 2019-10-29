@@ -8,22 +8,26 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.hppk.toctw.ui.home.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        android:label="@string/home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_schedulesFragment"
+            app:destination="@id/schedulesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/schedulesFragment"
         android:name="com.hppk.toctw.ui.schedules.SchedulesFragment"
-        android:label="fragment_schedules"
+        android:label="@string/schedule"
         tools:layout="@layout/fragment_schedules" />
     <fragment
         android:id="@+id/stampsFragment"
         android:name="com.hppk.toctw.ui.stamps.StampsFragment"
-        android:label="fragment_stamps"
+        android:label="@string/stamp"
         tools:layout="@layout/fragment_stamps" />
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.hppk.toctw.ui.settings.SettingsFragment"
-        android:label="fragment_settings"
+        android:label="@string/settings"
         tools:layout="@layout/fragment_settings" >
         <action
             android:id="@+id/action_settingsFragment_to_developersFragment"
@@ -32,6 +36,6 @@
     <fragment
         android:id="@+id/developersFragment"
         android:name="com.hppk.toctw.ui.settings.DevelopersFragment"
-        android:label="fragment_developers"
+        android:label="@string/developers"
         tools:layout="@layout/fragment_developers" />
 </navigation>
