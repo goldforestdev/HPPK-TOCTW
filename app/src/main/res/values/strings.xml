@@ -28,4 +28,7 @@
     <string name="dev_yhkim">Yoonho Aarom Kim</string>
     <string name="dev_yhkim_email" translatable="false">yoonho.kim@hp.com</string>
     <string name="stamp_message">Collect all the stamps and get souvenirs!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

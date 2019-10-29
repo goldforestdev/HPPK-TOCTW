@@ -19,7 +19,11 @@
         android:id="@+id/stampsFragment"
         android:name="com.hppk.toctw.ui.stamps.StampsFragment"
         android:label="fragment_stamps"
-        tools:layout="@layout/fragment_stamps" />
+        tools:layout="@layout/fragment_stamps" >
+        <action
+            android:id="@+id/action_stampsFragment_to_QRCameraFragment"
+            app:destination="@id/QRCameraFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.hppk.toctw.ui.settings.SettingsFragment"
@@ -34,4 +38,9 @@
         android:name="com.hppk.toctw.ui.settings.DevelopersFragment"
         android:label="fragment_developers"
         tools:layout="@layout/fragment_developers" />
+    <fragment
+        android:id="@+id/QRCameraFragment"
+        android:name="com.hppk.toctw.ui.stamps.qrcamera.QRCameraFragment"
+        android:label="fragment_qrcamera"
+        tools:layout="@layout/fragment_qrcamera" />
 </navigation>

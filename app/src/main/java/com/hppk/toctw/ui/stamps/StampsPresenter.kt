@@ -23,7 +23,11 @@ class StampsPresenter(
             Stamp("2", "booth 2", false),
             Stamp("3", "booth 3", true),
             Stamp("4", "booth 4", false),
-            Stamp("5", "booth 5", false)
+            Stamp("5", "booth 5", false),
+            Stamp("6", "booth 6", false),
+            Stamp("7", "booth 7", true),
+            Stamp("8", "booth 8", false),
+            Stamp("9", "booth 9", false)
         )
         view.onStampsLoaded(sampleData)
     }
