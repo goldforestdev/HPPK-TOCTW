@@ -1,6 +1,7 @@
 package com.hppk.toctw.ui.stamps.qrcamera
 
 
+import android.animation.Animator
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Rational
@@ -12,12 +13,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.camera.core.*
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.fragment.findNavController
 import com.hppk.toctw.R
 import kotlinx.android.synthetic.main.fragment_qrcamera.*
 
-class QRCameraFragment : Fragment(), QRCodeAnalyzer.QRCodeFoundListener {
+class QRCameraFragment : Fragment(), QRCodeAnalyzer.QRCodeFoundListener, QRCodeContract.View {
 
     private lateinit var qrAnalysis: ImageAnalysis
+
+    private val presenter: QRCodeContract.Presenter by lazy { QRCodePresenter(this) }
     private val imageAnalysisConfig: ImageAnalysisConfig by lazy {
         ImageAnalysisConfig.Builder()
             .setTargetResolution(Size(1280, 720))
@@ -46,6 +50,11 @@ class QRCameraFragment : Fragment(), QRCodeAnalyzer.QRCodeFoundListener {
         viewFinder.post { startCamera() }
     }
 
+    override fun onDestroy() {
+        presenter.unsubscribe()
+        super.onDestroy()
+    }
+
     private fun startCamera() {
         qrAnalysis = ImageAnalysis(imageAnalysisConfig).apply {
             analyzer = QRCodeAnalyzer(this@QRCameraFragment)
@@ -63,12 +72,33 @@ class QRCameraFragment : Fragment(), QRCodeAnalyzer.QRCodeFoundListener {
         CameraX.bindToLifecycle(this as LifecycleOwner, preview, qrAnalysis)
     }
 
-    override fun onQRCodeFound(data: String) {
-        Toast.makeText(activity?.applicationContext, "QR Code: $data", Toast.LENGTH_SHORT).show()
+    override fun onQRCodeFound(boothId: String) {
+        CameraX.unbind(qrAnalysis)
         aniDone.visibility = View.VISIBLE
         aniDone.playAnimation()
 
-        CameraX.unbind(qrAnalysis)
+        aniDone.addAnimatorListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                presenter.saveStamp(boothId)
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+
+            }
+
+        })
+    }
+
+    override fun onStampSaved() {
+        fragmentManager?.popBackStackImmediate()
     }
 
 }

@@ -18,6 +18,7 @@ class StampsPresenter(
     }
 
     override fun getStamps() {
+        // TODO: stamp repository 구현 후 작업할 것
         val sampleData = listOf(
             Stamp("1", "booth 1", true),
             Stamp("2", "booth 2", false),
@@ -29,6 +30,9 @@ class StampsPresenter(
             Stamp("8", "booth 8", false),
             Stamp("9", "booth 9", false)
         )
+
         view.onStampsLoaded(sampleData)
+
+        // TODO: 모든 stamp를 획득했을 때의 시나리오
     }
 }

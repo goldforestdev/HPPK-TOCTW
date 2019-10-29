@@ -10,6 +10,8 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
 
 
+private const val QR_CODE_KEY_BOOTH_ID = "boothId:"
+
 class QRCodeAnalyzer(
     private val qrCodeFoundListener: QRCodeFoundListener
 ) : ImageAnalysis.Analyzer {
@@ -17,7 +19,7 @@ class QRCodeAnalyzer(
     private val TAG = QRCodeAnalyzer::class.java.simpleName
 
     interface QRCodeFoundListener {
-        fun onQRCodeFound(data: String)
+        fun onQRCodeFound(boothId: String)
     }
 
     private val detectorOptions: FirebaseVisionBarcodeDetectorOptions by lazy {
@@ -42,16 +44,16 @@ class QRCodeAnalyzer(
             FirebaseVision.getInstance()
                 .getVisionBarcodeDetector(detectorOptions)
                 .detectInImage(image)
+                .addOnFailureListener { Log.e(TAG, "[TOCTW] analyze - failed: ${it.message}", it) }
                 .addOnSuccessListener { qrCodeList ->
-                    Log.d(TAG, "[TOCTW] analyze - barcodes size: ${qrCodeList.size}")
-                    qrCodeList.firstOrNull()?.rawValue?.let { data ->
-                        Log.d(TAG, "[TOCTW] analyze - rawValue: $data")
-                        qrCodeFoundListener.onQRCodeFound(data)
-                        return@addOnSuccessListener
+                    qrCodeList.firstOrNull {
+                        it.rawValue?.contains(QR_CODE_KEY_BOOTH_ID) ?: false
+                    }?.let { qrCode ->
+                        qrCode.rawValue?.let { data ->
+                            qrCodeFoundListener.onQRCodeFound(data.replace(QR_CODE_KEY_BOOTH_ID, ""))
+                            return@addOnSuccessListener
+                        }
                     }
-                }
-                .addOnFailureListener { t ->
-                    Log.e(TAG, "[TOCTW] analyze - failed: ${t.message}", t)
                 }
         }
     }
