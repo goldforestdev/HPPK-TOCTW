@@ -27,4 +27,5 @@
     <string name="dev_hjkim_email" translatable="false">hyeongju.kim@hp.com</string>
     <string name="dev_yhkim">Yoonho Aarom Kim</string>
     <string name="dev_yhkim_email" translatable="false">yoonho.kim@hp.com</string>
+    <string name="stamp_message">Collect all the stamps and get souvenirs!</string>
 </resources>
