@@ -50,11 +50,7 @@ class FirestoreBoothDao(
         db.collection(BOOTH)
             .get()
             .addOnSuccessListener { result ->
-                val booths : MutableList<Booth> = mutableListOf()
-                for (document in result) {
-                    booths.add(document.toObject(Booth::class.java))
-                }
-                emitter.onSuccess(booths)
+                emitter.onSuccess(result.toObjects(Booth::class.java))
             }
             .addOnFailureListener { exception ->
                 Log.e(TAG, "Error getting Collection: ", exception)
