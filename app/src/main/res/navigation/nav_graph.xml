@@ -12,13 +12,13 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_schedulesFragment"
-            app:destination="@id/schedulesFragment" />
+            app:destination="@id/boothFragment" />
     </fragment>
     <fragment
-        android:id="@+id/schedulesFragment"
-        android:name="com.hppk.toctw.ui.schedules.SchedulesFragment"
-        android:label="@string/schedule"
-        tools:layout="@layout/fragment_schedules" />
+        android:id="@+id/boothFragment"
+        android:name="com.hppk.toctw.ui.booth.BoothFragment"
+        android:label="@string/event_booth"
+        tools:layout="@layout/fragment_booth" />
     <fragment
         android:id="@+id/stampsFragment"
         android:name="com.hppk.toctw.ui.stamps.StampsFragment"

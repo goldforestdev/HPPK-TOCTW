@@ -12,4 +12,6 @@ class BoothRepository(
 
     fun get(id: String) = remoteBoothDao.get(id)
 
+    fun getDataList() = remoteBoothDao.getDataList()
+
 }

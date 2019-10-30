@@ -8,4 +8,6 @@ interface BoothDao {
     fun save(booth: Booth): Completable
     fun get(id: String): Single<Booth>
 
+    fun getDataList() : Single<List<Booth>>
+
 }
