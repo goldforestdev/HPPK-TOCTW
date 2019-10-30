@@ -7,7 +7,6 @@ interface SplashContract {
     }
 
     interface Presenter {
-        fun loadData()
         fun unsubscribe()
     }
 }
