@@ -19,10 +19,6 @@ import com.hppk.toctw.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    companion object {
-        const val RC_SIGN_IN = 2019
-    }
-
     private lateinit var appBarConfiguration: AppBarConfiguration
     private val navController: NavController by lazy { findNavController(R.id.nav_host_fragment) }
 
@@ -58,21 +54,6 @@ class MainActivity : AppCompatActivity() {
             drawerLayout.closeDrawers()
         } else {
             super.onBackPressed()
-        }
-    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        Log.d("YJ", "onActivityResult = $requestCode : $resultCode")
-        if (requestCode == 2019) {
-            //val response = IdpResponse.fromResultIntent(data)
-            if (resultCode == Activity.RESULT_OK) {
-                val email = FirebaseAuth.getInstance().currentUser?.email
-                Toast.makeText(this, "로그인 : $email", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
-            }
         }
     }
 }
