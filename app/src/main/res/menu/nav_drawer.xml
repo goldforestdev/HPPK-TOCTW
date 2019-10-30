@@ -10,7 +10,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/schedulesFragment"
+        android:id="@+id/boothFragment"
         android:enabled="true"
         android:icon="@drawable/ic_schedule"
         android:title="@string/event_booth"

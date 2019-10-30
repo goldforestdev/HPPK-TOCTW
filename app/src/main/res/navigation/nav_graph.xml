@@ -11,10 +11,10 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
-        android:id="@+id/schedulesFragment"
+        android:id="@+id/boothFragment"
         android:name="com.hppk.toctw.ui.booth.BoothFragment"
         android:label="fragment_schedules"
-        tools:layout="@layout/fragment_schedules" />
+        tools:layout="@layout/fragment_booth" />
     <fragment
         android:id="@+id/stampsFragment"
         android:name="com.hppk.toctw.ui.stamps.StampsFragment"

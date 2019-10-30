@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.homeFragment,
-                R.id.schedulesFragment,
+                R.id.boothFragment,
                 R.id.stampsFragment,
                 R.id.settingsFragment
             ), drawerLayout

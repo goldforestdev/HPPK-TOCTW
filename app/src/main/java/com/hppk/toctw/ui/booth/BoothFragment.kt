@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Booth
-import kotlinx.android.synthetic.main.fragment_schedules.*
+import kotlinx.android.synthetic.main.fragment_booth.*
 
 class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister {
 
@@ -21,7 +21,7 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_schedules, container, false)
+        return inflater.inflate(R.layout.fragment_booth, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
