@@ -13,7 +13,7 @@
         android:id="@+id/schedulesFragment"
         android:enabled="true"
         android:icon="@drawable/ic_schedule"
-        android:title="@string/schedule"
+        android:title="@string/event_booth"
         app:showAsAction="ifRoom" />
 
     <item

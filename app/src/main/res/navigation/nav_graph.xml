@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/schedulesFragment"
-        android:name="com.hppk.toctw.ui.schedules.SchedulesFragment"
+        android:name="com.hppk.toctw.ui.booth.BoothFragment"
         android:label="fragment_schedules"
         tools:layout="@layout/fragment_schedules" />
     <fragment
