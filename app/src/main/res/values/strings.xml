@@ -5,7 +5,8 @@
     <string name="key_version" translatable="false">key_version</string>
     <string name="key_developers" translatable="false">key_developers</string>
 
-    <string name="app_name">TOCTW</string>
+    <string name="app_name">TOCTW 2019</string>
+    <string name="app_full_name">Take Our Children to Work 2019</string>
     <string name="home">Home</string>
     <string name="schedule">Schedule</string>
     <string name="stamp">Stamp</string>
@@ -33,4 +34,5 @@
     <string name="authentication">인증</string>
     <string name="add_notice">공지 추가하기</string>
     <string name="sign_out">로그아웃</string>
+    <string name="splash_bottom_text" translatable="false">Copyright<![CDATA[ⓒ]]> 2019 Gold Forest Team.</string>
 </resources>
