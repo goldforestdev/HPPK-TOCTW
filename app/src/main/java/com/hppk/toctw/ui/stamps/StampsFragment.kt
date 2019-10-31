@@ -4,7 +4,6 @@ package com.hppk.toctw.ui.stamps
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hppk.toctw.R
-import com.hppk.toctw.data.model.Stamp
+import com.hppk.toctw.data.model.StampBooth
 import kotlinx.android.synthetic.main.fragment_stamps.*
 
 private const val REQUEST_CODE_PERMISSIONS = 10
@@ -52,7 +51,7 @@ class StampsFragment : Fragment(), StampsContract.View {
         super.onDestroy()
     }
 
-    override fun onStampsLoaded(stamps: List<Stamp>) {
+    override fun onStampsLoaded(stamps: List<StampBooth>) {
         adapter.stamps.clear()
         adapter.stamps.addAll(stamps)
         adapter.notifyDataSetChanged()

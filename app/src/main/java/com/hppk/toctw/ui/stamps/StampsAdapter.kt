@@ -5,11 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hppk.toctw.R
-import com.hppk.toctw.data.model.Stamp
+import com.hppk.toctw.data.model.StampBooth
 import kotlinx.android.synthetic.main.item_stamp.view.*
 
 class StampsAdapter (
-    val stamps: MutableList<Stamp> = mutableListOf()
+    val stamps: MutableList<StampBooth> = mutableListOf()
 ): RecyclerView.Adapter<StampsAdapter.StampHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StampHolder {
@@ -23,12 +23,12 @@ class StampsAdapter (
 
         holder.itemView.tvBoothName.text = stamp.boothName
 
-        when (stamp.isStamps) {
-            true -> R.drawable.ic_stamp_hp
-            else -> R.drawable.ic_stamp_hp_empty
-        }.let {
-            holder.itemView.ivStamp.setImageResource(it)
-        }
+//        when (stamp.isStamps) {
+//            true -> R.drawable.ic_stamp_hp
+//            else -> R.drawable.ic_stamp_hp_empty
+//        }.let {
+//            holder.itemView.ivStamp.setImageResource(it)
+//        }
     }
 
     class StampHolder(itemView: View): RecyclerView.ViewHolder(itemView)
