@@ -1,6 +1,7 @@
 package com.hppk.toctw.ui.children
 
 import android.util.Log
+import com.hppk.toctw.data.model.Child
 import com.hppk.toctw.data.repository.ChildrenRepository
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -33,4 +34,19 @@ class ChildrenPresenter (
                 })
         )
     }
+
+    override fun saveChild(name: String, avatarResId: Int) {
+        val child = Child(name, avatarResId)
+        disposable.add(
+            childrenRepository.save(child)
+                .subscribeOn(ioScheduler)
+                .observeOn(uiScheduler)
+                .subscribe({
+                    view.onChildSaved(child)
+                }, { t ->
+                    Log.e(TAG, "[TOCTW] saveChild - failed: ${t.message}", t)
+                })
+        )
+    }
+
 }

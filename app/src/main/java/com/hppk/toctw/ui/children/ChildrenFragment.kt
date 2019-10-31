@@ -6,6 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -17,6 +21,10 @@ import com.hppk.toctw.data.source.local.AppDatabase
 import kotlinx.android.synthetic.main.fragment_children.*
 
 
+class SharedViewModel : ViewModel() {
+    val avatarResId = MutableLiveData<Int>()
+}
+
 class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.AddChildClickListener {
 
     private val presenter: ChildrenContract.Presenter by lazy {
@@ -24,6 +32,22 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.AddC
         ChildrenPresenter(this, ChildrenRepository(childDao))
     }
     private val adapter: ChildrenAdapter by lazy { ChildrenAdapter(addChildListener = this) }
+
+    private lateinit var model: SharedViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        model = activity?.run {
+            ViewModelProviders.of(this)[SharedViewModel::class.java]
+        } ?: throw Exception("Invalid Activity")
+
+        model.avatarResId.observe(this, Observer<Int> { avatarResId ->
+            adapter.children.last().avatar = avatarResId
+            adapter.notifyItemChanged(adapter.children.size - 1)
+        })
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +68,7 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.AddC
 
     override fun onDestroyView() {
         presenter.unsubscribe()
+        model.avatarResId.value = 0
         super.onDestroyView()
     }
 
@@ -58,5 +83,17 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.AddC
         findNavController().navigate(ChildrenFragmentDirections.actionChildrenFragmentToAvatarsDialog())
     }
 
+    override fun saveChild(name: String, avatarResId: Int) {
+        presenter.saveChild(name, avatarResId)
+    }
+
+    override fun onChildSaved(child: Child) {
+        adapter.children.removeAt(adapter.children.lastIndex)
+        adapter.children.add(child)
+        adapter.children.add(Child())
+        adapter.notifyDataSetChanged()
+
+        rvChildren.scrollToPosition(adapter.children.lastIndex - 1)
+    }
 
 }

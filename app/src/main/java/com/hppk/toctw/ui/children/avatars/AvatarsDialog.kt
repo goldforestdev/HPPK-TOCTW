@@ -2,13 +2,16 @@ package com.hppk.toctw.ui.children.avatars
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hppk.toctw.R
+import com.hppk.toctw.ui.children.SharedViewModel
 import kotlinx.android.synthetic.main.dialog_avatars.*
 
 
@@ -38,6 +41,15 @@ class AvatarsDialog : DialogFragment(), AvatarsAdapter.AvatarClickListener {
         )
     }
 
+    private lateinit var model: SharedViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        model = activity?.run {
+            ViewModelProviders.of(this)[SharedViewModel::class.java]
+        } ?: throw Exception("Invalid Activity")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,7 +63,8 @@ class AvatarsDialog : DialogFragment(), AvatarsAdapter.AvatarClickListener {
     }
 
     override fun onAvatarClicked(resId: Int) {
-
+        model.avatarResId.value = resId
+        dismiss()
     }
 
 }

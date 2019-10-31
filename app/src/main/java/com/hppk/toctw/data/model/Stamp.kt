@@ -13,5 +13,5 @@ data class StampBooth(
 data class Child(
     @PrimaryKey
     val name: String = "",
-    val avatar: Int = 0
+    var avatar: Int = 0
 )
