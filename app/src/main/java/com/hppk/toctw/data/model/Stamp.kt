@@ -13,9 +13,5 @@ data class StampBooth(
 data class Child(
     @PrimaryKey
     val name: String = "",
-    val gender: Gender = Gender.BOY
+    val avatar: Int = 0
 )
-
-enum class Gender {
-    BOY, GIRL
-}

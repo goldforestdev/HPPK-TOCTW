@@ -52,14 +52,4 @@ class ChildrenPresenterTest {
 
         verify(view).onChildrenLoaded(childList)
     }
-
-    @Test
-    fun `getChildren - Children이 존재하지 않으면 moveToAddChildView가 호출되어야 한다`() {
-        `when`(childrenRepository.getAll()).thenReturn(Single.just(listOf()))
-
-        childrenPresenter.getChildren()
-        testScheduler.triggerActions()
-
-        verify(view).moveToAddChildView()
-    }
 }

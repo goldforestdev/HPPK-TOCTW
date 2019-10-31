@@ -1,9 +1,10 @@
 package com.hppk.toctw.data.source.local
 
 import android.content.Context
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.hppk.toctw.data.model.Child
-import com.hppk.toctw.data.model.Gender
 
 private const val DB = "hppk_toctw.db"
 
@@ -11,7 +12,6 @@ private const val DB = "hppk_toctw.db"
     entities = [Child::class],
     version = 1
 )
-@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun childrenDao(): LocalChildrenDao
@@ -37,12 +37,4 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 
-}
-
-class Converters {
-    @TypeConverter
-    fun stringToGender(s: String?): Gender = s?.let { Gender.valueOf(it) } ?: Gender.BOY
-
-    @TypeConverter
-    fun genderToString(gender: Gender): String = gender.name
 }

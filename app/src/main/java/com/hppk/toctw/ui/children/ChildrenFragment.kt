@@ -17,13 +17,13 @@ import com.hppk.toctw.data.source.local.AppDatabase
 import kotlinx.android.synthetic.main.fragment_children.*
 
 
-class ChildrenFragment : Fragment(), ChildrenContract.View {
+class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.AddChildClickListener {
 
     private val presenter: ChildrenContract.Presenter by lazy {
         val childDao = AppDatabase.getInstance(context!!).childrenDao()
         ChildrenPresenter(this, ChildrenRepository(childDao))
     }
-    private val adapter: ChildrenAdapter by lazy { ChildrenAdapter() }
+    private val adapter: ChildrenAdapter by lazy { ChildrenAdapter(addChildListener = this) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +38,6 @@ class ChildrenFragment : Fragment(), ChildrenContract.View {
 
         rvChildren.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         rvChildren.adapter = adapter
-        fabAddChild.setOnClickListener { moveToAddChildView() }
 
         presenter.getChildren()
     }
@@ -48,13 +47,16 @@ class ChildrenFragment : Fragment(), ChildrenContract.View {
         super.onDestroyView()
     }
 
-    override fun moveToAddChildView() {
-        findNavController().navigate(ChildrenFragmentDirections.actionSelectChildFragmentToAddChildrenFragment())
-    }
-
     override fun onChildrenLoaded(children: List<Child>) {
+        adapter.children.clear()
         adapter.children.addAll(children)
+        adapter.children.add(Child())
         adapter.notifyDataSetChanged()
     }
+
+    override fun onAvatarClicked() {
+        findNavController().navigate(ChildrenFragmentDirections.actionChildrenFragmentToAvatarsDialog())
+    }
+
 
 }

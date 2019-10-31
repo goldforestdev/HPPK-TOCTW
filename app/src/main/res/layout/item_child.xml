@@ -7,7 +7,7 @@
     tools:context=".ui.stamps.StampsFragment">
 
     <ImageView
-        android:id="@+id/ivGender"
+        android:id="@+id/ivAvatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
@@ -30,6 +30,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivGender" />
+        app:layout_constraintTop_toBottomOf="@id/ivAvatar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

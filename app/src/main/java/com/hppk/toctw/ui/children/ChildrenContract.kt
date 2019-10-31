@@ -4,7 +4,6 @@ import com.hppk.toctw.data.model.Child
 
 interface ChildrenContract {
     interface View {
-        fun moveToAddChildView()
         fun onChildrenLoaded(children: List<Child>)
     }
 

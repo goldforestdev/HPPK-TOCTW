@@ -27,11 +27,7 @@ class ChildrenPresenter (
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
                 .subscribe({
-                    if (it.isNullOrEmpty()) {
-                        view.moveToAddChildView()
-                    } else {
-                        view.onChildrenLoaded(it)
-                    }
+                    view.onChildrenLoaded(it)
                 }, { t ->
                     Log.e(TAG, "[TOCTW] getChildren - failed: ${t.message}", t)
                 })

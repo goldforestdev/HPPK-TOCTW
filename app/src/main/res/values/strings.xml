@@ -41,4 +41,7 @@
     <string name="done">Done</string>
     <string name="message_add_child">Please provide your child\'s name and gender.</string>
     <string name="message_add_child_2">The information you enter is stored only on your device, and not on an external server.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
