@@ -47,4 +47,21 @@
         android:name="com.hppk.toctw.ui.stamps.qrcamera.QRCameraFragment"
         android:label="fragment_qrcamera"
         tools:layout="@layout/fragment_qrcamera" />
+    <fragment
+        android:id="@+id/addChildrenFragment"
+        android:name="com.hppk.toctw.ui.children.add.AddChildrenFragment"
+        android:label="fragment_add_children"
+        tools:layout="@layout/fragment_add_children" />
+    <fragment
+        android:id="@+id/childrenFragment"
+        android:name="com.hppk.toctw.ui.children.ChildrenFragment"
+        android:label="fragment_children"
+        tools:layout="@layout/fragment_children" >
+        <action
+            android:id="@+id/action_selectChildFragment_to_addChildrenFragment"
+            app:destination="@id/addChildrenFragment" />
+        <action
+            android:id="@+id/action_selectChildFragment_to_stampsFragment"
+            app:destination="@id/stampsFragment" />
+    </fragment>
 </navigation>
