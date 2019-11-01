@@ -22,7 +22,7 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
             finish()
-        }, 1500)
+        }, 500)
     }
 
     override fun onStop() {

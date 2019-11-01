@@ -1,8 +1,10 @@
 package com.hppk.toctw.ui.children
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.hppk.toctw.R
@@ -48,6 +50,18 @@ class ChildrenAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (position == 0) {
+            val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
+            layoutParams.marginStart = 192
+            holder.itemView.layoutParams = layoutParams
+        }
+
+        if (position == children.lastIndex) {
+            val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
+            layoutParams.marginEnd = 192
+            holder.itemView.layoutParams = layoutParams
+        }
+
         if (holder is AddChildHolder) {
             bindAddView(holder, position)
         } else {
