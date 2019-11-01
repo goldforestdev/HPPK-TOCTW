@@ -26,7 +26,6 @@
         android:layout_marginBottom="2dp"
         android:layout_marginStart="7dp"
         android:textAlignment="textStart"
-        android:maxLines="2"
         style="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/viewBusy"
@@ -57,10 +56,12 @@
         app:layout_constraintTop_toTopOf="@id/tvBusy"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvBusy"/>
-    <TextView
+
+    <com.google.android.material.chip.Chip
         android:id="@+id/tvLocation"
+        style="@style/Widget.MaterialComponents.Chip.Action"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_marginBottom="16dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="2dp"
