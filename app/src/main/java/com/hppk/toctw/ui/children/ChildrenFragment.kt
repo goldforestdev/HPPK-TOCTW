@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -98,8 +100,10 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.Chil
         rvChildren.scrollToPosition(adapter.children.size - 2)
     }
 
-    override fun onChildClicked(child: Child) {
-        findNavController().navigate(ChildrenFragmentDirections.actionSelectChildFragmentToStampsFragment(child))
+    override fun onChildClicked(imageView: ImageView, child: Child) {
+        val extras = FragmentNavigatorExtras(imageView to "avatar")
+        val bundle = Bundle().apply { putParcelable("child", child) }
+        findNavController().navigate(R.id.action_selectChildFragment_to_stampsFragment, bundle, null, extras)
     }
 
 }

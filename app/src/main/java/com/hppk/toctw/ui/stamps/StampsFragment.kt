@@ -9,8 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionInflater
 import com.hppk.toctw.R
 import com.hppk.toctw.data.model.StampBooth
 import com.hppk.toctw.data.repository.BoothRepository
@@ -19,13 +22,19 @@ import kotlinx.android.synthetic.main.fragment_stamps.*
 
 private const val REQUEST_CODE_PERMISSIONS = 10
 
-class StampsFragment : Fragment(), StampsContract.View {
+class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionClearedListener {
 
     private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+    private val args: StampsFragmentArgs by navArgs()
     private val presenter: StampsContract.Presenter by lazy {
-        StampsPresenter(this, BoothRepository(remoteBoothDao =  FirestoreBoothDao()))
+        StampsPresenter(this, BoothRepository(remoteBoothDao = FirestoreBoothDao()))
     }
-    private val adapter: StampsAdapter by lazy { StampsAdapter() }
+    private val adapter: StampsAdapter by lazy { StampsAdapter(listener = this) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,15 +46,16 @@ class StampsFragment : Fragment(), StampsContract.View {
 
         initView()
 
+        if (args.child.avatar != 0) {
+            ivAvatar.setImageResource(args.child.avatar)
+        }
+
         presenter.getStamps()
     }
 
     private fun initView() {
-        rvStamps.layoutManager = GridLayoutManager(context, 3)
+        rvStamps.layoutManager = LinearLayoutManager(context)
         rvStamps.adapter = adapter
-
-        fabStamp.isEnabled = true
-        fabStamp.setOnClickListener { showCameraView() }
     }
 
     override fun onDestroy() {
@@ -55,13 +65,11 @@ class StampsFragment : Fragment(), StampsContract.View {
 
     override fun onStampsLoaded(stamps: List<StampBooth>) {
         adapter.stamps.clear()
-        adapter.stamps.addAll(stamps)
+        adapter.stamps.addAll(stamps.map { StampFlipWrapper(it) })
         adapter.notifyDataSetChanged()
     }
 
     private fun showCameraView() {
-        fabStamp.isEnabled = false
-
         if (hasCameraPermission()) {
             findNavController().navigate(StampsFragmentDirections.actionStampsFragmentToQRCameraFragment())
         } else {
@@ -69,7 +77,11 @@ class StampsFragment : Fragment(), StampsContract.View {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
@@ -82,4 +94,9 @@ class StampsFragment : Fragment(), StampsContract.View {
     private fun hasCameraPermission() = REQUIRED_PERMISSIONS.all { perm ->
         ContextCompat.checkSelfPermission(context!!, perm) == PackageManager.PERMISSION_GRANTED
     }
+
+    override fun onMissionCleared() {
+        showCameraView()
+    }
+
 }

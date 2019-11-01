@@ -2,6 +2,8 @@ package com.hppk.toctw.ui.stamps
 
 import android.util.Log
 import com.hppk.toctw.data.model.Booth
+import com.hppk.toctw.data.model.Busy
+import com.hppk.toctw.data.model.Staff
 import com.hppk.toctw.data.model.StampBooth
 import com.hppk.toctw.data.repository.BoothRepository
 import io.reactivex.Scheduler
@@ -35,5 +37,6 @@ class StampsPresenter(
         )
 
         // TODO: 모든 stamp를 획득했을 때의 시나리오
+
     }
 }
