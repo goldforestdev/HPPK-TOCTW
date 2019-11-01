@@ -1,10 +1,6 @@
 package com.hppk.toctw.ui
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -14,7 +10,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.FirebaseAuth
 import com.hppk.toctw.R
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -30,7 +25,7 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.homeFragment,
                 R.id.boothFragment,
-                R.id.stampsFragment,
+                R.id.childrenFragment,
                 R.id.settingsFragment
             ), drawerLayout
         )

@@ -1,10 +1,10 @@
 package com.hppk.toctw.ui.stamps
 
-import com.hppk.toctw.data.model.Stamp
+import com.hppk.toctw.data.model.StampBooth
 
 interface StampsContract{
     interface View {
-        fun onStampsLoaded(stamps: List<Stamp>)
+        fun onStampsLoaded(stamps: List<StampBooth>)
     }
 
     interface Presenter {

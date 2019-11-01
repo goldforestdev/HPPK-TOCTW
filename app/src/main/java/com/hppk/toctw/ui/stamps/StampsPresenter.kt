@@ -1,6 +1,6 @@
 package com.hppk.toctw.ui.stamps
 
-import com.hppk.toctw.data.model.Stamp
+import com.hppk.toctw.data.model.StampBooth
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -20,15 +20,15 @@ class StampsPresenter(
     override fun getStamps() {
         // TODO: stamp repository 구현 후 작업할 것
         val sampleData = listOf(
-            Stamp("1", "booth 1", true),
-            Stamp("2", "booth 2", false),
-            Stamp("3", "booth 3", true),
-            Stamp("4", "booth 4", false),
-            Stamp("5", "booth 5", false),
-            Stamp("6", "booth 6", false),
-            Stamp("7", "booth 7", true),
-            Stamp("8", "booth 8", false),
-            Stamp("9", "booth 9", false)
+            StampBooth("1", "booth 1"),
+            StampBooth("2", "booth 2"),
+            StampBooth("3", "booth 3"),
+            StampBooth("4", "booth 4"),
+            StampBooth("5", "booth 5"),
+            StampBooth("6", "booth 6"),
+            StampBooth("7", "booth 7"),
+            StampBooth("8", "booth 8"),
+            StampBooth("9", "booth 9")
         )
 
         view.onStampsLoaded(sampleData)

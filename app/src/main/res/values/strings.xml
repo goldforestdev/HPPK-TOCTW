@@ -42,4 +42,11 @@
     <string name="busy_very">정체</string>
     <string name="busy_close">종료</string>
     <string name="splash_bottom_text" translatable="false">Copyright<![CDATA[ⓒ]]> 2019 Gold Forest Team.</string>
+    <string name="hint_input_child_name">Input child name</string>
+    <string name="done">Done</string>
+    <string name="message_add_child">Please provide your child\'s name and gender.</string>
+    <string name="message_add_child_2">The information you enter is stored only on your device, and not on an external server.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

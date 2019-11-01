@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_stampsFragment_to_QRCameraFragment"
             app:destination="@id/QRCameraFragment" />
+        <argument
+            android:name="child"
+            app:argType="com.hppk.toctw.data.model.Child" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -47,4 +50,21 @@
         android:name="com.hppk.toctw.ui.stamps.qrcamera.QRCameraFragment"
         android:label="fragment_qrcamera"
         tools:layout="@layout/fragment_qrcamera" />
+    <fragment
+        android:id="@+id/childrenFragment"
+        android:name="com.hppk.toctw.ui.children.ChildrenFragment"
+        android:label="fragment_children"
+        tools:layout="@layout/fragment_children" >
+        <action
+            android:id="@+id/action_selectChildFragment_to_stampsFragment"
+            app:destination="@id/stampsFragment" />
+        <action
+            android:id="@+id/action_childrenFragment_to_avatarsDialog"
+            app:destination="@id/avatarsDialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/avatarsDialog"
+        android:name="com.hppk.toctw.ui.children.avatars.AvatarsDialog"
+        android:label="dialog_avatars"
+        tools:layout="@layout/dialog_avatars" />
 </navigation>

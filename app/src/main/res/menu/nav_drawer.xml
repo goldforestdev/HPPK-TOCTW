@@ -17,7 +17,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/stampsFragment"
+        android:id="@+id/childrenFragment"
         android:enabled="true"
         android:icon="@drawable/ic_smile"
         android:title="@string/stamp"
