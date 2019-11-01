@@ -29,10 +29,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.settingsFragment
             ), drawerLayout
         )
-        findViewById<Toolbar>(R.id.toolbar).setupWithNavController(
-            navController,
-            appBarConfiguration
-        )
         findViewById<NavigationView>(R.id.navView).setupWithNavController(navController)
     }
 

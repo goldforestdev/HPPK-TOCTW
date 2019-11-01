@@ -9,11 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.hppk.toctw.R
+import kotlinx.android.synthetic.main.fragment_booth.*
 import kotlinx.android.synthetic.main.fragment_developers.*
+import kotlinx.android.synthetic.main.fragment_developers.toolbar
 
 
 class DevelopersFragment : Fragment() {
@@ -40,6 +43,8 @@ class DevelopersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setSignOutVisibility()
 
+        initToolbar()
+
         cvSignOut.setOnClickListener {
             AuthUI.getInstance()
                 .signOut(context!!)
@@ -62,6 +67,17 @@ class DevelopersFragment : Fragment() {
         cvYhKim.setOnClickListener {
             clickKYH++
             checkAuthEnable()
+        }
+    }
+
+    private fun initToolbar() {
+        (activity as AppCompatActivity).let {
+            it.setSupportActionBar(toolbar)
+            it.supportActionBar?.let { actionBar ->
+                actionBar.setDisplayHomeAsUpEnabled(true)
+                actionBar.setHomeAsUpIndicator(R.drawable.ic_menu)
+                actionBar.setTitle(R.string.developers)
+            }
         }
     }
 
