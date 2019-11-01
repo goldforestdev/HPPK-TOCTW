@@ -25,13 +25,13 @@ class SharedViewModel : ViewModel() {
     val avatarResId = MutableLiveData<Int>()
 }
 
-class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.AddChildClickListener {
+class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.ChildClickListener {
 
     private val presenter: ChildrenContract.Presenter by lazy {
         val childDao = AppDatabase.getInstance(context!!).childrenDao()
         ChildrenPresenter(this, ChildrenRepository(childDao))
     }
-    private val adapter: ChildrenAdapter by lazy { ChildrenAdapter(addChildListener = this) }
+    private val adapter: ChildrenAdapter by lazy { ChildrenAdapter(childListener = this) }
 
     private lateinit var model: SharedViewModel
 
@@ -96,6 +96,10 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.AddC
         adapter.notifyDataSetChanged()
 
         rvChildren.scrollToPosition(adapter.children.size - 2)
+    }
+
+    override fun onChildClicked(child: Child) {
+        findNavController().navigate(ChildrenFragmentDirections.actionSelectChildFragmentToStampsFragment(child))
     }
 
 }

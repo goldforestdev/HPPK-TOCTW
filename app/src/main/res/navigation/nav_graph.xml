@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_stampsFragment_to_QRCameraFragment"
             app:destination="@id/QRCameraFragment" />
+        <argument
+            android:name="child"
+            app:argType="com.hppk.toctw.data.model.Child" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

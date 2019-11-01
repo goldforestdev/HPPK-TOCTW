@@ -15,12 +15,13 @@ private const val VIEW_TYPE_KID = 1
 
 class ChildrenAdapter(
     val children: MutableList<Child> = mutableListOf(),
-    private val addChildListener: AddChildClickListener
+    private val childListener: ChildClickListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    interface AddChildClickListener {
+    interface ChildClickListener {
         fun onAvatarClicked()
         fun saveChild(name: String, avatarResId: Int)
+        fun onChildClicked(child: Child)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
@@ -73,7 +74,7 @@ class ChildrenAdapter(
             holder.itemView.ivUnknownAvatar.setImageResource(child.avatar)
         }
 
-        holder.itemView.ivUnknownAvatar.setOnClickListener { addChildListener.onAvatarClicked() }
+        holder.itemView.ivUnknownAvatar.setOnClickListener { childListener.onAvatarClicked() }
         holder.itemView.etName.addTextChangedListener {
             holder.itemView.btnDone.visibility = when {
                 it.toString().isEmpty() -> View.INVISIBLE
@@ -82,7 +83,7 @@ class ChildrenAdapter(
         }
         holder.itemView.btnDone.setOnClickListener {
             holder.itemView.etName.clearFocus()
-            addChildListener.saveChild(holder.itemView.etName.text.toString(), child.avatar)
+            childListener.saveChild(holder.itemView.etName.text.toString(), child.avatar)
 
             holder.itemView.etName.setText("")
             holder.itemView.ivUnknownAvatar.setImageResource(R.drawable.ic_unknown_kid)
@@ -99,6 +100,9 @@ class ChildrenAdapter(
 
         val avatarResId = if (child.avatar == 0) R.drawable.ic_boy else child.avatar
         holder.itemView.ivAvatar.setImageResource(avatarResId)
+        holder.itemView.setOnClickListener {
+            childListener.onChildClicked(child)
+        }
     }
 
     class ChildHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
