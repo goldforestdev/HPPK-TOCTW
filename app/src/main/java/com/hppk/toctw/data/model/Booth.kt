@@ -16,7 +16,7 @@ data class Staff (
 )
 
 enum class Busy {
-    VERY_BUSY, BUSY, NORMAL
+    CLOSE, VERY_BUSY, NORMAL, GOOD,
 }
 
 enum class Category {
