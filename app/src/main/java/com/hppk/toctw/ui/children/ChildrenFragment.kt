@@ -43,8 +43,10 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.AddC
         } ?: throw Exception("Invalid Activity")
 
         model.avatarResId.observe(this, Observer<Int> { avatarResId ->
-            adapter.children.last().avatar = avatarResId
-            adapter.notifyItemChanged(adapter.children.size - 1)
+            if (avatarResId != 0) {
+                adapter.children.last().avatar = avatarResId
+                adapter.notifyItemChanged(adapter.children.size - 1)
+            }
         })
 
     }
@@ -93,7 +95,7 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.AddC
         adapter.children.add(Child())
         adapter.notifyDataSetChanged()
 
-        rvChildren.scrollToPosition(adapter.children.lastIndex - 1)
+        rvChildren.scrollToPosition(adapter.children.size - 2)
     }
 
 }

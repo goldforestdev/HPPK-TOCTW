@@ -1,10 +1,8 @@
 package com.hppk.toctw.ui.children
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.hppk.toctw.R
@@ -50,18 +48,6 @@ class ChildrenAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (position == 0) {
-            val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
-            layoutParams.marginStart = 192
-            holder.itemView.layoutParams = layoutParams
-        }
-
-        if (position == children.lastIndex) {
-            val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
-            layoutParams.marginEnd = 192
-            holder.itemView.layoutParams = layoutParams
-        }
-
         if (holder is AddChildHolder) {
             bindAddView(holder, position)
         } else {
@@ -70,6 +56,18 @@ class ChildrenAdapter(
     }
 
     private fun bindAddView(holder: AddChildHolder, position: Int) {
+        if (position == 0) {
+            val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
+            layoutParams.marginStart = 48
+            holder.itemView.layoutParams = layoutParams
+        }
+
+        if (position == children.lastIndex) {
+            val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
+            layoutParams.marginEnd = 48
+            holder.itemView.layoutParams = layoutParams
+        }
+
         val child = children[position]
         if (child.avatar > 0) {
             holder.itemView.ivUnknownAvatar.setImageResource(child.avatar)
@@ -83,6 +81,7 @@ class ChildrenAdapter(
             }
         }
         holder.itemView.btnDone.setOnClickListener {
+            holder.itemView.etName.clearFocus()
             addChildListener.saveChild(holder.itemView.etName.text.toString(), child.avatar)
 
             holder.itemView.etName.setText("")
@@ -91,6 +90,10 @@ class ChildrenAdapter(
     }
 
     private fun bindChild(holder: ChildHolder, position: Int) {
+        val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
+        layoutParams.marginStart = if (position == 0) 192 else 0
+        holder.itemView.layoutParams = layoutParams
+
         val child = children[position]
         holder.itemView.tvChildName.text = child.name
 
