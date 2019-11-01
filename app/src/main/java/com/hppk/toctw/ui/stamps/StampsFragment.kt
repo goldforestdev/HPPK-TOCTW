@@ -13,6 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hppk.toctw.R
 import com.hppk.toctw.data.model.StampBooth
+import com.hppk.toctw.data.repository.BoothRepository
+import com.hppk.toctw.data.source.impl.FirestoreBoothDao
 import kotlinx.android.synthetic.main.fragment_stamps.*
 
 private const val REQUEST_CODE_PERMISSIONS = 10
@@ -21,7 +23,7 @@ class StampsFragment : Fragment(), StampsContract.View {
 
     private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     private val presenter: StampsContract.Presenter by lazy {
-        StampsPresenter(this)
+        StampsPresenter(this, BoothRepository(remoteBoothDao =  FirestoreBoothDao()))
     }
     private val adapter: StampsAdapter by lazy { StampsAdapter() }
 

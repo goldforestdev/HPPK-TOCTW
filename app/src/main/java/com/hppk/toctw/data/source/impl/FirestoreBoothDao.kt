@@ -55,7 +55,18 @@ class FirestoreBoothDao(
             .addOnFailureListener { exception ->
                 Log.e(TAG, "Error getting Collection: ", exception)
             }
+    }
 
+    override fun getStampBoothList() = Single.create<List<Booth>> { emitter ->
+        db.collection(BOOTH)
+            .whereEqualTo("isStamp", true)
+            .get()
+            .addOnSuccessListener { result ->
+                emitter.onSuccess(result.toObjects(Booth::class.java))
+            }
+            .addOnFailureListener { exception ->
+                Log.e(TAG, "Error getting Collection: ", exception)
+            }
     }
 
 }

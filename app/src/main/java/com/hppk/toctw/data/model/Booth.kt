@@ -7,7 +7,9 @@ data class Booth (
     val description: String = "",
     val members : List<Staff> = mutableListOf(),
     val category : List<Category> = mutableListOf(),
-    val busy : Busy = Busy.NORMAL
+    val busy : Busy = Busy.NORMAL,
+    @field:JvmField
+    var isStamp: Boolean = false
 )
 
 data class Staff (

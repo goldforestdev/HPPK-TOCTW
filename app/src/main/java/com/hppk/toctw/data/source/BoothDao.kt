@@ -9,5 +9,6 @@ interface BoothDao {
     fun get(id: String): Single<Booth>
 
     fun getDataList() : Single<List<Booth>>
+    fun getStampBoothList(): Single<List<Booth>>
 
 }

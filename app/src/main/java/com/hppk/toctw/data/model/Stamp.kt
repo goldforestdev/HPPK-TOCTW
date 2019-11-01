@@ -9,7 +9,9 @@ import kotlinx.android.parcel.Parcelize
 data class StampBooth(
     val boothId: String = "",
     val boothName: String = ""
-)
+) {
+    constructor(booth: Booth): this(booth.id, booth.title)
+}
 
 @Entity
 @Parcelize
