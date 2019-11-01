@@ -4,8 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:background="@drawable/select_stamp_bg"
+    android:layout_marginTop="12dp"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/selector_stamp_bg"
     android:elevation="8dp"
     tools:context=".ui.stamps.StampsFragment">
 
@@ -50,12 +53,13 @@
 
     <TextView
         android:id="@+id/btnMissionClear"
-        android:background="@drawable/select_mission_clear_bg"
+        android:background="@drawable/selector_mission_clear_bg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
+        android:layout_margin="20dp"
+        android:gravity="center"
         android:textColor="@android:color/white"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:text="@string/mission_clear"
         android:padding="16dp"
