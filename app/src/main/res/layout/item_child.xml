@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
         android:src="@drawable/ic_boy"
+        android:transitionName="avatar"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintBottom_toTopOf="@id/tvChildName"
         app:layout_constraintEnd_toEndOf="parent"

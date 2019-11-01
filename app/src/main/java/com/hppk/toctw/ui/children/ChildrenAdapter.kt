@@ -3,6 +3,8 @@ package com.hppk.toctw.ui.children
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.widget.ImageViewCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.hppk.toctw.R
@@ -21,7 +23,7 @@ class ChildrenAdapter(
     interface ChildClickListener {
         fun onAvatarClicked()
         fun saveChild(name: String, avatarResId: Int)
-        fun onChildClicked(child: Child)
+        fun onChildClicked(imageView: ImageView, child: Child)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
@@ -101,7 +103,7 @@ class ChildrenAdapter(
         val avatarResId = if (child.avatar == 0) R.drawable.ic_boy else child.avatar
         holder.itemView.ivAvatar.setImageResource(avatarResId)
         holder.itemView.setOnClickListener {
-            childListener.onChildClicked(child)
+            childListener.onChildClicked(holder.itemView.ivAvatar, child)
         }
     }
 
