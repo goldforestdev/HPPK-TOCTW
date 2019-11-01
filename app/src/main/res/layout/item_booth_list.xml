@@ -49,25 +49,36 @@
     <ImageView
         android:id="@+id/ivLocation"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:src="@drawable/ic_place"
         android:layout_marginStart="5dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="5dp"
         app:layout_constraintTop_toTopOf="@id/tvBusy"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvBusy"/>
 
     <com.google.android.material.chip.Chip
-        android:id="@+id/tvLocation"
+        android:id="@+id/cpLocation"
         style="@style/Widget.MaterialComponents.Chip.Action"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="2dp"
         android:includeFontPadding="false"
-        app:layout_constraintTop_toTopOf="@id/ivLocation"
+        app:chipBackgroundColor="@color/five_color"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/ivLocation"
         app:layout_constraintStart_toEndOf="@id/ivLocation"
+        tools:text="5층 식당" />
+
+    <ImageView
+        android:id="@+id/ivStamp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="5dp"
+        android:src="@drawable/ic_stamp_booth"
+        app:layout_constraintBottom_toBottomOf="@id/tvBusy"
+        app:layout_constraintStart_toEndOf="@id/cpLocation"
         tools:text="5층 식당" />
 
     <ImageView
