@@ -5,11 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -18,7 +21,9 @@ import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Child
 import com.hppk.toctw.data.repository.ChildrenRepository
 import com.hppk.toctw.data.source.local.AppDatabase
+import kotlinx.android.synthetic.main.fragment_booth.*
 import kotlinx.android.synthetic.main.fragment_children.*
+import kotlinx.android.synthetic.main.fragment_children.toolbar
 
 
 class SharedViewModel : ViewModel() {
@@ -58,6 +63,7 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.Chil
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initToolbar()
 
         val helper = LinearSnapHelper()
         helper.attachToRecyclerView(rvChildren)
@@ -72,6 +78,17 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.Chil
         presenter.unsubscribe()
         model.avatarResId.value = 0
         super.onDestroyView()
+    }
+
+    private fun initToolbar() {
+        (activity as AppCompatActivity).let {
+            it.setSupportActionBar(toolbar)
+            it.supportActionBar?.let { actionBar ->
+                actionBar.setDisplayHomeAsUpEnabled(true)
+                actionBar.setHomeAsUpIndicator(R.drawable.ic_menu)
+                actionBar.setTitle(R.string.my_children)
+            }
+        }
     }
 
     override fun onChildrenLoaded(children: List<Child>) {
@@ -98,8 +115,10 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.Chil
         rvChildren.scrollToPosition(adapter.children.size - 2)
     }
 
-    override fun onChildClicked(child: Child) {
-        findNavController().navigate(ChildrenFragmentDirections.actionSelectChildFragmentToStampsFragment(child))
+    override fun onChildClicked(imageView: ImageView, child: Child) {
+        val extras = FragmentNavigatorExtras(imageView to "avatar")
+        val bundle = Bundle().apply { putParcelable("child", child) }
+        findNavController().navigate(R.id.action_selectChildFragment_to_stampsFragment, bundle, null, extras)
     }
 
 }

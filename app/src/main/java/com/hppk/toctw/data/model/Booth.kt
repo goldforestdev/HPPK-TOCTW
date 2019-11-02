@@ -10,7 +10,7 @@ data class Booth (
     val busy : Busy = Busy.NORMAL,
     val floor: Floor = Floor.FIVE,
     @field:JvmField
-    val isStamp : Boolean = false
+    var isStamp: Boolean = false
 )
 
 data class Staff (
