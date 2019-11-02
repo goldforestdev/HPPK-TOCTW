@@ -8,6 +8,7 @@ data class Booth (
     val members : List<Staff> = mutableListOf(),
     val category : List<Category> = mutableListOf(),
     val busy : Busy = Busy.NORMAL,
+    val floor: Floor = Floor.FIVE,
     @field:JvmField
     var isStamp: Boolean = false
 )
@@ -19,6 +20,10 @@ data class Staff (
 
 enum class Busy {
     CLOSE, VERY_BUSY, NORMAL, GOOD,
+}
+
+enum class Floor {
+    FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN
 }
 
 enum class Category {

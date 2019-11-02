@@ -12,8 +12,8 @@ import com.hppk.toctw.data.model.Booth
 import com.hppk.toctw.data.model.Busy
 import kotlinx.android.synthetic.main.item_booth_list.view.*
 import android.os.Build
-
-
+import com.google.android.material.chip.Chip
+import com.hppk.toctw.data.model.Floor
 
 
 class BoothAdapter(
@@ -37,37 +37,56 @@ class BoothAdapter(
         if (holder is SchedulesHolder) {
             with (holder) {
                 tvBooth.text = booths[position].title
-                tvLocation.text = booths[position].location
+                cpLocation.text = booths[position].location
+
+                setLocationViewColor(position)
+                setBusyView(position)
+
+                if (booths[position].isStamp) ivStamp.visibility = View.VISIBLE else ivStamp.visibility = View.GONE
 
                 itemView.setOnClickListener {
                     boothClickLister.onBoothClick(booths[position])
                 }
+            }
+        }
+    }
 
-                when (booths[position].busy) {
-                    Busy.GOOD -> {
-                        viewBusy.setBackgroundResource(android.R.color.holo_green_dark)
-                        tvBusy.setTextColor(getColorWrapper(context!!, android.R.color.holo_green_dark ))
-                        tvBusy.text = context!!.getString(R.string.busy_good)
-                    }
+    private fun SchedulesHolder.setLocationViewColor(position: Int) {
+        when (booths[position].floor) {
+            Floor.FOUR -> cpLocation.setChipBackgroundColorResource(R.color.four_color)
+            Floor.FIVE -> cpLocation.setChipBackgroundColorResource(R.color.five_color)
+            Floor.SIX -> cpLocation.setChipBackgroundColorResource(R.color.six_color)
+            Floor.SEVEN -> cpLocation.setChipBackgroundColorResource(R.color.seven_color)
+            Floor.EIGHT -> cpLocation.setChipBackgroundColorResource(R.color.eight_color)
+            Floor.NINE -> cpLocation.setChipBackgroundColorResource(R.color.nine_color)
+            Floor.TEN -> cpLocation.setChipBackgroundColorResource(R.color.ten_color)
+        }
+    }
 
-                    Busy.NORMAL -> {
-                        viewBusy.setBackgroundResource(R.color.darkYellow)
-                        tvBusy.setTextColor(getColorWrapper(context!!, R.color.darkYellow))
-                        tvBusy.text = context!!.getString(R.string.busy_normal)
-                    }
+    private fun SchedulesHolder.setBusyView(position: Int) {
+        when (booths[position].busy) {
+            Busy.GOOD -> {
+                viewBusy.setBackgroundResource(android.R.color.holo_green_dark)
+                tvBusy.setTextColor(getColorWrapper(context!!, android.R.color.holo_green_dark))
+                tvBusy.text = context!!.getString(R.string.busy_good)
+            }
 
-                    Busy.VERY_BUSY -> {
-                        viewBusy.setBackgroundResource(android.R.color.holo_red_dark)
-                        tvBusy.setTextColor(getColorWrapper(context!!, android.R.color.holo_red_dark))
-                        tvBusy.text = context!!.getString(R.string.busy_very)
-                    }
+            Busy.NORMAL -> {
+                viewBusy.setBackgroundResource(R.color.darkYellow)
+                tvBusy.setTextColor(getColorWrapper(context!!, R.color.darkYellow))
+                tvBusy.text = context!!.getString(R.string.busy_normal)
+            }
 
-                    Busy.CLOSE -> {
-                        viewBusy.setBackgroundResource(android.R.color.darker_gray)
-                        tvBusy.setTextColor(getColorWrapper(context!!, android.R.color.darker_gray))
-                        tvBusy.text = context!!.getString(R.string.busy_close)
-                    }
-                }
+            Busy.VERY_BUSY -> {
+                viewBusy.setBackgroundResource(android.R.color.holo_red_dark)
+                tvBusy.setTextColor(getColorWrapper(context!!, android.R.color.holo_red_dark))
+                tvBusy.text = context!!.getString(R.string.busy_very)
+            }
+
+            Busy.CLOSE -> {
+                viewBusy.setBackgroundResource(android.R.color.darker_gray)
+                tvBusy.setTextColor(getColorWrapper(context!!, android.R.color.darker_gray))
+                tvBusy.text = context!!.getString(R.string.busy_close)
             }
         }
     }
@@ -83,8 +102,9 @@ class BoothAdapter(
     class SchedulesHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val viewBusy : View = itemView.viewBusy
         val tvBooth : TextView = itemView.tvBooth
-        val tvLocation : TextView = itemView.tvLocation
+        val cpLocation : Chip = itemView.cpLocation
         val tvBusy : TextView = itemView.tvBusy
+        val ivStamp : ImageView = itemView.ivStamp
         val ivStar : ImageView = itemView.ivStar
     }
 }

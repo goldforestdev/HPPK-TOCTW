@@ -87,6 +87,9 @@ dependencies {
     //Gson
     implementation 'com.google.code.gson:gson:2.8.6'
 
+    //Material
+    implementation 'com.google.android.material:material:1.0.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
