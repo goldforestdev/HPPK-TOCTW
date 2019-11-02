@@ -1,6 +1,8 @@
 package com.hppk.toctw.ui.home
 
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.hppk.toctw.R
-import kotlinx.android.synthetic.main.fragment_booth.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.toolbar
+import android.content.ActivityNotFoundException
+
 
 /**
  * A simple [Fragment] subclass.
@@ -43,6 +46,23 @@ class HomeFragment : Fragment() {
 
         tv_admin_add_notice.setOnClickListener {
             //TODO:notify notice
+        }
+
+        cardYouTube.setOnClickListener {
+            val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:Pw1K4wJwCp8"))
+            val webIntent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("http://www.youtube.com/watch?v=Pw1K4wJwCp8")
+            )
+            activity?.apply {
+                try {
+                    this.startActivity(appIntent)
+                } catch (ex: ActivityNotFoundException) {
+                    this.startActivity(webIntent)
+                }
+            }
+
+
         }
     }
 
