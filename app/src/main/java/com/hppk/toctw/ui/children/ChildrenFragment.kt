@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -20,7 +21,9 @@ import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Child
 import com.hppk.toctw.data.repository.ChildrenRepository
 import com.hppk.toctw.data.source.local.AppDatabase
+import kotlinx.android.synthetic.main.fragment_booth.*
 import kotlinx.android.synthetic.main.fragment_children.*
+import kotlinx.android.synthetic.main.fragment_children.toolbar
 
 
 class SharedViewModel : ViewModel() {
@@ -60,6 +63,7 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.Chil
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initToolbar()
 
         val helper = LinearSnapHelper()
         helper.attachToRecyclerView(rvChildren)
@@ -74,6 +78,17 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.Chil
         presenter.unsubscribe()
         model.avatarResId.value = 0
         super.onDestroyView()
+    }
+
+    private fun initToolbar() {
+        (activity as AppCompatActivity).let {
+            it.setSupportActionBar(toolbar)
+            it.supportActionBar?.let { actionBar ->
+                actionBar.setDisplayHomeAsUpEnabled(true)
+                actionBar.setHomeAsUpIndicator(R.drawable.ic_menu)
+                actionBar.setTitle(R.string.my_children)
+            }
+        }
     }
 
     override fun onChildrenLoaded(children: List<Child>) {

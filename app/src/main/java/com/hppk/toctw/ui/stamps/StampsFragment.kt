@@ -7,9 +7,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +19,8 @@ import com.hppk.toctw.data.model.StampBooth
 import com.hppk.toctw.data.repository.BoothRepository
 import com.hppk.toctw.data.source.impl.FirestoreBoothDao
 import kotlinx.android.synthetic.main.fragment_stamps.*
+import kotlinx.android.synthetic.main.fragment_stamps.toolbar
+
 
 private const val REQUEST_CODE_PERMISSIONS = 10
 
@@ -43,7 +45,7 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        initToolbar()
         initView()
 
         if (args.child.avatar != 0) {
@@ -51,6 +53,16 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
         }
 
         presenter.getStamps()
+    }
+
+    private fun initToolbar() {
+        (activity as AppCompatActivity).let {
+            it.setSupportActionBar(toolbar)
+            it.supportActionBar?.let { actionBar ->
+                actionBar.setDisplayHomeAsUpEnabled(true)
+            }
+        }
+        collapsingToolbarLayout.title = getString(R.string.child_stamp, args.child.name)
     }
 
     private fun initView() {

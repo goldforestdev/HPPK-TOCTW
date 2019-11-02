@@ -1,16 +1,19 @@
 package com.hppk.toctw.ui.children
 
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.widget.ImageViewCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
-import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Child
 import kotlinx.android.synthetic.main.item_add_child.view.*
 import kotlinx.android.synthetic.main.item_child.view.*
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
+import com.hppk.toctw.R
+
 
 private const val VIEW_TYPE_ADD = 0
 private const val VIEW_TYPE_KID = 1
@@ -94,7 +97,7 @@ class ChildrenAdapter(
 
     private fun bindChild(holder: ChildHolder, position: Int) {
         val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
-        layoutParams.marginStart = if (position == 0) 192 else 0
+        layoutParams.marginStart = if (position == 0) 120 else 0
         holder.itemView.layoutParams = layoutParams
 
         val child = children[position]

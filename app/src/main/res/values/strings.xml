@@ -50,4 +50,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="mission_clear">Mission Clear</string>
+    <string name="child_stamp">%1$s\'s Stamps</string>
+    <string name="my_children">My Children</string>
 </resources>
