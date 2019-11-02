@@ -12,11 +12,11 @@
     <color name="darkYellow">#c6c932</color>
     <color name="R198_G201_B50">@color/darkYellow</color>
 
-    <color name="four_color">#9d03fc</color>
-    <color name="five_color">#03fcad</color>
-    <color name="six_color">#fc03e8</color>
-    <color name="seven_color">#49fc03</color>
-    <color name="eight_color">#03c2fc</color>
-    <color name="nine_color">#03fc0f</color>
+    <color name="four_color">#5e03fc</color>
+    <color name="five_color">#fc4903</color>
+    <color name="six_color">#83a303</color>
+    <color name="seven_color">#03a1a3</color>
+    <color name="eight_color">#7603a3</color>
+    <color name="nine_color">#8f015d</color>
     <color name="ten_color">#fc0303</color>
 </resources>

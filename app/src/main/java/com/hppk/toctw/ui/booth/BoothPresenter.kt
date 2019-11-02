@@ -40,6 +40,9 @@ class BoothPresenter (
             boothRepository.getDataList()
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
+                .doOnSubscribe{view.showWaitingView(true)}
+                .doOnError { view.showWaitingView(false) }
+                .doOnSuccess { view.showWaitingView(false) }
                 .subscribe({
                     view.onBoothListLoaded(it)
                 }, { t->
