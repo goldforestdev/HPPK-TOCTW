@@ -8,5 +8,6 @@ import io.reactivex.Single
 interface ChildrenDao {
     fun save(child: Child): Completable
     fun getAll(): Single<List<Child>>
+    fun delete(child: Child): Completable
 
 }

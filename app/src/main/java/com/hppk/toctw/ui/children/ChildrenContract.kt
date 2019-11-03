@@ -12,5 +12,6 @@ interface ChildrenContract {
         fun unsubscribe()
         fun getChildren()
         fun saveChild(name: String, avatarResId: Int)
+        fun deleteChild(child: Child)
     }
 }

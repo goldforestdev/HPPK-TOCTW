@@ -15,7 +15,6 @@ class ChildrenPresenter (
     private val uiScheduler: Scheduler = AndroidSchedulers.mainThread(),
     private val disposable: CompositeDisposable = CompositeDisposable()
 ): ChildrenContract.Presenter {
-
     private val TAG = ChildrenPresenter::class.java.simpleName
 
     override fun unsubscribe() {
@@ -45,6 +44,19 @@ class ChildrenPresenter (
                     view.onChildSaved(child)
                 }, { t ->
                     Log.e(TAG, "[TOCTW] saveChild - failed: ${t.message}", t)
+                })
+        )
+    }
+
+    override fun deleteChild(child: Child) {
+        disposable.add(
+            childrenRepository.delete(child)
+                .subscribeOn(ioScheduler)
+                .observeOn(uiScheduler)
+                .subscribe({
+                    Log.d(TAG, "[TOCTW] deleteChild - done")
+                }, { t ->
+                    Log.e(TAG, "[TOCTW] deleteChild - failed: ${t.message}", t)
                 })
         )
     }

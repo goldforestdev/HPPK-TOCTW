@@ -10,4 +10,6 @@ class ChildrenRepository (
     fun save(child: Child) = localChildrenDao.save(child)
 
     fun getAll() = localChildrenDao.getAll()
+
+    fun delete(child: Child) = localChildrenDao.delete(child)
 }
