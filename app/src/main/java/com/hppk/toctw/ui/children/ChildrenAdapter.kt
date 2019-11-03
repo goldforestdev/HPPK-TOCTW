@@ -27,6 +27,7 @@ class ChildrenAdapter(
         fun onAvatarClicked()
         fun saveChild(name: String, avatarResId: Int)
         fun onChildClicked(imageView: ImageView, child: Child)
+        fun deleteChild(child: Child)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
@@ -105,6 +106,9 @@ class ChildrenAdapter(
 
         val avatarResId = if (child.avatar == 0) R.drawable.ic_boy else child.avatar
         holder.itemView.ivAvatar.setImageResource(avatarResId)
+        holder.itemView.ivDeleteChild.setOnClickListener {
+            childListener.deleteChild(child)
+        }
         holder.itemView.setOnClickListener {
             childListener.onChildClicked(holder.itemView.ivAvatar, child)
         }
