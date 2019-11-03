@@ -66,6 +66,38 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_title_booth" />
 
         <TextView
+            android:id="@+id/tv_title_youtube"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/previous_events"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_more_booth" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardYouTube"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_youtube">
+
+            <ImageView
+                android:id="@+id/imageGoYouTube"
+                android:scaleType="fitCenter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/go_youtube"
+                android:contentDescription="@string/app_name" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
             android:id="@+id/tv_title_notice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,7 +107,7 @@
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_more_booth" />
+            app:layout_constraintTop_toBottomOf="@+id/cardYouTube" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rc_notice"

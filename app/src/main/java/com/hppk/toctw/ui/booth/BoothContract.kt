@@ -7,6 +7,7 @@ interface BoothContract {
     interface View {
         fun onError(errTitle: Int, errMsg: Int)
         fun onBoothListLoaded(boothDataList: List<Booth>)
+        fun showWaitingView(show: Boolean)
 
     }
 

@@ -31,6 +31,7 @@
     <string name="dev_yhkim_email" translatable="false">yoonho.kim@hp.com</string>
     <string name="stamp_message">Collect all the stamps and get souvenirs!</string>
     <string name="booth">부스</string>
+    <string name="previous_events">이전 행사</string>
     <string name="more_booth_info">모든 부스 정보 보기</string>
     <string name="notice">공지</string>
     <string name="authentication">인증</string>
