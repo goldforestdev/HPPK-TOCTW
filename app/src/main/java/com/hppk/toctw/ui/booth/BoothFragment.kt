@@ -28,8 +28,8 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
-        initData()
         initRecyclerView()
+        initData()
     }
 
     private fun initToolbar() {
@@ -69,7 +69,16 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         activity.apply {
             Toast.makeText(activity, "${booth.title} 상세 화면으로 이동 합니다.",Toast.LENGTH_LONG).show()
         }
+    }
 
+    override fun showWaitingView(show: Boolean)  {
+        if (show) {
+            rcBoothList.visibility = View.GONE
+            spin_kit.visibility = View.VISIBLE
+        } else {
+            rcBoothList.visibility = View.VISIBLE
+            spin_kit.visibility = View.GONE
+        }
     }
 
 }

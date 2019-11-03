@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
@@ -119,6 +120,19 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.Chil
         val extras = FragmentNavigatorExtras(imageView to "avatar")
         val bundle = Bundle().apply { putParcelable("child", child) }
         findNavController().navigate(R.id.action_selectChildFragment_to_stampsFragment, bundle, null, extras)
+    }
+
+    override fun deleteChild(child: Child) {
+        AlertDialog.Builder(context!!)
+            .setMessage(R.string.confirm_delete_child)
+            .setPositiveButton(R.string.delete) { _, _ ->
+                val position = adapter.children.indexOf(child)
+                adapter.children.remove(child)
+                adapter.notifyItemRemoved(position)
+                presenter.deleteChild(child)
+            }
+            .setNegativeButton(android.R.string.cancel) {_, _ -> }
+            .show()
     }
 
 }
