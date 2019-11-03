@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.hppk.toctw.R
 import com.hppk.toctw.auth.AppAuth
@@ -16,7 +17,7 @@ import kotlinx.android.synthetic.main.item_home_notice_list.view.*
 class HomeAdapter(
     val notices: MutableList<Notice> = mutableListOf(),
     private var context: Context? = null,
-    private val clickLister : ClickLister
+    private val clickLister: ClickLister
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -43,6 +44,7 @@ class HomeAdapter(
     interface ClickLister {
         fun onAddNoticeClick()
         fun onShowBoothClick()
+        fun onShowYouTube()
     }
 
     override fun getItemCount(): Int = notices.size + 1
@@ -50,13 +52,13 @@ class HomeAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is NoticeHolder) {
             with(holder) {
-                title.text = notices[position-1].title
-                body.text = notices[position-1].body
-                time.text = notices[position-1].timeStamp.toDate().toString()
+                title.text = notices[position - 1].title
+                body.text = notices[position - 1].body
+                time.text = notices[position - 1].timeStamp.toDate().toString()
             }
-        } else if(holder is HomeHeaderHolder) {
+        } else if (holder is HomeHeaderHolder) {
             with(holder) {
-                if(AppAuth.isAdmin()) {
+                if (AppAuth.isAdmin()) {
                     addNotice.visibility = View.VISIBLE
                 } else {
                     addNotice.visibility = View.GONE
@@ -68,6 +70,10 @@ class HomeAdapter(
 
                 showBooth.setOnClickListener {
                     clickLister.onShowBoothClick()
+                }
+
+                showYoutube.setOnClickListener {
+                    clickLister.onShowYouTube()
                 }
             }
         }
@@ -83,6 +89,7 @@ class HomeAdapter(
     class HomeHeaderHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val addNotice: TextView = itemView.tv_add_notice
         val showBooth: TextView = itemView.tv_show_booth
+        val showYoutube: CardView = itemView.cardYouTube
     }
 
     class NoticeHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -1,6 +1,9 @@
 package com.hppk.toctw.ui.home
 
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -61,7 +64,7 @@ class HomeFragment : Fragment(), NoticeContract.View, HomeAdapter.ClickLister {
     }
 
     override fun onError() {
-        Log.d(TAG,"Notice Load Error")
+        Log.d(TAG, "Notice Load Error")
     }
 
     override fun onNoticeListLoaded(noticeDataList: List<Notice>) {
@@ -78,7 +81,23 @@ class HomeFragment : Fragment(), NoticeContract.View, HomeAdapter.ClickLister {
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddNoticeFragment())
 
     }
+
     override fun onShowBoothClick() {
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToBoothFragment())
+    }
+
+    override fun onShowYouTube() {
+        val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:Pw1K4wJwCp8"))
+        val webIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("http://www.youtube.com/watch?v=Pw1K4wJwCp8")
+        )
+        activity?.apply {
+            try {
+                this.startActivity(appIntent)
+            } catch (ex: ActivityNotFoundException) {
+                this.startActivity(webIntent)
+            }
+        }
     }
 }
