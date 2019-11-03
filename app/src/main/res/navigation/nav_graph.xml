@@ -11,8 +11,11 @@
         android:label="@string/home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_schedulesFragment"
+            android:id="@+id/action_homeFragment_to_boothFragment"
             app:destination="@id/boothFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_addNoticeFragment"
+            app:destination="@id/addNoticeFragment" />
     </fragment>
     <fragment
         android:id="@+id/boothFragment"
@@ -67,4 +70,9 @@
         android:name="com.hppk.toctw.ui.children.avatars.AvatarsDialog"
         android:label="dialog_avatars"
         tools:layout="@layout/dialog_avatars" />
+    <fragment
+        android:id="@+id/addNoticeFragment"
+        android:name="com.hppk.toctw.ui.home.AddNoticeFragment"
+        android:label="@string/add_notice"/>
+
 </navigation>

@@ -7,31 +7,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Notice
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_add_notice_fragement.*
+import kotlinx.android.synthetic.main.fragment_booth.toolbar
 
-class HomeFragment : Fragment(), NoticeContract.View, HomeAdapter.ClickLister {
+class AddNoticeFragment : Fragment(), NoticeContract.View {
     private val presenter: NoticeContract.Presenter by lazy { NoticePresenter(this) }
-    private val noticeAdapter: HomeAdapter by lazy { HomeAdapter(clickLister = this) }
     private val TAG = this::class.java.simpleName
+    private var titleSize = 0
+    private var bodySize = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return inflater.inflate(R.layout.fragment_add_notice_fragement, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
-        initRecyclerView()
-        initData()
+        initView()
     }
 
     private fun initToolbar() {
@@ -40,45 +41,49 @@ class HomeFragment : Fragment(), NoticeContract.View, HomeAdapter.ClickLister {
             it.supportActionBar?.let { actionBar ->
                 actionBar.setDisplayHomeAsUpEnabled(true)
                 actionBar.setHomeAsUpIndicator(R.drawable.ic_menu)
-                actionBar.setTitle(R.string.home)
+                actionBar.setTitle(R.string.add_notice)
             }
         }
     }
 
-    private fun initData() {
-        presenter.loadCollection()
+    private fun initView() {
+        bt_send.isEnabled = false
+
+        et_notice_title.addTextChangedListener {
+            titleSize = it?.length ?: 0
+            checkSendButtonVisibility()
+        }
+
+        et_notice_body.addTextChangedListener {
+            bodySize = it?.length ?: 0
+            checkSendButtonVisibility()
+        }
+
+        bt_send.setOnClickListener {
+            val notice = Notice(et_notice_title.text.toString(), et_notice_body.text.toString())
+            presenter.addNotice(notice)
+        }
     }
 
-    private fun initRecyclerView() {
-        rc_notice.layoutManager = LinearLayoutManager(activity)
-        rc_notice.adapter = noticeAdapter
-        noticeAdapter.notifyDataSetChanged()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        presenter.unsubscribe()
+    private fun checkSendButtonVisibility() {
+        bt_send.isEnabled = titleSize > 0 && bodySize > 0
     }
 
     override fun onError() {
-        Log.d(TAG,"Notice Load Error")
+        Log.d(TAG, "Notice Add Error")
     }
 
     override fun onNoticeListLoaded(noticeDataList: List<Notice>) {
-        noticeAdapter.notices.clear()
-        noticeAdapter.notices.addAll(noticeDataList)
-        noticeAdapter.notifyDataSetChanged()
     }
 
     override fun onAddNoticeSuccess(notice: Notice) {
-
+        clearEditText()
+        findNavController().popBackStack()
     }
 
-    override fun onAddNoticeClick() {
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddNoticeFragment())
-
-    }
-    override fun onShowBoothClick() {
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToBoothFragment())
+    private fun clearEditText() {
+        et_notice_title.setText("")
+        et_notice_body.setText("")
+        checkSendButtonVisibility()
     }
 }

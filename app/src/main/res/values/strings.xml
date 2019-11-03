@@ -52,4 +52,7 @@
     <string name="mission_clear">Mission Clear</string>
     <string name="child_stamp">%1$s\'s Stamps</string>
     <string name="my_children">My Children</string>
+    <string name="title">Title</string>
+    <string name="body">Body</string>
+    <string name="send">Send</string>
 </resources>

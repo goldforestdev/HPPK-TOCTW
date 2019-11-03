@@ -1,14 +1,10 @@
 package com.hppk.toctw.data.source.impl
 
 import android.util.Log
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QueryDocumentSnapshot
-import com.google.firebase.firestore.QuerySnapshot
 import com.hppk.toctw.data.BoothNotExistException
 import com.hppk.toctw.data.model.Booth
 import com.hppk.toctw.data.source.BoothDao
-import com.hppk.toctw.ui.splash.SplashPresenter
 import io.reactivex.Completable
 import io.reactivex.Single
 
