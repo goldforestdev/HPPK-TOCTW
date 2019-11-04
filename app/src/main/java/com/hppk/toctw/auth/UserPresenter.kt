@@ -1,9 +1,6 @@
 package com.hppk.toctw.auth
 
-import android.text.TextUtils
 import android.util.Log
-import com.google.firebase.auth.FirebaseAuth
-import com.hppk.toctw.data.model.User
 import com.hppk.toctw.data.repository.UserRepository
 import com.hppk.toctw.data.source.impl.FirestoreUserDao
 import io.reactivex.Scheduler
@@ -13,7 +10,7 @@ import io.reactivex.schedulers.Schedulers
 
 class UserPresenter(
     private val view: UserContract.View,
-    private val boothRepository: UserRepository = UserRepository(remoteUserDao = FirestoreUserDao()),
+    private val userRepository: UserRepository = UserRepository(remoteUserDao = FirestoreUserDao()),
     private val ioScheduler: Scheduler = Schedulers.io(),
     private val uiScheduler: Scheduler = AndroidSchedulers.mainThread(),
     private val disposable: CompositeDisposable = CompositeDisposable()
@@ -22,17 +19,13 @@ class UserPresenter(
     private val TAG = UserPresenter::class.java.simpleName
 
     override fun addUser() {
-        val id = FirebaseAuth.getInstance().currentUser?.uid ?: ""
-        if(TextUtils.isEmpty(id)) {
+        val newUser = AppAuth.getUserFromFirebaseAuth()
+        if(newUser == null)  {
             view.onAddUserError()
             return
         }
-
-        val email = FirebaseAuth.getInstance().currentUser?.email ?: ""
-        val displayName = FirebaseAuth.getInstance().currentUser?.displayName ?: ""
-        val newUser = User(id, email, displayName)
         disposable.add(
-            boothRepository.save(newUser)
+            userRepository.save(newUser)
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
                 .subscribe({
@@ -46,9 +39,15 @@ class UserPresenter(
         )
     }
 
-    override fun findUser(id: String) {
+    override fun findUser() {
+        if(AppAuth.getFirebaseLoginUserId().isBlank())  {
+            AppAuth.setUser(null)
+            view.onFindUserError()
+            return
+        }
+
         disposable.add(
-            boothRepository.get(id)
+            userRepository.get(AppAuth.getFirebaseLoginUserId())
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
                 .subscribe({
@@ -57,6 +56,7 @@ class UserPresenter(
                     view.onFindUserSuccess(it)
                 }, { t->
                     Log.e(TAG, "[TOCTW] findUser - failed: ${t.message}", t)
+                    AppAuth.setUser(null)
                     view.onFindUserError()
                 })
         )

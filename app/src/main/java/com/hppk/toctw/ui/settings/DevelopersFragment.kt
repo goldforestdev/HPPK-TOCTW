@@ -4,7 +4,6 @@ package com.hppk.toctw.ui.settings
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthUI
-import com.google.firebase.auth.FirebaseAuth
 import com.hppk.toctw.R
 import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.auth.UserContract
@@ -143,14 +141,7 @@ class DevelopersFragment : Fragment(), UserContract.View {
         Log.d(TAG, "onActivityResult = $requestCode : $resultCode")
         if (requestCode == 2019) {
             if (resultCode == Activity.RESULT_OK) {
-                if (FirebaseAuth.getInstance().currentUser != null) {
-                    val id = FirebaseAuth.getInstance().currentUser?.uid ?: ""
-                    val email = FirebaseAuth.getInstance().currentUser?.email ?: ""
-                    if (!TextUtils.isEmpty(id)) {
-                        Toast.makeText(context, "로그인 : $email", Toast.LENGTH_SHORT).show()
-                        presenter.findUser(id)
-                    }
-                }
+                presenter.findUser()
             } else {
                 Toast.makeText(context, "로그인 실패", Toast.LENGTH_SHORT).show()
             }
@@ -163,6 +154,7 @@ class DevelopersFragment : Fragment(), UserContract.View {
     }
 
     override fun onFindUserSuccess(user: User) {
+        Toast.makeText(context, "로그인 : ${AppAuth.getUser()?.email}", Toast.LENGTH_SHORT).show()
         setSignOutVisibility()
     }
 
@@ -172,6 +164,7 @@ class DevelopersFragment : Fragment(), UserContract.View {
 
     override fun onAddUserSuccess(user: User) {
         Log.d(TAG, "AddUser")
+        Toast.makeText(context, "로그인 : ${AppAuth.getUser()?.email}", Toast.LENGTH_SHORT).show()
         setSignOutVisibility()
     }
 }

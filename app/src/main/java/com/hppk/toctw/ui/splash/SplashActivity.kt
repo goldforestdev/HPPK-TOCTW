@@ -3,12 +3,10 @@ package com.hppk.toctw.ui.splash
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.text.TextUtils
 import android.util.Log
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
-import com.google.firebase.auth.FirebaseAuth
 import com.hppk.toctw.R
 import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.auth.UserContract
@@ -24,18 +22,7 @@ class SplashActivity : AppCompatActivity(), UserContract.View {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_splash)
-        if (AppAuth.isFirebaseLoginUser()) {
-            val id = FirebaseAuth.getInstance().currentUser?.uid ?: ""
-            if (!TextUtils.isEmpty(id)) {
-                presenter.findUser(id)
-            } else {
-                AppAuth.setUser(null)
-                showSplashDelayed()
-            }
-        } else {
-            AppAuth.setUser(null)
-            showSplashDelayed()
-        }
+        presenter.findUser()
     }
 
     private fun showSplashDelayed() {
@@ -53,13 +40,16 @@ class SplashActivity : AppCompatActivity(), UserContract.View {
     }
 
     override fun onFindUserError() {
-        AuthUI.getInstance()
-            .signOut(this)
-            .addOnCompleteListener {
-                Log.d(TAG, "SignOut")
-                AppAuth.setUser(null)
-                showSplashDelayed()
-            }
+        if(AppAuth.isFirebaseLoginUser()) {
+            AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener {
+                    Log.d(TAG, "SignOut")
+                    showSplashDelayed()
+                }
+        } else {
+            showSplashDelayed()
+        }
     }
 
     override fun onFindUserSuccess(user: User) {

@@ -12,7 +12,7 @@ interface UserContract {
 
     interface Presenter {
         fun addUser()
-        fun findUser(id: String)
+        fun findUser()
         fun unsubscribe()
     }
 }
