@@ -159,15 +159,10 @@ class DevelopersFragment : Fragment(), UserContract.View {
 
     override fun onFindUserError() {
         Log.d(TAG, "FindUser Error")
-        val id = FirebaseAuth.getInstance().currentUser?.uid ?: ""
-        val email = FirebaseAuth.getInstance().currentUser?.email ?: ""
-        val displayName = FirebaseAuth.getInstance().currentUser?.displayName ?: ""
-        val newUser = User(id, email, displayName)
-        presenter.addUser(newUser)
+        presenter.addUser()
     }
 
     override fun onFindUserSuccess(user: User) {
-        AppAuth.setUser(user)
         setSignOutVisibility()
     }
 
@@ -177,7 +172,6 @@ class DevelopersFragment : Fragment(), UserContract.View {
 
     override fun onAddUserSuccess(user: User) {
         Log.d(TAG, "AddUser")
-        AppAuth.setUser(user)
         setSignOutVisibility()
     }
 }

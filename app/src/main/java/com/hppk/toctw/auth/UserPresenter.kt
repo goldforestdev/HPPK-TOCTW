@@ -1,6 +1,8 @@
 package com.hppk.toctw.auth
 
+import android.text.TextUtils
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import com.hppk.toctw.data.model.User
 import com.hppk.toctw.data.repository.UserRepository
 import com.hppk.toctw.data.source.impl.FirestoreUserDao
@@ -19,14 +21,24 @@ class UserPresenter(
 ) : UserContract.Presenter {
     private val TAG = UserPresenter::class.java.simpleName
 
-    override fun addUser(user: User) {
+    override fun addUser() {
+        val id = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        if(TextUtils.isEmpty(id)) {
+            view.onAddUserError()
+            return
+        }
+
+        val email = FirebaseAuth.getInstance().currentUser?.email ?: ""
+        val displayName = FirebaseAuth.getInstance().currentUser?.displayName ?: ""
+        val newUser = User(id, email, displayName)
         disposable.add(
-            boothRepository.save(user)
+            boothRepository.save(newUser)
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
                 .subscribe({
-                    Log.e(TAG, "[TOCTW] addUser : " + user.email)
-                    view.onAddUserSuccess(user)
+                    Log.e(TAG, "[TOCTW] addUser : " + newUser.email)
+                    AppAuth.setUser(newUser)
+                    view.onAddUserSuccess(newUser)
                 }, { t->
                     Log.e(TAG, "[TOCTW] addUser - failed: ${t.message}", t)
                     view.onAddUserError()
@@ -41,6 +53,7 @@ class UserPresenter(
                 .observeOn(uiScheduler)
                 .subscribe({
                     Log.e(TAG, "[TOCTW] findUser : " + it.email)
+                    AppAuth.setUser(it)
                     view.onFindUserSuccess(it)
                 }, { t->
                     Log.e(TAG, "[TOCTW] findUser - failed: ${t.message}", t)

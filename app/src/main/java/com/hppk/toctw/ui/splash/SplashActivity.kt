@@ -64,7 +64,6 @@ class SplashActivity : AppCompatActivity(), UserContract.View {
 
     override fun onFindUserSuccess(user: User) {
         Log.d(TAG, "FindUser")
-        AppAuth.setUser(user)
         showSplashDelayed()
     }
 

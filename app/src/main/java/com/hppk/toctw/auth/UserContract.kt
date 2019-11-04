@@ -11,7 +11,7 @@ interface UserContract {
     }
 
     interface Presenter {
-        fun addUser(user: User)
+        fun addUser()
         fun findUser(id: String)
         fun unsubscribe()
     }
