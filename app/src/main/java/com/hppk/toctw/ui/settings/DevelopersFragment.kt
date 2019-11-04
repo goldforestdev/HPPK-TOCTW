@@ -12,14 +12,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthUI
-import com.google.firebase.auth.FirebaseAuth
 import com.hppk.toctw.R
-import kotlinx.android.synthetic.main.fragment_booth.*
+import com.hppk.toctw.auth.AppAuth
+import com.hppk.toctw.auth.UserContract
+import com.hppk.toctw.auth.UserPresenter
+import com.hppk.toctw.data.model.User
 import kotlinx.android.synthetic.main.fragment_developers.*
-import kotlinx.android.synthetic.main.fragment_developers.toolbar
 
 
-class DevelopersFragment : Fragment() {
+class DevelopersFragment : Fragment(), UserContract.View {
     companion object {
         private const val RC_SIGN_IN = 2019
     }
@@ -30,6 +31,8 @@ class DevelopersFragment : Fragment() {
     private var clickKYH = 0
     private var start = 0L
     private var end = 0L
+
+    private val presenter: UserContract.Presenter by lazy { UserPresenter(this) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,13 +45,13 @@ class DevelopersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setSignOutVisibility()
-
         initToolbar()
 
         cvSignOut.setOnClickListener {
             AuthUI.getInstance()
                 .signOut(context!!)
                 .addOnCompleteListener {
+                    AppAuth.setUser(null)
                     setSignOutVisibility()
                     initClick()
                 }
@@ -70,6 +73,11 @@ class DevelopersFragment : Fragment() {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        presenter.unsubscribe()
+    }
+
     private fun initToolbar() {
         (activity as AppCompatActivity).let {
             it.setSupportActionBar(toolbar)
@@ -82,7 +90,7 @@ class DevelopersFragment : Fragment() {
     }
 
     private fun setSignOutVisibility() {
-        if (FirebaseAuth.getInstance().currentUser != null) {
+        if (AppAuth.isAdmin || AppAuth.isStaff) {
             cvSignOut.visibility = View.VISIBLE
         } else {
             cvSignOut.visibility = View.INVISIBLE
@@ -95,7 +103,7 @@ class DevelopersFragment : Fragment() {
         }
         end = System.currentTimeMillis()
         if (clickLYJ >= 3 && clickKHJ >= 3 && clickKYH >= 3
-            && FirebaseAuth.getInstance().currentUser == null
+            && AppAuth.appUser == null
             && (end - start) <= 1000 * 3
         ) {
             initClick()
@@ -133,12 +141,30 @@ class DevelopersFragment : Fragment() {
         Log.d(TAG, "onActivityResult = $requestCode : $resultCode")
         if (requestCode == 2019) {
             if (resultCode == Activity.RESULT_OK) {
-                setSignOutVisibility()
-                val email = FirebaseAuth.getInstance().currentUser?.email
-                Toast.makeText(context, "로그인 : $email", Toast.LENGTH_SHORT).show()
+                presenter.findUser()
             } else {
                 Toast.makeText(context, "로그인 실패", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onFindUserError() {
+        Log.d(TAG, "FindUser Error")
+        presenter.addUser()
+    }
+
+    override fun onFindUserSuccess(user: User) {
+        Toast.makeText(context, "로그인 : ${AppAuth.appUser?.email}", Toast.LENGTH_SHORT).show()
+        setSignOutVisibility()
+    }
+
+    override fun onAddUserError() {
+        Log.d(TAG, "AddUser Error")
+    }
+
+    override fun onAddUserSuccess(user: User) {
+        Log.d(TAG, "AddUser")
+        Toast.makeText(context, "로그인 : ${AppAuth.appUser?.email}", Toast.LENGTH_SHORT).show()
+        setSignOutVisibility()
     }
 }
