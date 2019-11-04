@@ -34,8 +34,8 @@ class SplashActivity : AppCompatActivity(), UserContract.View {
         }, 500)
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         presenter.unsubscribe()
     }
 
