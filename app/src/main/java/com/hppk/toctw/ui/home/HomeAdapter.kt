@@ -58,7 +58,7 @@ class HomeAdapter(
             }
         } else if (holder is HomeHeaderHolder) {
             with(holder) {
-                if (AppAuth.isAdmin()) {
+                if (AppAuth.isAdmin) {
                     addNotice.visibility = View.VISIBLE
                 } else {
                     addNotice.visibility = View.GONE

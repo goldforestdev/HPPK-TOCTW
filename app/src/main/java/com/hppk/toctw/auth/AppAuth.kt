@@ -7,7 +7,7 @@ import com.hppk.toctw.data.model.User
 object AppAuth {
     private val TAG = AppAuth::class.java.simpleName
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private var mUser: User? = null
+    var appUser: User? = null
 
     fun isFirebaseLoginUser(): Boolean = auth.currentUser != null
 
@@ -25,12 +25,12 @@ object AppAuth {
     }
 
     fun setUser(user: User?) {
-        mUser = user
+        appUser = user
     }
 
-    fun getUser(): User? = mUser
+    val isAdmin: Boolean
+        get() = appUser?.role?.equals(Role.ADMIN) ?: false
 
-    fun isAdmin(): Boolean = mUser?.role?.equals(Role.ADMIN) ?: false
-
-    fun isStaff(): Boolean = mUser?.role?.equals(Role.STAFF) ?: false
+    val isStaff: Boolean
+        get() = appUser?.role?.equals(Role.STAFF) ?: false
 }

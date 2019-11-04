@@ -90,7 +90,7 @@ class DevelopersFragment : Fragment(), UserContract.View {
     }
 
     private fun setSignOutVisibility() {
-        if (AppAuth.isAdmin() || AppAuth.isStaff()) {
+        if (AppAuth.isAdmin || AppAuth.isStaff) {
             cvSignOut.visibility = View.VISIBLE
         } else {
             cvSignOut.visibility = View.INVISIBLE
@@ -103,7 +103,7 @@ class DevelopersFragment : Fragment(), UserContract.View {
         }
         end = System.currentTimeMillis()
         if (clickLYJ >= 3 && clickKHJ >= 3 && clickKYH >= 3
-            && AppAuth.getUser() == null
+            && AppAuth.appUser == null
             && (end - start) <= 1000 * 3
         ) {
             initClick()
@@ -154,7 +154,7 @@ class DevelopersFragment : Fragment(), UserContract.View {
     }
 
     override fun onFindUserSuccess(user: User) {
-        Toast.makeText(context, "로그인 : ${AppAuth.getUser()?.email}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "로그인 : ${AppAuth.appUser?.email}", Toast.LENGTH_SHORT).show()
         setSignOutVisibility()
     }
 
@@ -164,7 +164,7 @@ class DevelopersFragment : Fragment(), UserContract.View {
 
     override fun onAddUserSuccess(user: User) {
         Log.d(TAG, "AddUser")
-        Toast.makeText(context, "로그인 : ${AppAuth.getUser()?.email}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "로그인 : ${AppAuth.appUser?.email}", Toast.LENGTH_SHORT).show()
         setSignOutVisibility()
     }
 }
