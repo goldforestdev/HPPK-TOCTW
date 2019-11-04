@@ -58,8 +58,8 @@ class HomeFragment : Fragment(), NoticeContract.View, HomeAdapter.ClickLister {
         noticeAdapter.notifyDataSetChanged()
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         presenter.unsubscribe()
     }
 
@@ -74,7 +74,6 @@ class HomeFragment : Fragment(), NoticeContract.View, HomeAdapter.ClickLister {
     }
 
     override fun onAddNoticeSuccess(notice: Notice) {
-
     }
 
     override fun onAddNoticeClick() {

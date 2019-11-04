@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.hppk.toctw.R
 import com.hppk.toctw.auth.AppAuth
@@ -89,7 +89,7 @@ class HomeAdapter(
     class HomeHeaderHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val addNotice: TextView = itemView.tv_add_notice
         val showBooth: TextView = itemView.tv_show_booth
-        val showYoutube: CardView = itemView.cardYouTube
+        val showYoutube: ConstraintLayout = itemView.cardYouTube
     }
 
     class NoticeHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
