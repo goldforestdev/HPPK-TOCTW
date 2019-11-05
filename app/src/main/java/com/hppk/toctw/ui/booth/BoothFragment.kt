@@ -1,5 +1,6 @@
 package com.hppk.toctw.ui.booth
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Booth
+import com.hppk.toctw.ui.details.BOOTH_INFO
+import com.hppk.toctw.ui.details.BoothDetailsActivity
 import kotlinx.android.synthetic.main.fragment_booth.*
 
 class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister {
@@ -69,6 +72,10 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         activity.apply {
             Toast.makeText(activity, "${booth.title} 상세 화면으로 이동 합니다.",Toast.LENGTH_LONG).show()
         }
+
+        startActivity(
+            Intent(context, BoothDetailsActivity::class.java).putExtra(BOOTH_INFO, booth)
+        )
     }
 
     override fun showWaitingView(show: Boolean)  {
