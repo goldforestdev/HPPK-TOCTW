@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.hppk.toctw.data.model.ChildStampJoin
-import com.hppk.toctw.data.model.StampBooth
+import com.hppk.toctw.data.model.Stamp
 import com.hppk.toctw.data.source.ChildStampDao
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -18,11 +18,11 @@ interface LocalChildStampDao : ChildStampDao {
 
     @Query(
         """
-           SELECT * FROM StampBooth
+           SELECT * FROM Stamp
            INNER JOIN child_stamp_join
-           ON stampbooth.boothId=child_stamp_join.boothId
+           ON stamp.id=child_stamp_join.id
            WHERE child_stamp_join.name=:name
            """
     )
-    override fun getStampsForChild(name: String): Single<List<StampBooth>>
+    override fun getStampsForChild(name: String): Single<List<Stamp>>
 }

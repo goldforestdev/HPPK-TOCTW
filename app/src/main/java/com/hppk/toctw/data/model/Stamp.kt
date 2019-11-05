@@ -9,8 +9,9 @@ import kotlinx.android.parcel.Parcelize
 
 @Entity
 @Parcelize
-data class StampBooth(
-    val boothId: String = "",
+data class Stamp(
+    @PrimaryKey
+    val id: String = "",
     val boothName: String = "",
     val boothLocation: String = "",
     var isDone: Boolean = false
@@ -28,18 +29,18 @@ data class Child(
 
 @Entity(
     tableName = "child_stamp_join",
-    primaryKeys = ["name", "boothId"],
+    primaryKeys = ["name", "id"],
     foreignKeys = [ForeignKey(
         entity = Child::class,
         parentColumns = arrayOf("name"),
         childColumns = arrayOf("name")
     ), ForeignKey(
-        entity = StampBooth::class,
-        parentColumns = arrayOf("boothId"),
-        childColumns = arrayOf("boothId")
+        entity = Stamp::class,
+        parentColumns = arrayOf("id"),
+        childColumns = arrayOf("id")
     )]
 )
 data class ChildStampJoin(
     val name: String,
-    val boothId: String
+    val id: String
 )

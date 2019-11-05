@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hppk.toctw.R
-import com.hppk.toctw.data.model.StampBooth
+import com.hppk.toctw.data.model.Stamp
 import kotlinx.android.synthetic.main.item_stamp.view.*
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -15,7 +15,7 @@ import android.animation.ObjectAnimator
 
 
 data class StampFlipWrapper(
-    val stamp: StampBooth,
+    val stamp: Stamp,
     var isFlip: Boolean = false
 )
 

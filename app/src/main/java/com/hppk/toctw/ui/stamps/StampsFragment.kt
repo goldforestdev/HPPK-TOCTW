@@ -15,9 +15,11 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionInflater
 import com.hppk.toctw.R
-import com.hppk.toctw.data.model.StampBooth
+import com.hppk.toctw.data.model.Stamp
 import com.hppk.toctw.data.repository.BoothRepository
+import com.hppk.toctw.data.repository.StampRepository
 import com.hppk.toctw.data.source.impl.FirestoreBoothDao
+import com.hppk.toctw.data.source.local.AppDatabase
 import kotlinx.android.synthetic.main.fragment_stamps.*
 import kotlinx.android.synthetic.main.fragment_stamps.toolbar
 
@@ -29,7 +31,12 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
     private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     private val args: StampsFragmentArgs by navArgs()
     private val presenter: StampsContract.Presenter by lazy {
-        StampsPresenter(this, BoothRepository(remoteBoothDao = FirestoreBoothDao()))
+
+        val db = AppDatabase.getInstance(context!!)
+        StampsPresenter(this,
+//            BoothRepository(remoteBoothDao = FirestoreBoothDao())
+            StampRepository(db.stampDao(), db.childStampDao())
+        )
     }
     private val adapter: StampsAdapter by lazy { StampsAdapter(listener = this) }
 
@@ -75,7 +82,7 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
         super.onDestroy()
     }
 
-    override fun onStampsLoaded(stamps: List<StampBooth>) {
+    override fun onStampsLoaded(stamps: List<Stamp>) {
         adapter.stamps.clear()
         adapter.stamps.addAll(stamps.map { StampFlipWrapper(it) })
         adapter.notifyDataSetChanged()
@@ -83,7 +90,7 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
 
     private fun showCameraView() {
         if (hasCameraPermission()) {
-            findNavController().navigate(StampsFragmentDirections.actionStampsFragmentToQRCameraFragment())
+            findNavController().navigate(StampsFragmentDirections.actionStampsFragmentToQRCameraFragment(args.child))
         } else {
             requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
@@ -98,7 +105,7 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
 
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                findNavController().navigate(StampsFragmentDirections.actionStampsFragmentToQRCameraFragment())
+                findNavController().navigate(StampsFragmentDirections.actionStampsFragmentToQRCameraFragment(args.child))
             }
         }
     }

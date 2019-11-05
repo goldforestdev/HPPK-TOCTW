@@ -1,19 +1,35 @@
 package com.hppk.toctw.data.repository
 
 import com.hppk.toctw.data.model.ChildStampJoin
-import com.hppk.toctw.data.model.StampBooth
+import com.hppk.toctw.data.model.Stamp
+import com.hppk.toctw.data.source.impl.FirestoreBoothDao
 import com.hppk.toctw.data.source.local.LocalChildStampDao
-import com.hppk.toctw.data.source.local.LocalStampBoothDao
+import com.hppk.toctw.data.source.local.LocalStampDao
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 
 class StampRepository(
-    private val localStampBoothDao: LocalStampBoothDao,
-    private val localChildStampDao: LocalChildStampDao
+    private val localStampDao: LocalStampDao,
+    private val localChildStampDao: LocalChildStampDao,
+    private val remoteBoothDao: FirestoreBoothDao = FirestoreBoothDao()
 ) {
 
-    fun save(stampBooth: StampBooth) = localStampBoothDao.save(stampBooth)
+    fun save(stampBooth: Stamp) = localStampDao.save(stampBooth)
 
-    fun save(childStampJoin: ChildStampJoin) = localChildStampDao.save(childStampJoin)
+    fun saveChildStampJoin(childStampJoin: ChildStampJoin) = localChildStampDao.save(childStampJoin)
 
-    fun getStamps(name: String) = localChildStampDao.getStampsForChild(name)
+    fun getStamps(childName: String) = localChildStampDao.getStampsForChild(childName)
+
+    fun getStamps(): Single<List<Stamp>> = localStampDao.getAll()
+        .filter { it.isNotEmpty() }
+        .switchIfEmpty(
+            remoteBoothDao.getStampBoothList()
+                .map { it.map(::Stamp).toList() }
+                .doOnSuccess { stamps ->
+                    localStampDao.save(*stamps.toTypedArray())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe()
+                }
+        )
 
 }

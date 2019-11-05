@@ -10,7 +10,7 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
 
 
-private const val QR_CODE_KEY_BOOTH_ID = "boothId:"
+private const val QR_CODE_KEY_BOOTH_ID = "id:"
 
 class QRCodeAnalyzer(
     private val qrCodeFoundListener: QRCodeFoundListener

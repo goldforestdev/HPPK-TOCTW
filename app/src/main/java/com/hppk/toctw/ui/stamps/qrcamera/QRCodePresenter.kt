@@ -25,7 +25,7 @@ class QRCodePresenter(
 
     override fun saveStamp(child: Child, boothId: String) {
         disposable.add(
-            stampRepo.save(ChildStampJoin(child.name, boothId))
+            stampRepo.saveChildStampJoin(ChildStampJoin(child.name, boothId))
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
                 .subscribe({

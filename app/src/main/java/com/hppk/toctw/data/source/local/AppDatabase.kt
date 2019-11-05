@@ -6,19 +6,19 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.hppk.toctw.data.model.Child
 import com.hppk.toctw.data.model.ChildStampJoin
-import com.hppk.toctw.data.model.StampBooth
+import com.hppk.toctw.data.model.Stamp
 
 private const val DB = "hppk_toctw.db"
 
 @Database(
-    entities = [Child::class, StampBooth::class, ChildStampJoin::class],
+    entities = [Child::class, Stamp::class, ChildStampJoin::class],
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun childrenDao(): LocalChildrenDao
 
-    abstract fun stampDao(): LocalStampBoothDao
+    abstract fun stampDao(): LocalStampDao
 
     abstract fun childStampDao(): LocalChildStampDao
 
