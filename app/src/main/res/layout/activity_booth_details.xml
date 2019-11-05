@@ -1,0 +1,107 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.stamps.StampsFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <ImageView
+                android:id="@+id/ivBackground"
+                android:background="@drawable/toctw2019_detail"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="top|center"
+                android:padding="14dp"
+                android:transitionName="avatar"
+                app:layout_collapseMode="none"/>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="32dp">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textSize="25sp"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:nestedScrollingEnabled="true"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="Opening"/>
+
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textSize="15sp"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:nestedScrollingEnabled="true"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                android:text="11월 16, 10:00 ~ 10:30"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/cpLocation"
+                style="@style/Widget.MaterialComponents.Chip.Action"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_margin="16dp"
+                android:includeFontPadding="false"
+                app:chipBackgroundColor="@color/five_color"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:nestedScrollingEnabled="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTime"
+                android:text="5층 식당" />
+
+            <TextView
+                android:id="@+id/tvDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:ellipsize="end"
+                android:textSize="18sp"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:nestedScrollingEnabled="true"
+                app:layout_constraintTop_toBottomOf="@id/cpLocation"
+                tools:text="행사의 시작을 알립니다."/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
