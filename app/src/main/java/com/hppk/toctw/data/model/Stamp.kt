@@ -29,18 +29,18 @@ data class Child(
 
 @Entity(
     tableName = "child_stamp_join",
-    primaryKeys = ["name", "id"],
+    primaryKeys = ["childName", "stampId"],
     foreignKeys = [ForeignKey(
         entity = Child::class,
         parentColumns = arrayOf("name"),
-        childColumns = arrayOf("name")
+        childColumns = arrayOf("childName")
     ), ForeignKey(
         entity = Stamp::class,
         parentColumns = arrayOf("id"),
-        childColumns = arrayOf("id")
+        childColumns = arrayOf("stampId")
     )]
 )
 data class ChildStampJoin(
-    val name: String,
-    val id: String
+    val childName: String,
+    val stampId: String
 )

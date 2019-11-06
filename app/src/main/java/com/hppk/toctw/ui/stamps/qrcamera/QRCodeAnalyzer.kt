@@ -10,7 +10,7 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
 
 
-private const val QR_CODE_KEY_BOOTH_ID = "id:"
+private const val QR_CODE_KEY_BOOTH_ID = "boothId:"
 
 class QRCodeAnalyzer(
     private val qrCodeFoundListener: QRCodeFoundListener
@@ -50,7 +50,7 @@ class QRCodeAnalyzer(
                         it.rawValue?.contains(QR_CODE_KEY_BOOTH_ID) ?: false
                     }?.let { qrCode ->
                         qrCode.rawValue?.let { data ->
-                            qrCodeFoundListener.onQRCodeFound(data.replace(QR_CODE_KEY_BOOTH_ID, ""))
+                            qrCodeFoundListener.onQRCodeFound(data.replace(QR_CODE_KEY_BOOTH_ID, "").trim())
                             return@addOnSuccessListener
                         }
                     }

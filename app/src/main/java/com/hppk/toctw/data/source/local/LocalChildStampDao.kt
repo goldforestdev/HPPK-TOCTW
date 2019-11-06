@@ -20,8 +20,8 @@ interface LocalChildStampDao : ChildStampDao {
         """
            SELECT * FROM Stamp
            INNER JOIN child_stamp_join
-           ON stamp.id=child_stamp_join.id
-           WHERE child_stamp_join.name=:name
+           ON stamp.id=child_stamp_join.stampId
+           WHERE child_stamp_join.childName=:name
            """
     )
     override fun getStampsForChild(name: String): Single<List<Stamp>>
