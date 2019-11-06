@@ -1,6 +1,7 @@
 package com.hppk.toctw.ui.stamps
 
 import android.util.Log
+import com.hppk.toctw.data.model.Child
 import com.hppk.toctw.data.repository.StampRepository
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -9,7 +10,6 @@ import io.reactivex.schedulers.Schedulers
 
 class StampsPresenter(
     private val view: StampsContract.View,
-//    private val boothRepository: BoothRepository,
     private val stampRepository: StampRepository,
     private val ioScheduler: Scheduler = Schedulers.io(),
     private val uiScheduler: Scheduler = AndroidSchedulers.mainThread(),
@@ -22,9 +22,9 @@ class StampsPresenter(
         disposable.clear()
     }
 
-    override fun getStamps() {
+    override fun getStamps(child: Child) {
         disposable.add(
-            stampRepository.getStamps()
+            stampRepository.getStamps(child.name)
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
                 .subscribe({ stamps ->

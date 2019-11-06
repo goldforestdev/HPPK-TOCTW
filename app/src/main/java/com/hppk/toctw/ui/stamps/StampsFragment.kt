@@ -4,6 +4,7 @@ package com.hppk.toctw.ui.stamps
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionInflater
 import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Stamp
-import com.hppk.toctw.data.repository.BoothRepository
 import com.hppk.toctw.data.repository.StampRepository
-import com.hppk.toctw.data.source.impl.FirestoreBoothDao
 import com.hppk.toctw.data.source.local.AppDatabase
 import kotlinx.android.synthetic.main.fragment_stamps.*
-import kotlinx.android.synthetic.main.fragment_stamps.toolbar
 
 
 private const val REQUEST_CODE_PERMISSIONS = 10
@@ -33,16 +31,14 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
     private val presenter: StampsContract.Presenter by lazy {
 
         val db = AppDatabase.getInstance(context!!)
-        StampsPresenter(this,
-//            BoothRepository(remoteBoothDao = FirestoreBoothDao())
-            StampRepository(db.stampDao(), db.childStampDao())
-        )
+        StampsPresenter(this, StampRepository(db.stampDao(), db.childStampDao()))
     }
     private val adapter: StampsAdapter by lazy { StampsAdapter(listener = this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+        sharedElementEnterTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
     }
 
     override fun onCreateView(
@@ -59,7 +55,7 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
             ivAvatar.setImageResource(args.child.avatar)
         }
 
-        presenter.getStamps()
+        presenter.getStamps(args.child)
     }
 
     private fun initToolbar() {
@@ -83,6 +79,7 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
     }
 
     override fun onStampsLoaded(stamps: List<Stamp>) {
+        Log.d("TEST", "[TOCTW] onStampsLoaded - $stamps")
         adapter.stamps.clear()
         adapter.stamps.addAll(stamps.map { StampFlipWrapper(it) })
         adapter.notifyDataSetChanged()
@@ -105,7 +102,11 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
 
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                findNavController().navigate(StampsFragmentDirections.actionStampsFragmentToQRCameraFragment(args.child))
+                findNavController().navigate(
+                    StampsFragmentDirections.actionStampsFragmentToQRCameraFragment(
+                        args.child
+                    )
+                )
             }
         }
     }
