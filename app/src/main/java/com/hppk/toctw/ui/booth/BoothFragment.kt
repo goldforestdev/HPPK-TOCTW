@@ -19,14 +19,18 @@ import com.hppk.toctw.ui.details.BOOTH_INFO
 import com.hppk.toctw.ui.details.BoothDetailsActivity
 import kotlinx.android.synthetic.main.fragment_booth.*
 
-class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister, BoothAdapter.BusyClicklister, RadioGroup.OnCheckedChangeListener {
-    override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
-
-    }
+class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister, BoothAdapter.BusyClicklister {
 
     private val presenter : BoothContract.Presenter by lazy { BoothPresenter(this) }
 
     private val boothAdapter: BoothAdapter by lazy { BoothAdapter(boothClickLister = this, busyClicklister = this) }
+
+    companion object {
+        private val TAG = BoothFragment::class.java.simpleName
+
+        const val MAIN_WARNING_DLG = "MAIN_WARNING_DLG"
+        const val MAIN_ACTIVITY_REMEMBER_ME_DLG = "MAIN_ACTIVITY_REMEMBER_ME_DLG"
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,13 +39,15 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         return inflater.inflate(R.layout.fragment_booth, container, false)
     }
 
+
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         initRecyclerView()
         initData()
 
-        fancy_radio_group.setOnCheckedChangeListener(this)
     }
 
     private fun initToolbar() {
@@ -88,6 +94,13 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
     }
 
     override fun onBusyClick(booth: Booth) {
+        val boothStaffDialog = BoothStaffDialog()
+        val bundle = Bundle()
+        bundle.putParcelable(BOOTH_INFO, booth)
+        boothStaffDialog.arguments = bundle
+        boothStaffDialog.isCancelable = false
+        boothStaffDialog.show(activity!!.supportFragmentManager,null)
+
         when {
             AppAuth.isAdmin -> Toast.makeText(activity, "나는 어디민이다.",Toast.LENGTH_LONG).show()
             AppAuth.isStaff -> Toast.makeText(activity, "나는 스텝이다.",Toast.LENGTH_LONG).show()
