@@ -20,13 +20,8 @@ data class StampFlipWrapper(
 )
 
 class StampsAdapter(
-    val stamps: MutableList<StampFlipWrapper> = mutableListOf(),
-    private val listener: MissionClearedListener
+    val stamps: MutableList<StampFlipWrapper> = mutableListOf()
 ) : RecyclerView.Adapter<StampsAdapter.StampHolder>() {
-
-    interface MissionClearedListener {
-        fun onMissionCleared()
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StampHolder {
         return StampHolder(
@@ -45,9 +40,9 @@ class StampsAdapter(
 
         with(holder.itemView) {
             tvBoothName.text = stamp.boothName
-            tvBoothName.postDelayed({ tvBoothName.isSelected = true }, 1000)
-
             tvBoothLocation.text = stamp.boothLocation
+
+//            tvBoothLocation.text = stamp.boothLocation
 
             when (stamp.isDone) {
                 true -> R.drawable.ic_stamp_hp
@@ -66,21 +61,24 @@ class StampsAdapter(
                         super.onAnimationEnd(animation)
 
                         if (isFlip) {
-                            tvBoothLocation.visibility = View.VISIBLE
-                            tvBoothName.visibility = View.VISIBLE
-                            btnMissionClear.visibility = View.GONE
-                            btnMissionComplete.visibility = View.GONE
+//                            tvBoothLocation.visibility = View.VISIBLE
+                            ivStamp.visibility = View.VISIBLE
+                            tvBoothName.visibility = View.INVISIBLE
+                            tvBoothLocation.visibility = View.INVISIBLE
+//                            btnMissionClear.visibility = View.GONE
+//                            btnMissionComplete.visibility = View.GONE
                         } else {
-                            tvBoothLocation.visibility = View.GONE
-                            tvBoothName.visibility = View.GONE
-
-                            if (stamp.isDone) {
-                                btnMissionClear.visibility = View.GONE
-                                btnMissionComplete.visibility = View.VISIBLE
-                            } else {
-                                btnMissionClear.visibility = View.VISIBLE
-                                btnMissionComplete.visibility = View.GONE
-                            }
+//                            tvBoothLocation.visibility = View.GONE
+                            ivStamp.visibility = View.INVISIBLE
+                            tvBoothName.visibility = View.VISIBLE
+                            tvBoothLocation.visibility = View.VISIBLE
+//                            if (stamp.isDone) {
+//                                btnMissionClear.visibility = View.GONE
+//                                btnMissionComplete.visibility = View.VISIBLE
+//                            } else {
+//                                btnMissionClear.visibility = View.VISIBLE
+//                                btnMissionComplete.visibility = View.GONE
+//                            }
                         }
 
                         isFlip = !isFlip
@@ -88,9 +86,6 @@ class StampsAdapter(
                     }
                 })
                 oa1.start()
-            }
-            btnMissionClear.setOnClickListener {
-                listener.onMissionCleared()
             }
         }
     }

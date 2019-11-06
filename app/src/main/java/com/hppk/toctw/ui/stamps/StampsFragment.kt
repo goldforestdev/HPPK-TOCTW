@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionInflater
 import com.hppk.toctw.R
@@ -24,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_stamps.*
 
 private const val REQUEST_CODE_PERMISSIONS = 10
 
-class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionClearedListener {
+class StampsFragment : Fragment(), StampsContract.View {
 
     private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     private val args: StampsFragmentArgs by navArgs()
@@ -33,7 +34,7 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
         val db = AppDatabase.getInstance(context!!)
         StampsPresenter(this, StampRepository(db.stampDao(), db.childStampDao()))
     }
-    private val adapter: StampsAdapter by lazy { StampsAdapter(listener = this) }
+    private val adapter: StampsAdapter by lazy { StampsAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,8 +70,10 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
     }
 
     private fun initView() {
-        rvStamps.layoutManager = LinearLayoutManager(context)
+        rvStamps.layoutManager = GridLayoutManager(context, 2)
         rvStamps.adapter = adapter
+
+        fabMissionClear.setOnClickListener { showCameraView() }
     }
 
     override fun onDestroy() {
@@ -113,10 +116,6 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
 
     private fun hasCameraPermission() = REQUIRED_PERMISSIONS.all { perm ->
         ContextCompat.checkSelfPermission(context!!, perm) == PackageManager.PERMISSION_GRANTED
-    }
-
-    override fun onMissionCleared() {
-        showCameraView()
     }
 
 }
