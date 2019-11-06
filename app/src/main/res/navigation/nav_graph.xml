@@ -52,7 +52,11 @@
         android:id="@+id/QRCameraFragment"
         android:name="com.hppk.toctw.ui.stamps.qrcamera.QRCameraFragment"
         android:label="fragment_qrcamera"
-        tools:layout="@layout/fragment_qrcamera" />
+        tools:layout="@layout/fragment_qrcamera" >
+        <argument
+            android:name="child"
+            app:argType="com.hppk.toctw.data.model.Child" />
+    </fragment>
     <fragment
         android:id="@+id/childrenFragment"
         android:name="com.hppk.toctw.ui.children.ChildrenFragment"
