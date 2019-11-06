@@ -5,21 +5,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hppk.toctw.R
+import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.data.model.Booth
 import com.hppk.toctw.ui.details.BOOTH_INFO
 import com.hppk.toctw.ui.details.BoothDetailsActivity
 import kotlinx.android.synthetic.main.fragment_booth.*
 
-class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister {
+class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister, BoothAdapter.BusyClicklister, RadioGroup.OnCheckedChangeListener {
+    override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+
+    }
 
     private val presenter : BoothContract.Presenter by lazy { BoothPresenter(this) }
 
-    private val boothAdapter: BoothAdapter by lazy { BoothAdapter(boothClickLister = this) }
+    private val boothAdapter: BoothAdapter by lazy { BoothAdapter(boothClickLister = this, busyClicklister = this) }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,6 +40,8 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         initToolbar()
         initRecyclerView()
         initData()
+
+        fancy_radio_group.setOnCheckedChangeListener(this)
     }
 
     private fun initToolbar() {
@@ -76,6 +85,14 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         startActivity(
             Intent(context, BoothDetailsActivity::class.java).putExtra(BOOTH_INFO, booth)
         )
+    }
+
+    override fun onBusyClick(booth: Booth) {
+        when {
+            AppAuth.isAdmin -> Toast.makeText(activity, "나는 어디민이다.",Toast.LENGTH_LONG).show()
+            AppAuth.isStaff -> Toast.makeText(activity, "나는 스텝이다.",Toast.LENGTH_LONG).show()
+            else -> Toast.makeText(activity, "나는 어디민이 아니다.",Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun showWaitingView(show: Boolean)  {

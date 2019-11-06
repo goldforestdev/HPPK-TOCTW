@@ -21,7 +21,11 @@
         android:id="@+id/boothFragment"
         android:name="com.hppk.toctw.ui.booth.BoothFragment"
         android:label="@string/event_booth"
-        tools:layout="@layout/fragment_booth" />
+        tools:layout="@layout/fragment_booth" >
+        <action
+            android:id="@+id/action_boothFragment_to_childrenFragment"
+            app:destination="@+id/stampsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/stampsFragment"
         android:name="com.hppk.toctw.ui.stamps.StampsFragment"
