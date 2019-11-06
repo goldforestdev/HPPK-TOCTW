@@ -58,4 +58,6 @@
     <string name="title">Title</string>
     <string name="body">Body</string>
     <string name="send">Send</string>
+    <string name="complete">완료</string>
+    <string name="in_progress">진행 중</string>
 </resources>

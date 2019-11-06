@@ -5,7 +5,7 @@ import com.hppk.toctw.data.model.Stamp
 
 interface StampsContract{
     interface View {
-        fun onStampsLoaded(stamps: List<Stamp>)
+        fun onStampsLoaded(stamps: List<Any>)
     }
 
     interface Presenter {

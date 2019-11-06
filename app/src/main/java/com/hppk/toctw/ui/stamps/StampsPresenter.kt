@@ -1,6 +1,7 @@
 package com.hppk.toctw.ui.stamps
 
 import android.util.Log
+import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Child
 import com.hppk.toctw.data.repository.StampRepository
 import io.reactivex.Scheduler
@@ -28,8 +29,22 @@ class StampsPresenter(
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
                 .subscribe({ stamps ->
-                    Log.d(TAG, "[TOCTW] getStamps - stamps: ${stamps.size}")
-                    view.onStampsLoaded(stamps)
+                    val stampGrp = stamps.map { StampFlipWrapper(it) }.groupBy { it.stamp.isDone }
+                    val stampsInProgress = stampGrp[false]
+                    val stampsComplete = stampGrp[true]
+
+                    val stampList = mutableListOf<Any>()
+                    if (!stampsInProgress.isNullOrEmpty()) {
+                        stampList.add(R.string.in_progress)
+                        stampList.addAll(stampsInProgress)
+                    }
+
+                    if (!stampsComplete.isNullOrEmpty()) {
+                        stampList.add(R.string.complete)
+                        stampList.addAll(stampsComplete)
+                    }
+
+                    view.onStampsLoaded(stampList)
                 }, { t ->
                     Log.e(TAG, "[TOCTW] getStamps - failed: ${t.message}", t)
                 })

@@ -4,7 +4,6 @@ package com.hppk.toctw.ui.stamps
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionInflater
 import com.hppk.toctw.R
-import com.hppk.toctw.data.model.Stamp
 import com.hppk.toctw.data.repository.StampRepository
 import com.hppk.toctw.data.source.local.AppDatabase
 import kotlinx.android.synthetic.main.fragment_stamps.*
@@ -70,7 +67,15 @@ class StampsFragment : Fragment(), StampsContract.View {
     }
 
     private fun initView() {
-        rvStamps.layoutManager = GridLayoutManager(context, 2)
+        rvStamps.layoutManager = GridLayoutManager(context, 2).apply {
+            spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int = when (VIEW_TYPE_LABEL) {
+                    adapter.getItemViewType(position) -> 2
+                    else -> 1
+                }
+
+            }
+        }
         rvStamps.adapter = adapter
 
         fabMissionClear.setOnClickListener { showCameraView() }
@@ -81,16 +86,19 @@ class StampsFragment : Fragment(), StampsContract.View {
         super.onDestroy()
     }
 
-    override fun onStampsLoaded(stamps: List<Stamp>) {
-        Log.d("TEST", "[TOCTW] onStampsLoaded - $stamps")
+    override fun onStampsLoaded(stamps: List<Any>) {
         adapter.stamps.clear()
-        adapter.stamps.addAll(stamps.map { StampFlipWrapper(it) })
+        adapter.stamps.addAll(stamps)
         adapter.notifyDataSetChanged()
     }
 
     private fun showCameraView() {
         if (hasCameraPermission()) {
-            findNavController().navigate(StampsFragmentDirections.actionStampsFragmentToQRCameraFragment(args.child))
+            findNavController().navigate(
+                StampsFragmentDirections.actionStampsFragmentToQRCameraFragment(
+                    args.child
+                )
+            )
         } else {
             requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
