@@ -91,6 +91,14 @@ class StampsFragment : Fragment(), StampsContract.View {
         adapter.stamps.addAll(stamps)
         adapter.notifyDataSetChanged()
     }
+    
+    override fun hideQRButton(hide: Boolean) {
+        if (hide) {
+            fabMissionClear.hide()
+        } else {
+            fabMissionClear.show()
+        }
+    }
 
     private fun showCameraView() {
         if (hasCameraPermission()) {

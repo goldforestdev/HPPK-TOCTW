@@ -34,6 +34,7 @@ class StampsPresenter(
                     val stampsComplete = stampGrp[true]
 
                     val stampList = mutableListOf<Any>()
+                    view.hideQRButton(stampsInProgress.isNullOrEmpty())
                     if (!stampsInProgress.isNullOrEmpty()) {
                         stampList.add(R.string.in_progress)
                         stampList.addAll(stampsInProgress)

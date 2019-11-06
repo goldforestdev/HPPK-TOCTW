@@ -79,6 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
         android:src="@drawable/ic_stamp"
+        android:visibility="gone"
         app:layout_anchor="@id/appBarLayout"
         app:layout_anchorGravity="bottom|end"/>
 
