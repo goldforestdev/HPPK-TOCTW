@@ -42,8 +42,6 @@ class StampsAdapter(
             tvBoothName.text = stamp.boothName
             tvBoothLocation.text = stamp.boothLocation
 
-//            tvBoothLocation.text = stamp.boothLocation
-
             when (stamp.isDone) {
                 true -> R.drawable.ic_stamp_hp
                 else -> R.drawable.ic_stamp_hp_empty
@@ -61,24 +59,13 @@ class StampsAdapter(
                         super.onAnimationEnd(animation)
 
                         if (isFlip) {
-//                            tvBoothLocation.visibility = View.VISIBLE
                             ivStamp.visibility = View.VISIBLE
                             tvBoothName.visibility = View.INVISIBLE
                             tvBoothLocation.visibility = View.INVISIBLE
-//                            btnMissionClear.visibility = View.GONE
-//                            btnMissionComplete.visibility = View.GONE
                         } else {
-//                            tvBoothLocation.visibility = View.GONE
                             ivStamp.visibility = View.INVISIBLE
                             tvBoothName.visibility = View.VISIBLE
                             tvBoothLocation.visibility = View.VISIBLE
-//                            if (stamp.isDone) {
-//                                btnMissionClear.visibility = View.GONE
-//                                btnMissionComplete.visibility = View.VISIBLE
-//                            } else {
-//                                btnMissionClear.visibility = View.VISIBLE
-//                                btnMissionComplete.visibility = View.GONE
-//                            }
                         }
 
                         isFlip = !isFlip
