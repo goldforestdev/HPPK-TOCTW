@@ -23,11 +23,24 @@
         android:title="@string/stamp"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/settingsFragment"
-        android:enabled="true"
-        android:icon="@drawable/ic_settings"
-        android:title="@string/settings"
-        app:showAsAction="ifRoom" />
+    <item android:title="@string/information">
+        <menu>
+            <item
+                android:id="@+id/contactFragment"
+                android:enabled="true"
+                android:title="@string/contact"
+                android:icon="@drawable/ic_contact"
+                app:showAsAction="ifRoom" />
+        </menu>
+    </item>
+
+    <group android:id="@+id/menuSettings">
+        <item
+            android:id="@+id/settingsFragment"
+            android:enabled="true"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/settings"
+            app:showAsAction="ifRoom" />
+    </group>
 
 </menu>

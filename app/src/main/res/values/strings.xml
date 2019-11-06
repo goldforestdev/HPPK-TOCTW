@@ -58,4 +58,8 @@
     <string name="title">Title</string>
     <string name="body">Body</string>
     <string name="send">Send</string>
+    <string name="information">안내</string>
+    <string name="contact">기타 문의</string>
+    <string name="staff_park">박 윤석</string>
+    <string name="staff_lee">이 경미</string>
 </resources>

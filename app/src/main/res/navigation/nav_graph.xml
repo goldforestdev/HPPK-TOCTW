@@ -78,5 +78,10 @@
         android:id="@+id/addNoticeFragment"
         android:name="com.hppk.toctw.ui.home.AddNoticeFragment"
         android:label="@string/add_notice"/>
+    <fragment
+        android:id="@+id/contactFragment"
+        android:name="com.hppk.toctw.ui.info.ContactFragment"
+        android:label="fragment_contact"
+        tools:layout="@layout/fragment_contact" />
 
 </navigation>
