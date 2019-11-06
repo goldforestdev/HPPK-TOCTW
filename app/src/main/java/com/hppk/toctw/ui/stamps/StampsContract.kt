@@ -5,7 +5,7 @@ import com.hppk.toctw.data.model.Child
 interface StampsContract{
     interface View {
         fun onStampsLoaded(stamps: List<Any>)
-        fun hideQRButton(hide: Boolean)
+        fun showQRButton(show: Boolean)
     }
 
     interface Presenter {

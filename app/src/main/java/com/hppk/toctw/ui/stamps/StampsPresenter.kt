@@ -34,10 +34,12 @@ class StampsPresenter(
                     val stampsComplete = stampGrp[true]
 
                     val stampList = mutableListOf<Any>()
-                    view.hideQRButton(stampsInProgress.isNullOrEmpty())
                     if (!stampsInProgress.isNullOrEmpty()) {
                         stampList.add(R.string.in_progress)
                         stampList.addAll(stampsInProgress)
+                        view.showQRButton(true)
+                    } else {
+                        view.showQRButton(false)
                     }
 
                     if (!stampsComplete.isNullOrEmpty()) {
@@ -50,8 +52,5 @@ class StampsPresenter(
                     Log.e(TAG, "[TOCTW] getStamps - failed: ${t.message}", t)
                 })
         )
-
-        // TODO: 모든 stamp를 획득했을 때의 시나리오
-
     }
 }

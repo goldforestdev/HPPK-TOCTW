@@ -91,12 +91,12 @@ class StampsFragment : Fragment(), StampsContract.View {
         adapter.stamps.addAll(stamps)
         adapter.notifyDataSetChanged()
     }
-    
-    override fun hideQRButton(hide: Boolean) {
-        if (hide) {
-            fabMissionClear.hide()
-        } else {
+
+    override fun showQRButton(show: Boolean) {
+        if (show) {
             fabMissionClear.show()
+        } else {
+            fabMissionClear.hide()
         }
     }
 
