@@ -79,14 +79,26 @@
         android:name="com.hppk.toctw.ui.home.AddNoticeFragment"
         android:label="@string/add_notice"/>
     <fragment
-        android:id="@+id/contactFragment"
-        android:name="com.hppk.toctw.ui.info.ContactFragment"
-        android:label="fragment_contact"
-        tools:layout="@layout/fragment_contact" />
-    <fragment
         android:id="@+id/infoFragment"
         android:name="com.hppk.toctw.ui.info.InfoFragment"
         android:label="fragment_info"
-        tools:layout="@layout/fragment_info" />
+        tools:layout="@layout/fragment_info" >
+        <action
+            android:id="@+id/action_infoFragment_to_infoScheduleFragment"
+            app:destination="@id/infoScheduleFragment" />
+        <action
+            android:id="@+id/action_infoFragment_to_infoLunhFragment"
+            app:destination="@id/infoLunhFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoScheduleFragment"
+        android:name="com.hppk.toctw.ui.info.InfoScheduleFragment"
+        android:label="fragment_info_schedule"
+        tools:layout="@layout/fragment_info_schedule" />
+    <fragment
+        android:id="@+id/infoLunhFragment"
+        android:name="com.hppk.toctw.ui.info.InfoLunchFragment"
+        android:label="fragment_info_lunh"
+        tools:layout="@layout/fragment_info_lunch" />
 
 </navigation>

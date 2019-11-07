@@ -37,6 +37,14 @@
                 android:id="@+id/layoutInfoLunch"
                 layout="@layout/layout_info_lunch" />
 
+            <include
+                android:id="@+id/layoutInfoSecuitySafety"
+                layout="@layout/layout_info_security_safety" />
+
+            <include
+                android:id="@+id/layoutInfoContact"
+                layout="@layout/layout_info_contact" />
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,13 +31,6 @@
                 android:title="안내 사항"
                 android:icon="@drawable/ic_info"
                 app:showAsAction="ifRoom" />
-
-            <item
-                android:id="@+id/contactFragment"
-                android:enabled="true"
-                android:title="@string/contact"
-                android:icon="@drawable/ic_contact"
-                app:showAsAction="ifRoom" />
         </menu>
     </item>
 
