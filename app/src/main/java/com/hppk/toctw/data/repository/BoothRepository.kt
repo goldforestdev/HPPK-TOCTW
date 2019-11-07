@@ -14,7 +14,4 @@ class BoothRepository(
 
     fun getDataList() = remoteBoothDao.getDataList()
 
-    fun getStampBoothList() = remoteBoothDao.getStampBoothList()
-
-    fun updateBoothInfo(booth: Booth) = remoteBoothDao.updateBooth(booth)
 }

@@ -1,7 +1,6 @@
 package com.hppk.toctw.ui.booth
 
 import android.util.Log
-import com.hppk.toctw.data.model.Booth
 import com.hppk.toctw.data.repository.BoothRepository
 import com.hppk.toctw.data.source.impl.FirestoreBoothDao
 import io.reactivex.Scheduler
@@ -46,22 +45,6 @@ class BoothPresenter (
                 .doOnSuccess { view.showWaitingView(false) }
                 .subscribe({
                     view.onBoothListLoaded(it)
-                }, { t->
-                    Log.e(TAG, "[TOCTW] loadCollection - failed: ${t.message}", t)
-                })
-        )
-    }
-
-    override fun updateBoothInfo(booth: Booth) {
-        disposable.add(
-            boothRepository.updateBoothInfo(booth)
-                .subscribeOn(ioScheduler)
-                .observeOn(uiScheduler)
-                .doOnSubscribe{view.showWaitingView(true)}
-                .doOnError { view.showWaitingView(false) }
-                .doOnComplete { view.showWaitingView(false) }
-                .subscribe({
-                    view.onUpdateBoothInfoSuccess()
                 }, { t->
                     Log.e(TAG, "[TOCTW] loadCollection - failed: ${t.message}", t)
                 })

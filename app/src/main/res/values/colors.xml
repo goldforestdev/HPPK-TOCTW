@@ -8,6 +8,7 @@
     <color name="grayLight">#e0e0e0</color>
     <color name="gray">#808080</color>
     <color name="grayDark">#404040</color>
+    <color name="whiteTransparent">#E0FFFFFF</color>
 
     <color name="darkYellow">#c6c932</color>
     <color name="R198_G201_B50">@color/darkYellow</color>
