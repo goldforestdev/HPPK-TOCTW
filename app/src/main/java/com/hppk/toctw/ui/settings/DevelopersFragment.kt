@@ -83,7 +83,6 @@ class DevelopersFragment : Fragment(), UserContract.View {
             it.setSupportActionBar(toolbar)
             it.supportActionBar?.let { actionBar ->
                 actionBar.setDisplayHomeAsUpEnabled(true)
-                actionBar.setHomeAsUpIndicator(R.drawable.ic_menu)
                 actionBar.setTitle(R.string.developers)
             }
         }
