@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.item_booth_list.view.*
 import android.os.Build
 import android.widget.LinearLayout
 import com.google.android.material.chip.Chip
+import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.data.model.Floor
 
 
@@ -51,17 +52,25 @@ class BoothAdapter(
                 if (booths[position].isStamp) ivStamp.visibility = View.VISIBLE else ivStamp.visibility = View.GONE
 
                 llBusy.setOnClickListener {
-                    busyClicklister.onBusyClick(booths[position])
+                    setBoothBusyClickListener(position)
                 }
 
                 tvBusy.setOnClickListener {
-                    busyClicklister.onBusyClick(booths[position])
+                    setBoothBusyClickListener(position)
                 }
 
                 itemView.setOnClickListener {
                     boothClickLister.onBoothClick(booths[position])
                 }
             }
+        }
+    }
+
+    private fun setBoothBusyClickListener(position: Int) {
+        if (AppAuth.isStaff || AppAuth.isAdmin) {
+            busyClicklister.onBusyClick(booths[position])
+        } else {
+            boothClickLister.onBoothClick(booths[position])
         }
     }
 
