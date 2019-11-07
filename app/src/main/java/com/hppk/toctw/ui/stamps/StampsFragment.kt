@@ -4,7 +4,6 @@ package com.hppk.toctw.ui.stamps
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +12,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.TransitionInflater
 import com.hppk.toctw.R
-import com.hppk.toctw.data.model.Stamp
 import com.hppk.toctw.data.repository.StampRepository
 import com.hppk.toctw.data.source.local.AppDatabase
 import kotlinx.android.synthetic.main.fragment_stamps.*
@@ -24,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_stamps.*
 
 private const val REQUEST_CODE_PERMISSIONS = 10
 
-class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionClearedListener {
+class StampsFragment : Fragment(), StampsContract.View {
 
     private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     private val args: StampsFragmentArgs by navArgs()
@@ -33,7 +31,7 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
         val db = AppDatabase.getInstance(context!!)
         StampsPresenter(this, StampRepository(db.stampDao(), db.childStampDao()))
     }
-    private val adapter: StampsAdapter by lazy { StampsAdapter(listener = this) }
+    private val adapter: StampsAdapter by lazy { StampsAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,8 +67,18 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
     }
 
     private fun initView() {
-        rvStamps.layoutManager = LinearLayoutManager(context)
+        rvStamps.layoutManager = GridLayoutManager(context, 2).apply {
+            spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int = when (VIEW_TYPE_LABEL) {
+                    adapter.getItemViewType(position) -> 2
+                    else -> 1
+                }
+
+            }
+        }
         rvStamps.adapter = adapter
+
+        fabMissionClear.setOnClickListener { showCameraView() }
     }
 
     override fun onDestroy() {
@@ -78,16 +86,27 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
         super.onDestroy()
     }
 
-    override fun onStampsLoaded(stamps: List<Stamp>) {
-        Log.d("TEST", "[TOCTW] onStampsLoaded - $stamps")
+    override fun onStampsLoaded(stamps: List<Any>) {
         adapter.stamps.clear()
-        adapter.stamps.addAll(stamps.map { StampFlipWrapper(it) })
+        adapter.stamps.addAll(stamps)
         adapter.notifyDataSetChanged()
+    }
+
+    override fun showQRButton(show: Boolean) {
+        if (show) {
+            fabMissionClear.show()
+        } else {
+            fabMissionClear.hide()
+        }
     }
 
     private fun showCameraView() {
         if (hasCameraPermission()) {
-            findNavController().navigate(StampsFragmentDirections.actionStampsFragmentToQRCameraFragment(args.child))
+            findNavController().navigate(
+                StampsFragmentDirections.actionStampsFragmentToQRCameraFragment(
+                    args.child
+                )
+            )
         } else {
             requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
@@ -113,10 +132,6 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
 
     private fun hasCameraPermission() = REQUIRED_PERMISSIONS.all { perm ->
         ContextCompat.checkSelfPermission(context!!, perm) == PackageManager.PERMISSION_GRANTED
-    }
-
-    override fun onMissionCleared() {
-        showCameraView()
     }
 
 }

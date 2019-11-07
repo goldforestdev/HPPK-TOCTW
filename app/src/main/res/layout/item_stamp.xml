@@ -4,86 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="12dp"
-    android:layout_marginStart="4dp"
-    android:layout_marginEnd="4dp"
-    android:layout_marginBottom="12dp"
     android:background="@drawable/selector_stamp_bg"
-    android:elevation="8dp"
+    android:elevation="4dp"
+    android:layout_margin="8dp"
+    android:padding="16dp"
     tools:context=".ui.stamps.StampsFragment">
 
     <ImageView
         android:id="@+id/ivStamp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:src="@drawable/ic_stamp_hp_empty"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
         android:id="@+id/tvBoothName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:singleLine="true"
-        android:ellipsize="marquee"
-        android:marqueeRepeatLimit="marquee_forever"
+        android:layout_marginTop="8dp"
         android:textColor="@android:color/black"
-        android:textSize="24sp"
         android:textStyle="bold"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:gravity="center"
+        android:visibility="gone"
         tools:text="Booth Name"
-        app:layout_constraintTop_toTopOf="@id/ivStamp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tvBoothLocation"
-        app:layout_constraintStart_toEndOf="@id/ivStamp"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/tvBoothLocation"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
-        tools:text="Booth Location"
-        app:layout_constraintTop_toBottomOf="@id/tvBoothName"
-        app:layout_constraintBottom_toBottomOf="@id/ivStamp"
-        app:layout_constraintStart_toStartOf="@id/tvBoothName"/>
-
-    <TextView
-        android:id="@+id/btnMissionClear"
-        android:background="@drawable/selector_mission_clear_bg"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
         android:gravity="center"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="@string/mission_clear"
-        android:padding="16dp"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivStamp"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <TextView
-        android:id="@+id/btnMissionComplete"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:gravity="center"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="@string/mission_clear"
-        android:padding="16dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivStamp"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        tools:text="Booth Name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
