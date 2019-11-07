@@ -12,30 +12,31 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.TransitionInflater
 import com.hppk.toctw.R
-import com.hppk.toctw.data.model.StampBooth
-import com.hppk.toctw.data.repository.BoothRepository
-import com.hppk.toctw.data.source.impl.FirestoreBoothDao
+import com.hppk.toctw.data.repository.StampRepository
+import com.hppk.toctw.data.source.local.AppDatabase
 import kotlinx.android.synthetic.main.fragment_stamps.*
-import kotlinx.android.synthetic.main.fragment_stamps.toolbar
 
 
 private const val REQUEST_CODE_PERMISSIONS = 10
 
-class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionClearedListener {
+class StampsFragment : Fragment(), StampsContract.View {
 
     private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     private val args: StampsFragmentArgs by navArgs()
     private val presenter: StampsContract.Presenter by lazy {
-        StampsPresenter(this, BoothRepository(remoteBoothDao = FirestoreBoothDao()))
+
+        val db = AppDatabase.getInstance(context!!)
+        StampsPresenter(this, StampRepository(db.stampDao(), db.childStampDao()))
     }
-    private val adapter: StampsAdapter by lazy { StampsAdapter(listener = this) }
+    private val adapter: StampsAdapter by lazy { StampsAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+        sharedElementEnterTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
     }
 
     override fun onCreateView(
@@ -52,7 +53,7 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
             ivAvatar.setImageResource(args.child.avatar)
         }
 
-        presenter.getStamps()
+        presenter.getStamps(args.child)
     }
 
     private fun initToolbar() {
@@ -66,8 +67,18 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
     }
 
     private fun initView() {
-        rvStamps.layoutManager = LinearLayoutManager(context)
+        rvStamps.layoutManager = GridLayoutManager(context, 2).apply {
+            spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int = when (VIEW_TYPE_LABEL) {
+                    adapter.getItemViewType(position) -> 2
+                    else -> 1
+                }
+
+            }
+        }
         rvStamps.adapter = adapter
+
+        fabMissionClear.setOnClickListener { showCameraView() }
     }
 
     override fun onDestroy() {
@@ -75,15 +86,27 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
         super.onDestroy()
     }
 
-    override fun onStampsLoaded(stamps: List<StampBooth>) {
+    override fun onStampsLoaded(stamps: List<Any>) {
         adapter.stamps.clear()
-        adapter.stamps.addAll(stamps.map { StampFlipWrapper(it) })
+        adapter.stamps.addAll(stamps)
         adapter.notifyDataSetChanged()
+    }
+
+    override fun showQRButton(show: Boolean) {
+        if (show) {
+            fabMissionClear.show()
+        } else {
+            fabMissionClear.hide()
+        }
     }
 
     private fun showCameraView() {
         if (hasCameraPermission()) {
-            findNavController().navigate(StampsFragmentDirections.actionStampsFragmentToQRCameraFragment())
+            findNavController().navigate(
+                StampsFragmentDirections.actionStampsFragmentToQRCameraFragment(
+                    args.child
+                )
+            )
         } else {
             requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
@@ -98,17 +121,17 @@ class StampsFragment : Fragment(), StampsContract.View, StampsAdapter.MissionCle
 
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                findNavController().navigate(StampsFragmentDirections.actionStampsFragmentToQRCameraFragment())
+                findNavController().navigate(
+                    StampsFragmentDirections.actionStampsFragmentToQRCameraFragment(
+                        args.child
+                    )
+                )
             }
         }
     }
 
     private fun hasCameraPermission() = REQUIRED_PERMISSIONS.all { perm ->
         ContextCompat.checkSelfPermission(context!!, perm) == PackageManager.PERMISSION_GRANTED
-    }
-
-    override fun onMissionCleared() {
-        showCameraView()
     }
 
 }

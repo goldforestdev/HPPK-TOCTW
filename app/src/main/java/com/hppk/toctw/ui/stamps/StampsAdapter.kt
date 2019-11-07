@@ -1,92 +1,112 @@
 package com.hppk.toctw.ui.stamps
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import com.hppk.toctw.R
-import com.hppk.toctw.data.model.StampBooth
-import kotlinx.android.synthetic.main.item_stamp.view.*
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
-import android.animation.ObjectAnimator
+import androidx.recyclerview.widget.RecyclerView
+import com.hppk.toctw.R
+import com.hppk.toctw.data.model.Stamp
+import kotlinx.android.synthetic.main.item_stamp.view.*
+import kotlinx.android.synthetic.main.item_stamp_label.view.*
 
 
 data class StampFlipWrapper(
-    val stamp: StampBooth,
+    val stamp: Stamp,
     var isFlip: Boolean = false
 )
 
+const val VIEW_TYPE_LABEL = 0
+const val VIEW_TYPE_STAMP = 1
+
 class StampsAdapter(
-    val stamps: MutableList<StampFlipWrapper> = mutableListOf(),
-    private val listener: MissionClearedListener
-) : RecyclerView.Adapter<StampsAdapter.StampHolder>() {
+    val stamps: MutableList<Any> = mutableListOf()
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    interface MissionClearedListener {
-        fun onMissionCleared()
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StampHolder {
-        return StampHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_stamp,
-                parent,
-                false
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+        when (viewType) {
+            VIEW_TYPE_LABEL -> LabelHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_stamp_label,
+                    parent,
+                    false
+                )
             )
-        )
+            else -> StampHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_stamp,
+                    parent,
+                    false
+                )
+            )
+        }
+
+    override fun getItemViewType(position: Int): Int = when {
+        stamps[position] is Int -> VIEW_TYPE_LABEL
+        else -> VIEW_TYPE_STAMP
     }
 
     override fun getItemCount() = stamps.size
 
-    override fun onBindViewHolder(holder: StampHolder, position: Int) {
-        var (stamp, isFlip) = stamps[position]
-
-        holder.itemView.tvBoothName.text = stamp.boothName
-        holder.itemView.tvBoothName.postDelayed({
-            holder.itemView.tvBoothName.isSelected =
-                true
-        }, 1000)
-
-        holder.itemView.tvBoothLocation.text = stamp.boothLocation
-
-        when (stamp.isDone) {
-            true -> R.drawable.ic_stamp_hp
-            else -> R.drawable.ic_stamp_hp_empty
-        }.let {
-            holder.itemView.ivStamp.setImageResource(it)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is LabelHolder) {
+            bindLabelHolder(holder, position)
+        } else {
+            bindStampHolder(holder as StampHolder, position)
         }
+    }
 
-        holder.itemView.setOnClickListener {
-            val oa1 = ObjectAnimator.ofFloat(holder.itemView, "scaleX", 1f, 0f)
-            val oa2 = ObjectAnimator.ofFloat(holder.itemView, "scaleX", 0f, 1f)
-            oa1.interpolator = DecelerateInterpolator()
-            oa2.interpolator = AccelerateDecelerateInterpolator()
-            oa1.addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    super.onAnimationEnd(animation)
+    private fun bindLabelHolder(holder: LabelHolder, position: Int) {
+        holder.itemView.tvStampLabel.setText(stamps[position] as Int)
+    }
 
-                    if (isFlip) {
-                        holder.itemView.tvBoothLocation.visibility = View.VISIBLE
-                        holder.itemView.tvBoothName.visibility = View.VISIBLE
-                        holder.itemView.btnMissionClear.visibility = View.GONE
-                    } else {
-                        holder.itemView.tvBoothLocation.visibility = View.GONE
-                        holder.itemView.tvBoothName.visibility = View.GONE
-                        holder.itemView.btnMissionClear.visibility = View.VISIBLE
+    private fun bindStampHolder(holder: StampHolder, position: Int) {
+        var (stamp, isFlip) = stamps[position] as StampFlipWrapper
+
+        with(holder.itemView) {
+            tvBoothName.text = stamp.boothName
+            tvBoothLocation.text = stamp.boothLocation
+
+            when (stamp.isDone) {
+                true -> R.drawable.ic_stamp_hp
+                else -> R.drawable.ic_stamp_hp_empty
+            }.let {
+                ivStamp.setImageResource(it)
+            }
+
+            setOnClickListener {
+                val oa1 = ObjectAnimator.ofFloat(holder.itemView, "scaleX", 1f, 0f)
+                val oa2 = ObjectAnimator.ofFloat(holder.itemView, "scaleX", 0f, 1f)
+                oa1.interpolator = DecelerateInterpolator()
+                oa2.interpolator = AccelerateDecelerateInterpolator()
+                oa1.addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        super.onAnimationEnd(animation)
+
+                        if (isFlip) {
+                            ivStamp.visibility = View.VISIBLE
+                            tvBoothName.visibility = View.INVISIBLE
+                            tvBoothLocation.visibility = View.INVISIBLE
+                        } else {
+                            ivStamp.visibility = View.INVISIBLE
+                            tvBoothName.visibility = View.VISIBLE
+                            tvBoothLocation.visibility = View.VISIBLE
+                        }
+
+                        isFlip = !isFlip
+                        oa2.start()
                     }
-
-                    isFlip = !isFlip
-                    oa2.start()
-                }
-            })
-            oa1.start()
-        }
-        holder.itemView.btnMissionClear.setOnClickListener {
-            listener.onMissionCleared()
+                })
+                oa1.start()
+            }
         }
     }
 
     class StampHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+    class LabelHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

@@ -58,6 +58,7 @@ class FirestoreBoothDao(
             .whereEqualTo("isStamp", true)
             .get()
             .addOnSuccessListener { result ->
+                Log.d(TAG, "[TOCTW] getStampBoothList - success")
                 emitter.onSuccess(result.toObjects(Booth::class.java))
             }
             .addOnFailureListener { exception ->
