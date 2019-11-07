@@ -19,7 +19,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
-                android:id="@+id/ivBackground"
+                android:id="@+id/ivSchedule"
                 android:background="@drawable/toctw2019_detail"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"

@@ -48,8 +48,6 @@
     <string name="message_add_child">Please provide your child\'s name and gender.</string>
     <string name="message_add_child_2">The information you enter is stored only on your device, and not on an external server.</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="mission_clear">미션 완료</string>
     <string name="child_stamp">%1$s\'s Stamps</string>
     <string name="my_children">My Children</string>
@@ -68,4 +66,13 @@
     <string name="info_schedule">일정 안내</string>
     <string name="info_lunch">중식 안내</string>
     <string name="base_info">안내 사항</string>
+    <string name="security_env_details">
+        - 행사 중에는 반드시 <![CDATA[<font color="#D81B60">보호자와 동행해 주세요.</font><br/>]]>
+        - 행사 당일 <![CDATA[<font color="#D81B60">이름표는 반드시 부착하여 주세요.</font><br/>]]>
+        - 계단 사용 시 <![CDATA[<font color="#D81B60">안전 사고에 유의하여 주세요.</font><br/>]]>
+        - 근무 공간이므로 <![CDATA[<font color="#D81B60">쓰레기는 지정된 장소에 버려주세요.</font>]]>
+</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

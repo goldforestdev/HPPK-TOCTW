@@ -2,14 +2,12 @@ package com.hppk.toctw.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.navigation.NavigationView
 import com.hppk.toctw.R
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -26,11 +24,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment,
                 R.id.boothFragment,
                 R.id.childrenFragment,
-                R.id.contactFragment,
                 R.id.settingsFragment
             ), drawerLayout
         )
-        findViewById<NavigationView>(R.id.navView).setupWithNavController(navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {
