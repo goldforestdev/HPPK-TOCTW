@@ -10,16 +10,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hppk.toctw.R
+import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.data.model.Booth
 import com.hppk.toctw.ui.details.BOOTH_INFO
 import com.hppk.toctw.ui.details.BoothDetailsActivity
 import kotlinx.android.synthetic.main.fragment_booth.*
 
-class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister {
+class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister
+    , BoothAdapter.BusyClickLister, BoothStaffDialog.BoothBusyStatusClickListener {
 
     private val presenter : BoothContract.Presenter by lazy { BoothPresenter(this) }
 
-    private val boothAdapter: BoothAdapter by lazy { BoothAdapter(boothClickLister = this) }
+    private val boothAdapter: BoothAdapter by lazy { BoothAdapter(boothClickLister = this, busyClicklister = this) }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -61,7 +63,7 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
     }
 
     override fun onError(errTitle: Int, errMsg: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
     override fun onBoothListLoaded(boothDataList: List<Booth>) {
         boothAdapter.booths.addAll(boothDataList)
@@ -69,13 +71,32 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
     }
 
     override fun onBoothClick(booth: Booth) {
-        activity.apply {
-            Toast.makeText(activity, "${booth.title} 상세 화면으로 이동 합니다.",Toast.LENGTH_LONG).show()
-        }
 
         startActivity(
             Intent(context, BoothDetailsActivity::class.java).putExtra(BOOTH_INFO, booth)
         )
+    }
+
+    override fun busyState(booth: Booth) {
+        presenter.updateBoothInfo(booth)
+    }
+
+
+    override fun onUpdateBoothInfoSuccess() {
+        boothAdapter.notifyDataSetChanged()
+    }
+
+    override fun onBusyClick(booth: Booth) {
+
+        if (AppAuth.isAdmin || AppAuth.isStaff) {
+            val boothStaffDialog = BoothStaffDialog(this)
+            val bundle = Bundle()
+            bundle.putParcelable(BOOTH_INFO, booth)
+            boothStaffDialog.arguments = bundle
+            boothStaffDialog.isCancelable = false
+            boothStaffDialog.show(activity!!.supportFragmentManager,null)
+        }
+
     }
 
     override fun showWaitingView(show: Boolean)  {
