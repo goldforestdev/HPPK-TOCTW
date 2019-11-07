@@ -21,7 +21,7 @@ class BoothAdapter(
     val booths : MutableList<Booth> = mutableListOf(),
     private var context : Context? = null,
     private val boothClickLister: BoothClickLister,
-    private val busyClicklister: BusyClicklister
+    private val busyClicklister: BusyClickLister
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -33,7 +33,7 @@ class BoothAdapter(
         fun onBoothClick(booth: Booth)
     }
 
-    interface BusyClicklister {
+    interface BusyClickLister {
         fun onBusyClick(booth: Booth)
     }
 
@@ -51,6 +51,10 @@ class BoothAdapter(
                 if (booths[position].isStamp) ivStamp.visibility = View.VISIBLE else ivStamp.visibility = View.GONE
 
                 llBusy.setOnClickListener {
+                    busyClicklister.onBusyClick(booths[position])
+                }
+
+                tvBusy.setOnClickListener {
                     busyClicklister.onBusyClick(booths[position])
                 }
 

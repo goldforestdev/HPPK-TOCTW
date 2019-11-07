@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="wrap_content">
 
@@ -39,6 +40,34 @@
         app:layout_constraintTop_toBottomOf="@id/clTitleBackground">
 
         <RadioButton
+            android:id="@+id/rbGood"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:button="@android:color/transparent"
+            android:background="@drawable/radio_busy_good_states"
+            android:textColor="@drawable/radio_busy_text"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:text="원할" />
+
+        <RadioButton
+            android:id="@+id/rbNormal"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:button="@android:color/transparent"
+            android:background="@drawable/radio_busy_normal_states"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="5dp"
+            android:textColor="@drawable/radio_busy_text"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:text="보통" />
+
+        <RadioButton
             android:id="@+id/rbBusy"
             android:layout_width="150dp"
             android:layout_height="50dp"
@@ -48,38 +77,10 @@
             android:layout_margin="5dp"
             android:button="@android:color/transparent"
             android:background="@drawable/radio_busy_busy_states"
-            android:textColor="@android:color/black"
+            android:textColor="@drawable/radio_busy_text"
             android:textStyle="bold"
             android:textSize="18sp"
             android:text="바쁨" />
-
-        <RadioButton
-            android:id="@+id/rbNormal"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:button="@android:color/transparent"
-            android:background="@drawable/radio_busy_normal_states"
-            android:textColor="@android:color/black"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="5dp"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:text="보통" />
-
-        <RadioButton
-            android:id="@+id/rbGood"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:button="@android:color/transparent"
-            android:background="@drawable/radio_busy_good_states"
-            android:textColor="@android:color/black"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="5dp"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:text="원할" />
 
         <RadioButton
             android:id="@+id/rbClose"
@@ -87,7 +88,7 @@
             android:layout_height="50dp"
             android:button="@android:color/transparent"
             android:background="@drawable/radio_busy_close_states"
-            android:textColor="@android:color/black"
+            android:textColor="@drawable/radio_busy_text"
             android:gravity="center"
             android:layout_gravity="center_horizontal"
             android:layout_margin="5dp"
@@ -96,13 +97,15 @@
             android:text="종료" />
     </RadioGroup>
 
-
     <Button
         android:id="@+id/btnOk"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:background="#FF3E3E"
+        android:layout_margin="10dp"
+        android:backgroundTint="@android:color/holo_blue_light"
         android:text="OK"
+        android:textStyle="bold"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rgBusy" />
 

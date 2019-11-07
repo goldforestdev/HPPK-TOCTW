@@ -2,15 +2,9 @@ package com.hppk.toctw.ui.booth
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.RadioGroup
-import android.widget.Toast
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hppk.toctw.R
 import com.hppk.toctw.auth.AppAuth
@@ -19,18 +13,13 @@ import com.hppk.toctw.ui.details.BOOTH_INFO
 import com.hppk.toctw.ui.details.BoothDetailsActivity
 import kotlinx.android.synthetic.main.fragment_booth.*
 
-class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister, BoothAdapter.BusyClicklister {
+
+class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister
+    , BoothAdapter.BusyClickLister, BoothStaffDialog.BoothBusyStatusClickListener {
 
     private val presenter : BoothContract.Presenter by lazy { BoothPresenter(this) }
-
     private val boothAdapter: BoothAdapter by lazy { BoothAdapter(boothClickLister = this, busyClicklister = this) }
 
-    companion object {
-        private val TAG = BoothFragment::class.java.simpleName
-
-        const val MAIN_WARNING_DLG = "MAIN_WARNING_DLG"
-        const val MAIN_ACTIVITY_REMEMBER_ME_DLG = "MAIN_ACTIVITY_REMEMBER_ME_DLG"
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,9 +27,6 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_booth, container, false)
     }
-
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -76,36 +62,41 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
     }
 
     override fun onError(errTitle: Int, errMsg: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
+
     override fun onBoothListLoaded(boothDataList: List<Booth>) {
         boothAdapter.booths.addAll(boothDataList)
         boothAdapter.notifyDataSetChanged()
     }
 
     override fun onBoothClick(booth: Booth) {
-        activity.apply {
-            Toast.makeText(activity, "${booth.title} 상세 화면으로 이동 합니다.",Toast.LENGTH_LONG).show()
-        }
 
         startActivity(
             Intent(context, BoothDetailsActivity::class.java).putExtra(BOOTH_INFO, booth)
         )
     }
 
-    override fun onBusyClick(booth: Booth) {
-        val boothStaffDialog = BoothStaffDialog()
-        val bundle = Bundle()
-        bundle.putParcelable(BOOTH_INFO, booth)
-        boothStaffDialog.arguments = bundle
-        boothStaffDialog.isCancelable = false
-        boothStaffDialog.show(activity!!.supportFragmentManager,null)
+    override fun busyState(booth: Booth) {
+        presenter.updateBoothInfo(booth)
+    }
 
-        when {
-            AppAuth.isAdmin -> Toast.makeText(activity, "나는 어디민이다.",Toast.LENGTH_LONG).show()
-            AppAuth.isStaff -> Toast.makeText(activity, "나는 스텝이다.",Toast.LENGTH_LONG).show()
-            else -> Toast.makeText(activity, "나는 어디민이 아니다.",Toast.LENGTH_LONG).show()
+
+    override fun onUpdateBoothInfoSuccess() {
+        boothAdapter.notifyDataSetChanged()
+    }
+
+    override fun onBusyClick(booth: Booth) {
+
+        if (AppAuth.isAdmin || AppAuth.isStaff) {
+            val boothStaffDialog = BoothStaffDialog(this)
+            val bundle = Bundle()
+            bundle.putParcelable(BOOTH_INFO, booth)
+            boothStaffDialog.arguments = bundle
+            boothStaffDialog.isCancelable = false
+            boothStaffDialog.show(activity!!.supportFragmentManager,null)
         }
+
     }
 
     override fun showWaitingView(show: Boolean)  {
