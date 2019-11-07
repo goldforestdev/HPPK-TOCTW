@@ -10,6 +10,5 @@ interface BoothDao {
 
     fun getDataList() : Single<List<Booth>>
     fun getStampBoothList(): Single<List<Booth>>
-    fun updateBooth(booth: Booth) : Completable
 
 }

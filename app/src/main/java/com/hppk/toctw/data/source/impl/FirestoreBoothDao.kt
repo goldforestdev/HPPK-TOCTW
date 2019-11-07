@@ -66,17 +66,4 @@ class FirestoreBoothDao(
             }
     }
 
-    override fun updateBooth(booth: Booth) = Completable.create { emitter ->
-        db.collection(BOOTH)
-            .document(booth.id)
-            .set(booth)
-            .addOnSuccessListener {
-                emitter.onComplete()
-            }
-            .addOnFailureListener { exception ->
-                emitter.onError(exception)
-                Log.e(TAG, "Error getting Collection: ", exception)
-            }
-    }
-
 }

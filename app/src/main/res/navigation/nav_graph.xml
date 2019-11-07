@@ -21,11 +21,7 @@
         android:id="@+id/boothFragment"
         android:name="com.hppk.toctw.ui.booth.BoothFragment"
         android:label="@string/event_booth"
-        tools:layout="@layout/fragment_booth" >
-        <action
-            android:id="@+id/action_boothFragment_to_childrenFragment"
-            app:destination="@+id/stampsFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_booth" />
     <fragment
         android:id="@+id/stampsFragment"
         android:name="com.hppk.toctw.ui.stamps.StampsFragment"
@@ -87,5 +83,10 @@
         android:name="com.hppk.toctw.ui.info.ContactFragment"
         android:label="fragment_contact"
         tools:layout="@layout/fragment_contact" />
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.hppk.toctw.ui.info.InfoFragment"
+        android:label="fragment_info"
+        tools:layout="@layout/fragment_info" />
 
 </navigation>

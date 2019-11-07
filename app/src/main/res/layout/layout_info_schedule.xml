@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivBackground"
+            android:layout_width="match_parent"
+            android:layout_height="196dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_schedule"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvLabelInfo"
+            android:background="@color/whiteTransparent"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/info_schedule"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/ivBackground"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/scheduleContentsBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/tvLabelInfo">
+
+            <TextView
+                android:id="@+id/tvTime1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="9:30 ~ 10:00"
+                app:layout_constraintEnd_toStartOf="@id/tvSchedule1"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvSchedule1" />
+
+            <TextView
+                android:id="@+id/tvSchedule1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="행사 등록"
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toStartOf="@id/tvTime1Details"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/tvTime1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTime1Details"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="1F 로비"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/tvSchedule1"
+                app:layout_constraintTop_toTopOf="@id/tvSchedule1" />
+
+            <TextView
+                android:id="@+id/tvSchedule2Time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10:00 ~ 10:30"
+                app:layout_constraintEnd_toEndOf="@id/tvTime1"
+                app:layout_constraintStart_toStartOf="@id/tvTime1"
+                app:layout_constraintTop_toTopOf="@id/tvSchedule2" />
+
+            <TextView
+                android:id="@+id/tvSchedule2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="오프닝"
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="@id/tvSchedule1"
+                app:layout_constraintStart_toStartOf="@id/tvSchedule1"
+                app:layout_constraintTop_toBottomOf="@id/tvSchedule1" />
+
+            <TextView
+                android:id="@+id/tvSchedule2Location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5F Cafeteria"
+                app:layout_constraintEnd_toEndOf="@id/tvTime1Details"
+                app:layout_constraintStart_toStartOf="@id/tvTime1Details"
+                app:layout_constraintTop_toTopOf="@id/tvSchedule2" />
+
+            <TextView
+                android:id="@+id/tvSchedule3Time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10:30 ~ 15:00"
+                app:layout_constraintEnd_toEndOf="@id/tvTime1"
+                app:layout_constraintStart_toStartOf="@id/tvTime1"
+                app:layout_constraintTop_toTopOf="@id/tvSchedule3" />
+
+            <TextView
+                android:id="@+id/tvSchedule3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:text="프로그램 참여"
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="@id/tvSchedule1"
+                app:layout_constraintStart_toStartOf="@id/tvSchedule1"
+                app:layout_constraintTop_toBottomOf="@id/tvSchedule2" />
+
+            <TextView
+                android:id="@+id/tvSchedule3Location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4, 5, 6F 및 10F"
+                app:layout_constraintEnd_toEndOf="@id/tvTime1Details"
+                app:layout_constraintStart_toStartOf="@id/tvTime1Details"
+                app:layout_constraintTop_toTopOf="@id/tvSchedule3" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="24dp"
+                android:background="@color/grayLight"
+                app:layout_constraintTop_toBottomOf="@id/tvSchedule3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="24dp"
+                android:text="※ 오프닝 행사에서는 다양한 이벤트를 통한 경품 지급이 있을 예정입니다."
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/divider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
