@@ -11,7 +11,7 @@ data class Booth (
     val description: String = "",
     val members : List<Staff> = mutableListOf(),
     val category : List<Category> = mutableListOf(),
-    val busy : Busy = Busy.NORMAL,
+    var busy : Busy = Busy.NORMAL,
     val floor: Floor = Floor.FIVE,
     @field:JvmField
     var isStamp: Boolean = false

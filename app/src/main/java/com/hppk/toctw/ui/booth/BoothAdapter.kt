@@ -12,6 +12,7 @@ import com.hppk.toctw.data.model.Booth
 import com.hppk.toctw.data.model.Busy
 import kotlinx.android.synthetic.main.item_booth_list.view.*
 import android.os.Build
+import android.widget.LinearLayout
 import com.google.android.material.chip.Chip
 import com.hppk.toctw.data.model.Floor
 
@@ -19,7 +20,8 @@ import com.hppk.toctw.data.model.Floor
 class BoothAdapter(
     val booths : MutableList<Booth> = mutableListOf(),
     private var context : Context? = null,
-    private val boothClickLister: BoothClickLister
+    private val boothClickLister: BoothClickLister,
+    private val busyClicklister: BusyClickLister
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -29,6 +31,10 @@ class BoothAdapter(
 
     interface BoothClickLister {
         fun onBoothClick(booth: Booth)
+    }
+
+    interface BusyClickLister {
+        fun onBusyClick(booth: Booth)
     }
 
     override fun getItemCount(): Int  = booths.size
@@ -43,6 +49,14 @@ class BoothAdapter(
                 setBusyView(position)
 
                 if (booths[position].isStamp) ivStamp.visibility = View.VISIBLE else ivStamp.visibility = View.GONE
+
+                llBusy.setOnClickListener {
+                    busyClicklister.onBusyClick(booths[position])
+                }
+
+                tvBusy.setOnClickListener {
+                    busyClicklister.onBusyClick(booths[position])
+                }
 
                 itemView.setOnClickListener {
                     boothClickLister.onBoothClick(booths[position])
@@ -101,6 +115,7 @@ class BoothAdapter(
 
     class SchedulesHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val viewBusy : View = itemView.viewBusy
+        val llBusy : LinearLayout = itemView.llBusy
         val tvBooth : TextView = itemView.tvBooth
         val cpLocation : Chip = itemView.cpLocation
         val tvBusy : TextView = itemView.tvBusy

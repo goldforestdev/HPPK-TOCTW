@@ -8,12 +8,13 @@ interface BoothContract {
         fun onError(errTitle: Int, errMsg: Int)
         fun onBoothListLoaded(boothDataList: List<Booth>)
         fun showWaitingView(show: Boolean)
-
+        fun onUpdateBoothInfoSuccess()
     }
 
     interface Presenter {
         fun loadDocumentData()
         fun loadCollection()
+        fun updateBoothInfo(booth: Booth)
         fun unsubscribe()
     }
 }
