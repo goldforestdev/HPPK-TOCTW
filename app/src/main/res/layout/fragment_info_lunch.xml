@@ -39,6 +39,19 @@
                 android:text="@string/info_lunch"
                 app:layout_collapseMode="parallax" />
 
+            <TextView
+                android:id="@+id/tvLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:drawableStart="@drawable/ic_place"
+                android:drawablePadding="4dp"
+                android:layout_gravity="bottom|end"
+                android:gravity="center"
+                android:text="5F Cafeteria"
+                android:textColor="@android:color/black"
+                app:layout_collapseMode="parallax" />
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
