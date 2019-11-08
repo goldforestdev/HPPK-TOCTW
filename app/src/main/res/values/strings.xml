@@ -6,10 +6,10 @@
     <string name="key_developers" translatable="false">key_developers</string>
 
     <string name="app_name">TOCTW 2019</string>
-    <string name="app_full_name">Take Our Children to Work 2019</string>
+    <string name="app_full_name">HPPK 임직원 자녀 방문 행사 2019</string>
     <string name="home">Home</string>
     <string name="schedule">Schedule</string>
-    <string name="event_booth">Event booth</string>
+    <string name="event_program">Event program</string>
     <string name="stamp">Stamp</string>
     <string name="settings">Settings</string>
 
@@ -30,9 +30,9 @@
     <string name="dev_yhkim">Yoonho Aarom Kim</string>
     <string name="dev_yhkim_email" translatable="false">yoonho.kim@hp.com</string>
     <string name="stamp_message">Collect all the stamps and get souvenirs!</string>
-    <string name="booth">부스</string>
-    <string name="previous_events">이전 행사</string>
-    <string name="more_booth_info">모든 부스 정보 보기</string>
+    <string name="program">프로그램</string>
+    <string name="previous_events">작년 행사</string>
+    <string name="more_program_info">모든 프로그램 정보 보기</string>
     <string name="notice">공지</string>
     <string name="authentication">인증</string>
     <string name="add_notice">공지 추가하기</string>
@@ -73,6 +73,4 @@
         - 근무 공간이므로 <![CDATA[<font color="#D81B60">쓰레기는 지정된 장소에 버려주세요.</font>]]>
 </string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

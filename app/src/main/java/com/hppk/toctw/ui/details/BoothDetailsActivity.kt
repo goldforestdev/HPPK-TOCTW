@@ -33,7 +33,7 @@ class BoothDetailsActivity : AppCompatActivity() {
             actionBar.setDisplayHomeAsUpEnabled(true)
           }
 
-        collapsingToolbarLayout.title = getString(R.string.booth)
+        collapsingToolbarLayout.title = getString(R.string.program)
         collapsingToolbarLayout.setExpandedTitleColor(getColorWrapper())
     }
 

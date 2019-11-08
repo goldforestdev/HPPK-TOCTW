@@ -44,6 +44,7 @@ class FirestoreBoothDao(
 
     override fun getDataList() = Single.create<List<Booth>> { emitter ->
         db.collection(BOOTH)
+            .orderBy("id")
             .get()
             .addOnSuccessListener { result ->
                 emitter.onSuccess(result.toObjects(Booth::class.java))
