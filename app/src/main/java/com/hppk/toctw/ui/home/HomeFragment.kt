@@ -78,7 +78,6 @@ class HomeFragment : Fragment(), NoticeContract.View, HomeAdapter.ClickLister {
 
     override fun onAddNoticeClick() {
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddNoticeFragment())
-
     }
 
     override fun onShowBoothClick() {

@@ -8,20 +8,23 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hppk.toctw.R
 import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.data.model.Booth
 import com.hppk.toctw.ui.details.BOOTH_INFO
 import com.hppk.toctw.ui.details.BoothDetailsActivity
+import com.hppk.toctw.ui.home.HomeFragmentDirections
 import kotlinx.android.synthetic.main.fragment_booth.*
 
 class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister
-    , BoothAdapter.BusyClickLister, BoothStaffDialog.BoothBusyStatusClickListener {
+    , BoothAdapter.BusyClickLister, BoothStaffDialog.BoothBusyStatusClickListener, BoothAdapter.StampClickLister {
 
     private val presenter : BoothContract.Presenter by lazy { BoothPresenter(this) }
+    private val boothAdapter: BoothAdapter by lazy { BoothAdapter(boothClickLister = this, busyClickLister = this, stampClickLister = this) }
 
-    private val boothAdapter: BoothAdapter by lazy { BoothAdapter(boothClickLister = this, busyClicklister = this) }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,7 +46,7 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
             it.supportActionBar?.let { actionBar ->
                 actionBar.setDisplayHomeAsUpEnabled(true)
                 actionBar.setHomeAsUpIndicator(R.drawable.ic_menu)
-                actionBar.setTitle(R.string.booth)
+                actionBar.setTitle(R.string.program)
             }
         }
     }
@@ -75,6 +78,10 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         startActivity(
             Intent(context, BoothDetailsActivity::class.java).putExtra(BOOTH_INFO, booth)
         )
+    }
+
+    override fun onStampClick(booth: Booth) {
+        findNavController().navigate(BoothFragmentDirections.actionBoothFragmentToChildrenFragment())
     }
 
     override fun busyState(booth: Booth) {

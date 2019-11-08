@@ -22,7 +22,8 @@ class BoothAdapter(
     val booths : MutableList<Booth> = mutableListOf(),
     private var context : Context? = null,
     private val boothClickLister: BoothClickLister,
-    private val busyClicklister: BusyClickLister
+    private val busyClickLister: BusyClickLister,
+    private val stampClickLister: StampClickLister
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -36,6 +37,10 @@ class BoothAdapter(
 
     interface BusyClickLister {
         fun onBusyClick(booth: Booth)
+    }
+
+    interface StampClickLister {
+        fun onStampClick(booth: Booth)
     }
 
     override fun getItemCount(): Int  = booths.size
@@ -59,6 +64,10 @@ class BoothAdapter(
                     setBoothBusyClickListener(position)
                 }
 
+                ivStamp.setOnClickListener {
+                    stampClickLister.onStampClick(booths[position])
+                }
+
                 itemView.setOnClickListener {
                     boothClickLister.onBoothClick(booths[position])
                 }
@@ -68,7 +77,7 @@ class BoothAdapter(
 
     private fun setBoothBusyClickListener(position: Int) {
         if (AppAuth.isStaff || AppAuth.isAdmin) {
-            busyClicklister.onBusyClick(booths[position])
+            busyClickLister.onBusyClick(booths[position])
         } else {
             boothClickLister.onBoothClick(booths[position])
         }
