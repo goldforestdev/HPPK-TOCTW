@@ -9,7 +9,7 @@ interface BoothContract {
         fun onBoothListLoaded(boothDataList: List<Booth>)
         fun showWaitingView(show: Boolean)
         fun onUpdateBoothInfoSuccess()
-
+        fun onBusyClick(booth: Booth)
     }
 
     interface Presenter {
