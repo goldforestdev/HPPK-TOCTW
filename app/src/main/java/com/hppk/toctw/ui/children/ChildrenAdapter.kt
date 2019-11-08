@@ -1,5 +1,6 @@
 package com.hppk.toctw.ui.children
 
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -63,14 +64,14 @@ class ChildrenAdapter(
     }
 
     private fun bindAddView(holder: AddChildHolder, position: Int) {
+        val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
+        Log.d("TEST", "[TOCTW] bindAddView - width: ${layoutParams.width}")
         if (position == 0) {
-            val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
             layoutParams.marginStart = 48
             holder.itemView.layoutParams = layoutParams
         }
 
         if (position == children.lastIndex) {
-            val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
             layoutParams.marginEnd = 48
             holder.itemView.layoutParams = layoutParams
         }
@@ -98,6 +99,7 @@ class ChildrenAdapter(
 
     private fun bindChild(holder: ChildHolder, position: Int) {
         val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
+        Log.d("TEST", "[TOCTW] bindChild - width: ${layoutParams.width}")
         layoutParams.marginStart = if (position == 0) 120 else 0
         holder.itemView.layoutParams = layoutParams
 

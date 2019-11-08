@@ -29,7 +29,7 @@
     <string name="dev_hjkim_email" translatable="false">hyeongju.kim@hp.com</string>
     <string name="dev_yhkim">Yoonho Aarom Kim</string>
     <string name="dev_yhkim_email" translatable="false">yoonho.kim@hp.com</string>
-    <string name="stamp_message">Collect all the stamps and get souvenirs!</string>
+    <string name="stamp_message">모든 스탬프를 모아 기념품을 받으세요!</string>
     <string name="program">프로그램</string>
     <string name="previous_events">작년 행사</string>
     <string name="more_program_info">모든 프로그램 정보 보기</string>
@@ -43,16 +43,16 @@
     <string name="busy_very">정체</string>
     <string name="busy_close">종료</string>
     <string name="splash_bottom_text" translatable="false">Copyright<![CDATA[ⓒ]]> 2019 Gold Forest Team.</string>
-    <string name="hint_input_child_name">Input child name</string>
-    <string name="done">Done</string>
-    <string name="message_add_child">Please provide your child\'s name and gender.</string>
-    <string name="message_add_child_2">The information you enter is stored only on your device, and not on an external server.</string>
+    <string name="hint_input_child_name">자녀의 이름을 입력하세요</string>
+    <string name="done">등록</string>
+    <string name="message_add_child">스탬프 행사를 위해 자녀의 이름을 알려주세요</string>
+    <string name="message_add_child_2">입력하신 정보는 기기 내부에만 저장되며 외부로는 공유되지 않습니다.</string>
 
     <string name="mission_clear">미션 완료</string>
-    <string name="child_stamp">%1$s\'s Stamps</string>
-    <string name="my_children">My Children</string>
-    <string name="confirm_delete_child">Are you sure you want to delete this information?</string>
-    <string name="delete">Delete</string>
+    <string name="child_stamp">%1$s\'s 스탬프</string>
+    <string name="my_children">아이들</string>
+    <string name="confirm_delete_child">등록하시 정보를 삭제하시겠습니까?</string>
+    <string name="delete">삭제</string>
     <string name="title">Title</string>
     <string name="body">Body</string>
     <string name="send">Send</string>
