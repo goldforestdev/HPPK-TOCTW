@@ -76,7 +76,7 @@ class BoothAdapter(
     }
 
     private fun setBoothBusyClickListener(position: Int) {
-        if (AppAuth.isStaff || AppAuth.isAdmin) {
+        if (AppAuth.isStaff) {
             busyClickLister.onBusyClick(booths[position])
         } else {
             boothClickLister.onBoothClick(booths[position])
