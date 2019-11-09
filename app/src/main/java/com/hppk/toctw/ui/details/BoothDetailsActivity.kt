@@ -6,14 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import com.google.android.material.appbar.AppBarLayout
 import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Booth
 import kotlinx.android.synthetic.main.activity_booth_details.*
+import kotlinx.android.synthetic.main.activity_booth_details.appBarLayout
+import kotlinx.android.synthetic.main.activity_booth_details.collapsingToolbarLayout
 import kotlinx.android.synthetic.main.fragment_booth.toolbar
-
-
-
-
+import kotlinx.android.synthetic.main.fragment_info_schedule.*
 
 
 const val BOOTH_INFO = "boothInfo"
@@ -39,8 +39,22 @@ class BoothDetailsActivity : AppCompatActivity() {
             actionBar.setDisplayHomeAsUpEnabled(true)
           }
 
-        collapsingToolbarLayout.title = getString(R.string.program)
-        collapsingToolbarLayout.setExpandedTitleColor(getColorWrapper(this,  android.R.color.holo_red_light))
+        var isShow = true
+        var scrollRange = -1
+
+        appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            if (scrollRange == -1) {
+                scrollRange = appBarLayout.totalScrollRange
+            }
+
+            if (scrollRange + verticalOffset == 0) {
+                collapsingToolbarLayout.title = getString(R.string.program)
+                isShow = true
+            } else if(isShow) {
+                collapsingToolbarLayout.title = " "
+                isShow = false
+            }
+        })
     }
 
     private fun initBoothInfo(booth: Booth) {
