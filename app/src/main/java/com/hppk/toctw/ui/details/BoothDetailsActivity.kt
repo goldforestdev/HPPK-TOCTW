@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
 import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Booth
 import kotlinx.android.synthetic.main.activity_booth_details.*
@@ -56,13 +54,16 @@ class BoothDetailsActivity : AppCompatActivity() {
         if (booth.locationRes.isNotEmpty()) {
             val id = resources.getIdentifier(booth.locationRes, "drawable", packageName)
             val drawable = resources.getDrawable(id)
-            Glide.with(this).load(drawable).into(ivFloor)
+            ivFloor.setImageDrawable(drawable)
         } else {
             ivFloor.visibility = View.GONE
         }
 
         if (booth.locationColorRes.isNotEmpty()) {
-            val id = resources.getIdentifier(booth.locationColorRes, "color", packageName)
+            var id = resources.getIdentifier(booth.locationColorRes, "color", packageName)
+            if (id == 0) {
+                id = getColorWrapper(this, R.color.five_color)
+            }
             cpLocation.setChipBackgroundColorResource(id)
         } else {
             cpLocation.setCheckedIconResource(R.color.five_color)

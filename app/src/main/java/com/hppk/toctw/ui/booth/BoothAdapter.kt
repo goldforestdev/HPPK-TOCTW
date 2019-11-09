@@ -87,8 +87,14 @@ class BoothAdapter(
     private fun SchedulesHolder.setLocationViewColor(position: Int) {
         val locationColorRes = booths[position].locationColorRes
         if (locationColorRes.isNotEmpty()) {
-            val id = context!!.resources.getIdentifier(locationColorRes, "color", context!!.packageName)
+            var id = context!!.resources.getIdentifier(locationColorRes, "color", context!!.packageName)
+            if (id == 0) {
+                id = getColorWrapper(context!!, R.color.five_color)
+            }
             cpLocation.setChipBackgroundColorResource(id)
+            cpLocation.setOnClickListener {
+                boothClickLister.onBoothClick(booths[position])
+            }
         }
     }
 
