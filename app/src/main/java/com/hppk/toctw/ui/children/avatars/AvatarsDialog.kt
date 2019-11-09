@@ -2,8 +2,6 @@ package com.hppk.toctw.ui.children.avatars
 
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hppk.toctw.R
-import com.hppk.toctw.ui.children.SharedViewModel
+import com.hppk.toctw.ui.children.add.SharedViewModel
 import kotlinx.android.synthetic.main.dialog_avatars.*
 
 

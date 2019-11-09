@@ -2,34 +2,22 @@ package com.hppk.toctw.ui.children
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Child
 import com.hppk.toctw.data.repository.ChildrenRepository
 import com.hppk.toctw.data.source.local.AppDatabase
-import kotlinx.android.synthetic.main.fragment_booth.*
 import kotlinx.android.synthetic.main.fragment_children.*
-import kotlinx.android.synthetic.main.fragment_children.toolbar
 
-
-class SharedViewModel : ViewModel() {
-    val avatarResId = MutableLiveData<Int>()
-}
 
 class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.ChildClickListener {
 
@@ -37,24 +25,11 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.Chil
         val childDao = AppDatabase.getInstance(context!!).childrenDao()
         ChildrenPresenter(this, ChildrenRepository(childDao))
     }
-    private val adapter: ChildrenAdapter by lazy { ChildrenAdapter(childListener = this) }
-
-    private lateinit var model: SharedViewModel
+    private lateinit var adapter: ChildrenAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        model = activity?.run {
-            ViewModelProviders.of(this)[SharedViewModel::class.java]
-        } ?: throw Exception("Invalid Activity")
-
-        model.avatarResId.observe(this, Observer<Int> { avatarResId ->
-            if (avatarResId != 0) {
-                adapter.children.last().avatar = avatarResId
-                adapter.notifyItemChanged(adapter.children.size - 1)
-            }
-        })
-
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -66,8 +41,10 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.Chil
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
 
-        val helper = LinearSnapHelper()
+        val helper = PagerSnapHelper()
         helper.attachToRecyclerView(rvChildren)
+
+        adapter = ChildrenAdapter(childListener = this)
 
         rvChildren.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         rvChildren.adapter = adapter
@@ -75,9 +52,21 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.Chil
         presenter.getChildren()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_add_child, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.menuAddChild -> {
+            showAddChildView()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
+
     override fun onDestroyView() {
         presenter.unsubscribe()
-        model.avatarResId.value = 0
         super.onDestroyView()
     }
 
@@ -92,34 +81,35 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.Chil
         }
     }
 
+    override fun onEmptyChildrenLoaded() {
+        rvChildren.visibility = View.GONE
+        tvEmptyChild.visibility = View.VISIBLE
+    }
+
     override fun onChildrenLoaded(children: List<Child>) {
+        tvEmptyChild.visibility = View.GONE
+        rvChildren.visibility = View.VISIBLE
+
+        adapter.viewWidth = view?.width ?: 1080
+
         adapter.children.clear()
         adapter.children.addAll(children)
-        adapter.children.add(Child())
         adapter.notifyDataSetChanged()
     }
 
-    override fun onAvatarClicked() {
-        findNavController().navigate(ChildrenFragmentDirections.actionChildrenFragmentToAvatarsDialog())
-    }
-
-    override fun saveChild(name: String, avatarResId: Int) {
-        presenter.saveChild(name, avatarResId)
-    }
-
-    override fun onChildSaved(child: Child) {
-        adapter.children.removeAt(adapter.children.lastIndex)
-        adapter.children.add(child)
-        adapter.children.add(Child())
-        adapter.notifyDataSetChanged()
-
-        rvChildren.scrollToPosition(adapter.children.size - 2)
+    private fun showAddChildView() {
+        findNavController().navigate(ChildrenFragmentDirections.actionChildrenFragmentToAddChildFragment())
     }
 
     override fun onChildClicked(imageView: ImageView, child: Child) {
         val extras = FragmentNavigatorExtras(imageView to "avatar")
         val bundle = Bundle().apply { putParcelable("child", child) }
-        findNavController().navigate(R.id.action_selectChildFragment_to_stampsFragment, bundle, null, extras)
+        findNavController().navigate(
+            R.id.action_selectChildFragment_to_stampsFragment,
+            bundle,
+            null,
+            extras
+        )
     }
 
     override fun deleteChild(child: Child) {
@@ -131,8 +121,14 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.Chil
                 adapter.notifyItemRemoved(position)
                 presenter.deleteChild(child)
             }
-            .setNegativeButton(android.R.string.cancel) {_, _ -> }
+            .setNegativeButton(android.R.string.cancel) { _, _ -> }
             .show()
+    }
+
+    override fun onChildDeleted() {
+        if(adapter.children.isEmpty()) {
+            onEmptyChildrenLoaded()
+        }
     }
 
 }

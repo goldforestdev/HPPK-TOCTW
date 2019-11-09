@@ -72,6 +72,9 @@
         <action
             android:id="@+id/action_childrenFragment_to_avatarsDialog"
             app:destination="@id/avatarsDialog" />
+        <action
+            android:id="@+id/action_childrenFragment_to_addChildFragment"
+            app:destination="@id/addChildFragment" />
     </fragment>
     <dialog
         android:id="@+id/avatarsDialog"
@@ -104,5 +107,14 @@
         android:name="com.hppk.toctw.ui.info.InfoLunchFragment"
         android:label="fragment_info_lunh"
         tools:layout="@layout/fragment_info_lunch" />
+    <fragment
+        android:id="@+id/addChildFragment"
+        android:name="com.hppk.toctw.ui.children.add.AddChildFragment"
+        android:label="fragment_add_child"
+        tools:layout="@layout/fragment_add_child" >
+        <action
+            android:id="@+id/action_addChildFragment_to_avatarsDialog"
+            app:destination="@id/avatarsDialog" />
+    </fragment>
 
 </navigation>

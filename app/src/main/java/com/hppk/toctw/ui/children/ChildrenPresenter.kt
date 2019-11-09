@@ -26,24 +26,14 @@ class ChildrenPresenter (
             childrenRepository.getAll()
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
-                .subscribe({
-                    view.onChildrenLoaded(it)
+                .subscribe({ children ->
+                    if (children.isNullOrEmpty()) {
+                        view.onEmptyChildrenLoaded()
+                    } else {
+                        view.onChildrenLoaded(children)
+                    }
                 }, { t ->
                     Log.e(TAG, "[TOCTW] getChildren - failed: ${t.message}", t)
-                })
-        )
-    }
-
-    override fun saveChild(name: String, avatarResId: Int) {
-        val child = Child(name, avatarResId)
-        disposable.add(
-            childrenRepository.save(child)
-                .subscribeOn(ioScheduler)
-                .observeOn(uiScheduler)
-                .subscribe({
-                    view.onChildSaved(child)
-                }, { t ->
-                    Log.e(TAG, "[TOCTW] saveChild - failed: ${t.message}", t)
                 })
         )
     }
@@ -54,7 +44,7 @@ class ChildrenPresenter (
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
                 .subscribe({
-                    Log.d(TAG, "[TOCTW] deleteChild - done")
+                    view.onChildDeleted()
                 }, { t ->
                     Log.e(TAG, "[TOCTW] deleteChild - failed: ${t.message}", t)
                 })
