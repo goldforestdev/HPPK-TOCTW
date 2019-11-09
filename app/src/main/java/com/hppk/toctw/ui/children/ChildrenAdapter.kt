@@ -1,89 +1,37 @@
 package com.hppk.toctw.ui.children
 
 import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
-import com.hppk.toctw.data.model.Child
-import kotlinx.android.synthetic.main.item_add_child.view.*
-import kotlinx.android.synthetic.main.item_child.view.*
-import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import com.hppk.toctw.R
+import com.hppk.toctw.data.model.Child
+import kotlinx.android.synthetic.main.item_child.view.*
 
-
-private const val VIEW_TYPE_ADD = 0
-private const val VIEW_TYPE_KID = 1
 
 class ChildrenAdapter(
     val children: MutableList<Child> = mutableListOf(),
     private val childListener: ChildClickListener
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<ChildrenAdapter.ChildHolder>() {
 
     interface ChildClickListener {
-        fun showAddChildView()
         fun onChildClicked(imageView: ImageView, child: Child)
         fun deleteChild(child: Child)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
-        VIEW_TYPE_ADD -> AddChildHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_add_child,
-                parent,
-                false
-            )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ChildHolder(
+        LayoutInflater.from(parent.context).inflate(
+            R.layout.item_child,
+            parent,
+            false
         )
-        else -> ChildHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_child,
-                parent,
-                false
-            )
-        )
-    }
+    )
 
     override fun getItemCount() = children.size
 
-    override fun getItemViewType(position: Int): Int = when {
-        children[position].name.isEmpty() -> VIEW_TYPE_ADD
-        else -> VIEW_TYPE_KID
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is AddChildHolder) {
-            bindAddView(holder, position)
-        } else {
-            bindChild(holder as ChildHolder, position)
-        }
-    }
-
-    private fun bindAddView(holder: AddChildHolder, position: Int) {
-        val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
-        Log.d("TEST", "[TOCTW] bindAddView - width: ${layoutParams.width}")
-        if (position == 0) {
-            layoutParams.marginStart = 48
-            holder.itemView.layoutParams = layoutParams
-        }
-
-        if (position == children.lastIndex) {
-            layoutParams.marginEnd = 48
-            holder.itemView.layoutParams = layoutParams
-        }
-
-        val child = children[position]
-        if (child.avatar > 0) {
-            holder.itemView.ivUnknownAvatar.setImageResource(child.avatar)
-        }
-
-        holder.itemView.ivUnknownAvatar.setOnClickListener { childListener.showAddChildView() }
-    }
-
-    private fun bindChild(holder: ChildHolder, position: Int) {
+    override fun onBindViewHolder(holder: ChildHolder, position: Int) {
         val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
         Log.d("TEST", "[TOCTW] bindChild - width: ${layoutParams.width}")
         layoutParams.marginStart = if (position == 0) 120 else 0
@@ -103,5 +51,4 @@ class ChildrenAdapter(
     }
 
     class ChildHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-    class AddChildHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }
