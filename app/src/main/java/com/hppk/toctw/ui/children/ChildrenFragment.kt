@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Child
@@ -25,24 +25,26 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.Chil
         val childDao = AppDatabase.getInstance(context!!).childrenDao()
         ChildrenPresenter(this, ChildrenRepository(childDao))
     }
-    private val adapter: ChildrenAdapter by lazy { ChildrenAdapter(childListener = this) }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_children, container, false)
+    private lateinit var adapter: ChildrenAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_children, container, false)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
 
-        val helper = LinearSnapHelper()
+        val helper = PagerSnapHelper()
         helper.attachToRecyclerView(rvChildren)
+
+        adapter = ChildrenAdapter(childListener = this)
 
         rvChildren.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         rvChildren.adapter = adapter
@@ -88,22 +90,15 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.Chil
         tvEmptyChild.visibility = View.GONE
         rvChildren.visibility = View.VISIBLE
 
+        adapter.viewWidth = view?.width ?: 1080
+
         adapter.children.clear()
         adapter.children.addAll(children)
         adapter.notifyDataSetChanged()
     }
 
-    override fun showAddChildView() {
+    private fun showAddChildView() {
         findNavController().navigate(ChildrenFragmentDirections.actionChildrenFragmentToAddChildFragment())
-    }
-
-    override fun onChildSaved(child: Child) {
-        adapter.children.removeAt(adapter.children.lastIndex)
-        adapter.children.add(child)
-        adapter.children.add(Child())
-        adapter.notifyDataSetChanged()
-
-        rvChildren.scrollToPosition(adapter.children.size - 2)
     }
 
     override fun onChildClicked(imageView: ImageView, child: Child) {
