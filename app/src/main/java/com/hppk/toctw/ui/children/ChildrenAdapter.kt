@@ -25,8 +25,7 @@ class ChildrenAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface ChildClickListener {
-        fun onAvatarClicked()
-        fun saveChild(name: String, avatarResId: Int)
+        fun showAddChildView()
         fun onChildClicked(imageView: ImageView, child: Child)
         fun deleteChild(child: Child)
     }
@@ -81,20 +80,7 @@ class ChildrenAdapter(
             holder.itemView.ivUnknownAvatar.setImageResource(child.avatar)
         }
 
-        holder.itemView.ivUnknownAvatar.setOnClickListener { childListener.onAvatarClicked() }
-        holder.itemView.etName.addTextChangedListener {
-            holder.itemView.btnDone.visibility = when {
-                it.toString().isEmpty() -> View.INVISIBLE
-                else -> View.VISIBLE
-            }
-        }
-        holder.itemView.btnDone.setOnClickListener {
-            holder.itemView.etName.clearFocus()
-            childListener.saveChild(holder.itemView.etName.text.toString(), child.avatar)
-
-            holder.itemView.etName.setText("")
-            holder.itemView.ivUnknownAvatar.setImageResource(R.drawable.ic_unknown_kid)
-        }
+        holder.itemView.ivUnknownAvatar.setOnClickListener { childListener.showAddChildView() }
     }
 
     private fun bindChild(holder: ChildHolder, position: Int) {
