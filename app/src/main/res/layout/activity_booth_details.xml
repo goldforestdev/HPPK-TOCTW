@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".ui.stamps.StampsFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbarLayout"
@@ -23,10 +24,22 @@
                 android:background="@drawable/toctw2019_detail"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_gravity="top|center"
+                android:scaleType="centerCrop"
                 android:padding="14dp"
-                android:transitionName="avatar"
-                app:layout_collapseMode="none"/>
+                android:transitionName="program"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/tvLabelInfo"
+                android:background="@color/whiteTransparent"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:padding="16dp"
+                android:text="@string/program"
+                app:layout_collapseMode="parallax" />
+
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -87,7 +100,18 @@
                 android:nestedScrollingEnabled="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTime"
-                android:text="5층 식당" />
+                android:text="4층 Magic Show" />
+
+            <ImageView
+                android:id="@+id/ivFloor"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/four_floor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cpLocation"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
 
             <TextView
                 android:id="@+id/tvDetail"
@@ -98,8 +122,10 @@
                 android:textSize="18sp"
                 style="@style/TextAppearance.AppCompat.Body1"
                 android:nestedScrollingEnabled="true"
-                app:layout_constraintTop_toBottomOf="@id/cpLocation"
+                app:layout_constraintTop_toBottomOf="@id/ivFloor"
                 tools:text="행사의 시작을 알립니다."/>
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
