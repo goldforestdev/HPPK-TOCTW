@@ -58,11 +58,10 @@ class HomeFragment : Fragment(), NoticeContract.View, HomeAdapter.ClickLister {
         noticeAdapter.notifyDataSetChanged()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         presenter.unsubscribe()
     }
-
     override fun onError() {
         Log.d(TAG, "Notice Load Error")
     }

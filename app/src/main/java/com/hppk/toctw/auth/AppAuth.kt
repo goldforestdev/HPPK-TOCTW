@@ -28,9 +28,6 @@ object AppAuth {
         appUser = user
     }
 
-    val isAdmin: Boolean
-        get() = appUser?.role?.equals(Role.ADMIN) ?: false
-
     val isStaff: Boolean
-        get() = appUser?.role?.equals(Role.STAFF) ?: false
+        get() = (appUser?.role?.equals(Role.ADMIN) ?: false || appUser?.role?.equals(Role.STAFF) ?: false)
 }
