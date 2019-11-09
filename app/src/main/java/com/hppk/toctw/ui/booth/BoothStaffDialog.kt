@@ -6,7 +6,6 @@ import androidx.fragment.app.DialogFragment
 import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Booth
 import com.hppk.toctw.data.model.Busy
-import com.hppk.toctw.data.model.Floor
 import com.hppk.toctw.ui.details.BOOTH_INFO
 import kotlinx.android.synthetic.main.dialog_staff_booth.*
 

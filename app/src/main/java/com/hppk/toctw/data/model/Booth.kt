@@ -12,9 +12,11 @@ data class Booth (
     val members : List<Staff> = mutableListOf(),
     val category : List<Category> = mutableListOf(),
     var busy : Busy = Busy.NORMAL,
-    val floor: Floor = Floor.FIVE,
+    val locationColorRes : String = "",
+    val locationRes : String = "",
     @field:JvmField
     var isStamp: Boolean = false
+
 ): Parcelable
 
 @Parcelize
@@ -27,9 +29,6 @@ enum class Busy {
     CLOSE, VERY_BUSY, NORMAL, GOOD,
 }
 
-enum class Floor {
-    FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN
-}
 
 enum class Category {
     INFO, EVENT, EXPERIENCE

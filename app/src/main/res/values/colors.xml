@@ -16,8 +16,11 @@
 
     <color name="four_color">#5e03fc</color>
     <color name="five_color">#fc4903</color>
-    <color name="six_color">#e600cf</color>
-    <color name="seven_color">#03a1a3</color>
+    <color name="six_color_training">#e600cf</color>
+    <color name="six_photo_color">#38e8ce</color>
+    <color name="six_sinyunbok_color">#ff8e61</color>
+    <color name="seven_color_e_club">#03a1a3</color>
+    <color name="seven_color_sejong">#a480ff</color>
     <color name="eight_color">#7603a3</color>
     <color name="nine_color">#8f015d</color>
     <color name="ten_color">#83a303</color>
