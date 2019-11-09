@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment,
                 R.id.boothFragment,
                 R.id.childrenFragment,
+                R.id.infoFragment,
                 R.id.settingsFragment
             ), drawerLayout
         )
