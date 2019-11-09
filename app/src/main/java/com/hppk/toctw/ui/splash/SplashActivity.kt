@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
+import com.google.firebase.messaging.FirebaseMessaging
 import com.hppk.toctw.R
 import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.auth.UserContract
@@ -22,6 +23,7 @@ class SplashActivity : AppCompatActivity(), UserContract.View {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_splash)
+        FirebaseMessaging.getInstance().subscribeToTopic("latest_notice")
         presenter.findUser()
     }
 
@@ -40,7 +42,7 @@ class SplashActivity : AppCompatActivity(), UserContract.View {
     }
 
     override fun onFindUserError() {
-        if(AppAuth.isFirebaseLoginUser()) {
+        if (AppAuth.isFirebaseLoginUser()) {
             AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener {

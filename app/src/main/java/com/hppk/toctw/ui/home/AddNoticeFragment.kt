@@ -1,11 +1,13 @@
 package com.hppk.toctw.ui.home
 
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -60,9 +62,18 @@ class AddNoticeFragment : Fragment(), NoticeContract.View {
         }
 
         bt_send.setOnClickListener {
+            hideKeyboard()
+            bt_send.isEnabled = false
             val notice = Notice(et_notice_title.text.toString(), et_notice_body.text.toString())
             presenter.addNotice(notice)
         }
+    }
+
+    private fun hideKeyboard() {
+        val inputManager =
+            activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (activity?.currentFocus != null)
+            inputManager.hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
     }
 
     private fun checkSendButtonVisibility() {

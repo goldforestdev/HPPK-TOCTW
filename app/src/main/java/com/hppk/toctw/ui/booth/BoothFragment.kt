@@ -95,7 +95,7 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
 
     override fun onBusyClick(booth: Booth) {
 
-        if (AppAuth.isAdmin || AppAuth.isStaff) {
+        if (AppAuth.isStaff) {
             val boothStaffDialog = BoothStaffDialog(this)
             val bundle = Bundle()
             bundle.putParcelable(BOOTH_INFO, booth)

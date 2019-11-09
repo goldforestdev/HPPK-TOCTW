@@ -73,8 +73,8 @@ class DevelopersFragment : Fragment(), UserContract.View {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         presenter.unsubscribe()
     }
 
@@ -89,7 +89,7 @@ class DevelopersFragment : Fragment(), UserContract.View {
     }
 
     private fun setSignOutVisibility() {
-        if (AppAuth.isAdmin || AppAuth.isStaff) {
+        if (AppAuth.isStaff) {
             cvSignOut.visibility = View.VISIBLE
         } else {
             cvSignOut.visibility = View.INVISIBLE
@@ -122,7 +122,7 @@ class DevelopersFragment : Fragment(), UserContract.View {
 
     private fun showAuth(): Boolean {
         val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build()
+            AuthUI.IdpConfig.GoogleBuilder().build()
         )
 
         startActivityForResult(

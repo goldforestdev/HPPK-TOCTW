@@ -12,6 +12,8 @@ import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.data.model.Notice
 import kotlinx.android.synthetic.main.item_home_header.view.*
 import kotlinx.android.synthetic.main.item_home_notice_list.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class HomeAdapter(
@@ -54,11 +56,13 @@ class HomeAdapter(
             with(holder) {
                 title.text = notices[position - 1].title
                 body.text = notices[position - 1].body
-                time.text = notices[position - 1].timeStamp.toDate().toString()
+
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA)
+                time.text = dateFormat.format(notices[position - 1].timeStamp.toDate()).toString()
             }
         } else if (holder is HomeHeaderHolder) {
             with(holder) {
-                if (AppAuth.isAdmin) {
+                if (AppAuth.isStaff) {
                     addNotice.visibility = View.VISIBLE
                 } else {
                     addNotice.visibility = View.GONE
