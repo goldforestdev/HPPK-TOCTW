@@ -1,6 +1,7 @@
 package com.hppk.toctw.ui.booth
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +14,9 @@ import com.hppk.toctw.data.model.Busy
 import kotlinx.android.synthetic.main.item_booth_list.view.*
 import android.os.Build
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import com.hppk.toctw.auth.AppAuth
-import com.hppk.toctw.data.model.Floor
 
 
 class BoothAdapter(
@@ -84,14 +85,10 @@ class BoothAdapter(
     }
 
     private fun SchedulesHolder.setLocationViewColor(position: Int) {
-        when (booths[position].floor) {
-            Floor.FOUR -> cpLocation.setChipBackgroundColorResource(R.color.four_color)
-            Floor.FIVE -> cpLocation.setChipBackgroundColorResource(R.color.five_color)
-            Floor.SIX -> cpLocation.setChipBackgroundColorResource(R.color.six_color)
-            Floor.SEVEN -> cpLocation.setChipBackgroundColorResource(R.color.seven_color)
-            Floor.EIGHT -> cpLocation.setChipBackgroundColorResource(R.color.eight_color)
-            Floor.NINE -> cpLocation.setChipBackgroundColorResource(R.color.nine_color)
-            Floor.TEN -> cpLocation.setChipBackgroundColorResource(R.color.ten_color)
+        val locationColorRes = booths[position].locationColorRes
+        if (locationColorRes.isNotEmpty()) {
+            val id = context!!.resources.getIdentifier(locationColorRes, "color", context!!.packageName)
+            cpLocation.setChipBackgroundColorResource(id)
         }
     }
 
