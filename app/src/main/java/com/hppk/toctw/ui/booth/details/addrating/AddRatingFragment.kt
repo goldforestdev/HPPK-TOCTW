@@ -28,6 +28,7 @@ class AddRatingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
+
         ratingBar.rating = args.rating
     }
 
@@ -39,7 +40,10 @@ class AddRatingFragment : Fragment() {
     private fun initToolbar() {
         (activity as AppCompatActivity).let {
             it.setSupportActionBar(toolbar)
-            it.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            it.supportActionBar?.let { actionBar ->
+                actionBar.setDisplayHomeAsUpEnabled(true)
+                actionBar.title = args.booth.title
+            }
         }
     }
 }
