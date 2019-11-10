@@ -125,7 +125,26 @@
                 app:layout_constraintTop_toBottomOf="@id/ivFloor"
                 tools:text="행사의 시작을 알립니다."/>
 
+            <TextView
+                android:id="@+id/tvStaffTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="25dp"
+                android:ellipsize="end"
+                android:textSize="16sp"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:nestedScrollingEnabled="true"
+                app:layout_constraintTop_toBottomOf="@id/tvDetail"
+                android:text="행사 담당 "/>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcStaffs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tvStaffTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
