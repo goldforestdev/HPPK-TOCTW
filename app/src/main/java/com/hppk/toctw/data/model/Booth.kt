@@ -29,7 +29,15 @@ enum class Busy {
     CLOSE, VERY_BUSY, NORMAL, GOOD,
 }
 
-
 enum class Category {
     INFO, EVENT, EXPERIENCE
 }
+
+data class Review (
+    val userId: String = "",
+    val userName: String = "",
+    val userProfile: String = "",
+    val rating: Float = 5F,
+    val review: String = "",
+    val createdAt: Long = System.currentTimeMillis()
+)
