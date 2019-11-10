@@ -1,44 +1,46 @@
-package com.hppk.toctw.ui.details
+package com.hppk.toctw.ui.booth.details
+
 
 import android.content.Context
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Booth
-import kotlinx.android.synthetic.main.activity_booth_details.*
-import kotlinx.android.synthetic.main.activity_booth_details.appBarLayout
-import kotlinx.android.synthetic.main.activity_booth_details.collapsingToolbarLayout
-import kotlinx.android.synthetic.main.fragment_booth.toolbar
+import kotlinx.android.synthetic.main.fragment_booth_details.*
 
 
-const val BOOTH_INFO = "boothInfo"
-class BoothDetailsActivity : AppCompatActivity() {
+class BoothDetailsFragment : Fragment() {
+
+    private val args: BoothDetailsFragmentArgs by navArgs()
     private val staffsAdapter: StaffsAdapter by lazy { StaffsAdapter() }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_booth_details)
 
-        if (!intent.hasExtra(BOOTH_INFO)) {
-            finish()
-            return
-        }
-        val booth = intent.getParcelableExtra<Booth>(BOOTH_INFO)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_booth_details, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         initToolbar()
-        initBoothInfo(booth)
-        initBoothLocation(booth)
-        initRecyclerView(booth)
+        initBoothInfo(args.booth)
+        initBoothLocation(args.booth)
+        initRecyclerView(args.booth)
     }
 
     private fun initToolbar() {
-          setSupportActionBar(toolbar)
-          supportActionBar?.also { actionBar ->
-            actionBar.setDisplayHomeAsUpEnabled(true)
-          }
+        (activity as AppCompatActivity).let {
+            it.setSupportActionBar(toolbar)
+            it.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
 
         var isShow = true
         var scrollRange = -1
@@ -51,15 +53,15 @@ class BoothDetailsActivity : AppCompatActivity() {
             if (scrollRange + verticalOffset == 0) {
                 collapsingToolbarLayout.title = getString(R.string.program)
                 isShow = true
-            } else if(isShow) {
+            } else if (isShow) {
                 collapsingToolbarLayout.title = " "
                 isShow = false
             }
         })
     }
 
-    private fun initRecyclerView(booth: Booth){
-        rcStaffs.layoutManager = LinearLayoutManager(this)
+    private fun initRecyclerView(booth: Booth) {
+        rcStaffs.layoutManager = LinearLayoutManager(context)
         rcStaffs.adapter = staffsAdapter
         staffsAdapter.staffs.addAll(booth.members)
         staffsAdapter.notifyDataSetChanged()
@@ -74,7 +76,7 @@ class BoothDetailsActivity : AppCompatActivity() {
         cpLocation.text = booth.location
 
         if (booth.locationRes.isNotEmpty()) {
-            val id = resources.getIdentifier(booth.locationRes, "drawable", packageName)
+            val id = resources.getIdentifier(booth.locationRes, "drawable", activity?.packageName)
             val drawable = resources.getDrawable(id)
             ivFloor.setImageDrawable(drawable)
         } else {
@@ -82,24 +84,14 @@ class BoothDetailsActivity : AppCompatActivity() {
         }
 
         if (booth.locationColorRes.isNotEmpty()) {
-            var id = resources.getIdentifier(booth.locationColorRes, "color", packageName)
+            var id = resources.getIdentifier(booth.locationColorRes, "color", activity?.packageName)
             if (id == 0) {
-                id = getColorWrapper(this, R.color.five_color)
+                id = getColorWrapper(context!!, R.color.five_color)
             }
             cpLocation.setChipBackgroundColorResource(id)
         } else {
             cpLocation.setCheckedIconResource(R.color.five_color)
         }
-    }
-
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == android.R.id.home) {
-            onBackPressed()
-            return true
-        }
-
-        return super.onOptionsItemSelected(item)
     }
 
     private fun getColorWrapper(context: Context, id: Int): Int {
@@ -109,4 +101,5 @@ class BoothDetailsActivity : AppCompatActivity() {
             context.resources.getColor(id)
         }
     }
+
 }

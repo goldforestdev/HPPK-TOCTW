@@ -1,10 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".ui.stamps.StampsFragment">
+    tools:context=".ui.booth.details.BoothDetailsFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -27,7 +28,7 @@
                 android:scaleType="centerCrop"
                 android:padding="14dp"
                 android:transitionName="program"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvLabelInfo"
@@ -72,7 +73,7 @@
                 style="@style/TextAppearance.AppCompat.Title"
                 android:nestedScrollingEnabled="true"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="Opening"/>
+                android:text="Opening" />
 
             <TextView
                 android:id="@+id/tvTime"
@@ -85,7 +86,7 @@
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:nestedScrollingEnabled="true"
                 app:layout_constraintTop_toBottomOf="@id/tvTitle"
-                android:text="11월 16, 10:00 ~ 10:30"/>
+                android:text="11월 16, 10:00 ~ 10:30" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/cpLocation"
@@ -110,7 +111,7 @@
                 android:src="@drawable/four_floor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cpLocation"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent" />
 
 
             <TextView
@@ -123,7 +124,7 @@
                 style="@style/TextAppearance.AppCompat.Body1"
                 android:nestedScrollingEnabled="true"
                 app:layout_constraintTop_toBottomOf="@id/ivFloor"
-                tools:text="행사의 시작을 알립니다."/>
+                tools:text="행사의 시작을 알립니다." />
 
             <TextView
                 android:id="@+id/tvStaffTitle"
@@ -136,7 +137,7 @@
                 style="@style/TextAppearance.AppCompat.Small"
                 android:nestedScrollingEnabled="true"
                 app:layout_constraintTop_toBottomOf="@id/tvDetail"
-                android:text="행사 담당 "/>
+                android:text="행사 담당 " />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcStaffs"
@@ -144,7 +145,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/tvStaffTitle"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
