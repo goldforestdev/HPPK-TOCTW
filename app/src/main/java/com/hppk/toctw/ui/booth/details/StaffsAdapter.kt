@@ -1,4 +1,4 @@
-package com.hppk.toctw.ui.details
+package com.hppk.toctw.ui.booth.details
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -18,7 +18,13 @@ class StaffsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         context = parent.context
-        return StaffsHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_staff, parent, false))
+        return StaffsHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_staff,
+                parent,
+                false
+            )
+        )
     }
 
 

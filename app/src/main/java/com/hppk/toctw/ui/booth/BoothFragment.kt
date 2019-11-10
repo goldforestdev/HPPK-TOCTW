@@ -1,6 +1,5 @@
 package com.hppk.toctw.ui.booth
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +12,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.hppk.toctw.R
 import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.data.model.Booth
-import com.hppk.toctw.ui.details.BOOTH_INFO
-import com.hppk.toctw.ui.details.BoothDetailsActivity
 import kotlinx.android.synthetic.main.fragment_booth.*
 
 class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister,
@@ -83,10 +80,7 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
     }
 
     override fun onBoothClick(booth: Booth) {
-
-        startActivity(
-            Intent(context, BoothDetailsActivity::class.java).putExtra(BOOTH_INFO, booth)
-        )
+        findNavController().navigate(BoothFragmentDirections.actionBoothFragmentToBoothDetailsFragment(booth))
     }
 
     override fun onStampClick(booth: Booth) {

@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_boothFragment_to_childrenFragment"
             app:destination="@id/childrenFragment" />
+        <action
+            android:id="@+id/action_boothFragment_to_boothDetailsFragment"
+            app:destination="@id/boothDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/stampsFragment"
@@ -115,6 +118,15 @@
         <action
             android:id="@+id/action_addChildFragment_to_avatarsDialog"
             app:destination="@id/avatarsDialog" />
+    </fragment>
+    <fragment
+        android:id="@+id/boothDetailsFragment"
+        android:name="com.hppk.toctw.ui.booth.details.BoothDetailsFragment"
+        android:label="fragment_booth_details"
+        tools:layout="@layout/fragment_booth_details" >
+        <argument
+            android:name="booth"
+            app:argType="com.hppk.toctw.data.model.Booth" />
     </fragment>
 
 </navigation>
