@@ -79,5 +79,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="empty_reviews">작성된 리뷰가 없습니다.</string>
+    <string name="submit">게시</string>
+    <string name="hint_input_review">이곳에서의 경험을 자세히 공유해 주세요.</string>
 
 </resources>

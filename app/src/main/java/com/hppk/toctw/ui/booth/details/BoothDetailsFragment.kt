@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
@@ -34,6 +35,12 @@ class BoothDetailsFragment : Fragment() {
         initBoothInfo(args.booth)
         initBoothLocation(args.booth)
         initRecyclerView(args.booth)
+
+        ratingBar.setOnRatingBarChangeListener { _, rating, fromUser ->
+            if (fromUser) {
+                findNavController().navigate(BoothDetailsFragmentDirections.actionBoothDetailsFragmentToAddRatingFragment(args.booth, rating))
+            }
+        }
     }
 
     private fun initToolbar() {

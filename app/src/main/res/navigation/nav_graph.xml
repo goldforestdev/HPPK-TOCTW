@@ -127,6 +127,22 @@
         <argument
             android:name="booth"
             app:argType="com.hppk.toctw.data.model.Booth" />
+        <action
+            android:id="@+id/action_boothDetailsFragment_to_addRatingFragment"
+            app:destination="@id/addRatingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addRatingFragment"
+        android:name="com.hppk.toctw.ui.booth.details.addrating.AddRatingFragment"
+        android:label="fragment_add_rating"
+        tools:layout="@layout/fragment_add_rating" >
+        <argument
+            android:name="booth"
+            app:argType="com.hppk.toctw.data.model.Booth" />
+        <argument
+            android:name="rating"
+            app:argType="float"
+            android:defaultValue="5.0" />
     </fragment>
 
 </navigation>
