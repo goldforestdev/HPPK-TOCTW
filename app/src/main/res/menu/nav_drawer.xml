@@ -13,7 +13,7 @@
         android:id="@+id/boothFragment"
         android:enabled="true"
         android:icon="@drawable/ic_schedule"
-        android:title="@string/event_program"
+        android:title="@string/program"
         app:showAsAction="ifRoom" />
 
     <item
@@ -26,7 +26,7 @@
     <item
         android:id="@+id/infoFragment"
         android:enabled="true"
-        android:title="안내 사항"
+        android:title="@string/information"
         android:icon="@drawable/ic_info"
         app:showAsAction="ifRoom" />
 

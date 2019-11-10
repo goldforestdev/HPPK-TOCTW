@@ -1,27 +1,27 @@
 <resources>
     <!-- Preferences -->
     <string name="key_rating_review" translatable="false">key_rating_review</string>
-    <string name="key_feedback">key_feedback</string>
+    <string name="key_feedback" translatable="false">key_feedback</string>
     <string name="key_version" translatable="false">key_version</string>
     <string name="key_developers" translatable="false">key_developers</string>
+    <string name="default_notification_channel_id" tanslatable="false">hppk toctw</string>
 
     <string name="app_name">TOCTW 2019</string>
     <string name="app_full_name">HPPK 임직원 자녀 방문 행사 2019</string>
     <string name="home">홈</string>
-    <string name="event_program">Event program</string>
-    <string name="stamp">Stamp</string>
-    <string name="settings">Settings</string>
+    <string name="stamp">스탬프</string>
+    <string name="settings">설정</string>
 
-    <string name="app_info">App Information</string>
-    <string name="rating_review"><![CDATA[Rating & Review]]></string>
-    <string name="rating_review_details">Do you like App? Rate it for other users!</string>
-    <string name="send_feedback">Send Feedback</string>
-    <string name="send_feedback_details">Report technical issues or suggest new features</string>
+    <string name="app_info">앱 정보</string>
+    <string name="rating_review"><![CDATA[평점 및 리뷰]]></string>
+    <string name="rating_review_details">다른 사용자에게 의견을 들려주세요.</string>
+    <string name="send_feedback">피드백 보내기</string>
+    <string name="send_feedback_details">문제점을 보고하거나 새로운 기능을 추천해주세요.</string>
     <string name="email" translatable="false">goldforestdev@gmail.com</string>
     <string name="send_feedback_email_subject">[%1$s][%2$s] send feedback</string>
     <string name="send_feedback_email_details">Device Model: \nAndroid OS Version: \nIssue: \n</string>
-    <string name="version" translatable="false">Version</string>
-    <string name="developers">Developers</string>
+    <string name="version" translatable="false">버전</string>
+    <string name="developers">개발자</string>
     <string name="dev_yjlim">Yeonjung Lim</string>
     <string name="dev_yjlim_email" translatable="false">yeonjung.lim@hp.com</string>
     <string name="dev_hjkim">Hyeongju Kim</string>
@@ -55,7 +55,7 @@
     <string name="title">제목</string>
     <string name="body">내용</string>
     <string name="send">공지 알림 보내기</string>
-    <string name="information">안내</string>
+    <string name="information">안내 사항</string>
     <string name="contact">기타 문의</string>
     <string name="staff_park">박 윤석</string>
     <string name="staff_lee">이 경미</string>
@@ -69,11 +69,10 @@
         - 행사 당일 <![CDATA[<font color="#D81B60">이름표는 반드시 부착하여 주세요.</font><br/>]]>
         - 계단 사용 시 <![CDATA[<font color="#D81B60">안전 사고에 유의하여 주세요.</font><br/>]]>
         - 근무 공간이므로 <![CDATA[<font color="#D81B60">쓰레기는 지정된 장소에 버려주세요.</font>]]>
-</string>
-    <string name="default_notification_channel_id">hppk toctw</string>
+    </string>
+
     <string name="even_notice">행사 공지</string>
     <string name="event_welcome_msg">에이치피프린팅코리아 판교 Site를 방문하신 임직원 가족 여러분을 진심으로 환영합니다.</string>
-
     <string name="add_child">자녀 등록</string>
     <string name="no_children">먼저 아이를 등록해주세요.</string>
     <string name="program_info">프로그램을 누르면 자세한 정보 확인이 가능합니다.</string>

@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/boothFragment"
         android:name="com.hppk.toctw.ui.booth.BoothFragment"
-        android:label="@string/event_program"
+        android:label="@string/program"
         tools:layout="@layout/fragment_booth" >
         <action
             android:id="@+id/action_boothFragment_to_childrenFragment"
