@@ -27,7 +27,7 @@
         style="@style/TextAppearance.AppCompat.Caption"
         android:nestedScrollingEnabled="true"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:text="프로그램을 누르시면 자세한 정보 확인이 가능 합니다."/>
+        android:text="@string/program_info"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcBoothList"
