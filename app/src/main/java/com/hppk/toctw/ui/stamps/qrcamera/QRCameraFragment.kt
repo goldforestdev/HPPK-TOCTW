@@ -4,6 +4,7 @@ package com.hppk.toctw.ui.stamps.qrcamera
 import android.animation.Animator
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.util.Rational
 import android.util.Size
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import android.view.ViewGroup
 import androidx.camera.core.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.hppk.toctw.R
 import com.hppk.toctw.data.repository.StampRepository
@@ -67,7 +69,6 @@ class QRCameraFragment : Fragment(), QRCodeAnalyzer.QRCodeFoundListener, QRCodeC
         qrAnalysis = ImageAnalysis(imageAnalysisConfig).apply {
             analyzer = QRCodeAnalyzer(this@QRCameraFragment)
         }
-
         val preview = Preview(previewConfig)
         preview.setOnPreviewOutputUpdateListener { previewOutput ->
             val parent = viewFinder.parent as ViewGroup
@@ -81,32 +82,36 @@ class QRCameraFragment : Fragment(), QRCodeAnalyzer.QRCodeFoundListener, QRCodeC
     }
 
     override fun onQRCodeFound(boothId: String) {
+        qrAnalysis.removeAnalyzer()
         CameraX.unbind(qrAnalysis)
-        aniDone.visibility = View.VISIBLE
-        aniDone.playAnimation()
 
-        aniDone.addAnimatorListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: Animator?) {
+        if (aniDone.visibility != View.VISIBLE) {
+            aniDone.visibility = View.VISIBLE
+            aniDone.playAnimation()
 
-            }
+            aniDone.addAnimatorListener(object : Animator.AnimatorListener {
+                override fun onAnimationRepeat(animation: Animator?) {
 
-            override fun onAnimationEnd(animation: Animator?) {
-                presenter.saveStamp(args.child, boothId)
-            }
+                }
 
-            override fun onAnimationCancel(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator?) {
+                    presenter.saveStamp(args.child, boothId)
+                }
 
-            }
+                override fun onAnimationCancel(animation: Animator?) {
 
-            override fun onAnimationStart(animation: Animator?) {
+                }
 
-            }
+                override fun onAnimationStart(animation: Animator?) {
 
-        })
+                }
+
+            })
+        }
     }
 
     override fun onStampSaved() {
-        fragmentManager?.popBackStackImmediate()
+        findNavController().navigateUp()
     }
 
 }

@@ -46,6 +46,7 @@ class QRCodeAnalyzer(
                 .detectInImage(image)
                 .addOnFailureListener { Log.e(TAG, "[TOCTW] analyze - failed: ${it.message}", it) }
                 .addOnSuccessListener { qrCodeList ->
+                    Log.d(TAG, "[TOCTW] analyze - success: ${qrCodeList.size}")
                     qrCodeList.firstOrNull {
                         it.rawValue?.contains(QR_CODE_KEY_BOOTH_ID) ?: false
                     }?.let { qrCode ->

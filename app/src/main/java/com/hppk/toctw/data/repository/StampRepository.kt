@@ -1,5 +1,6 @@
 package com.hppk.toctw.data.repository
 
+import android.util.Log
 import com.hppk.toctw.data.model.ChildStampJoin
 import com.hppk.toctw.data.model.Stamp
 import com.hppk.toctw.data.source.impl.FirestoreBoothDao
@@ -40,6 +41,9 @@ class StampRepository(
                 .map { it.map(::Stamp).toList() }
                 .doOnSuccess { stamps ->
                     localStampDao.save(*stamps.toTypedArray())
+                        .doOnComplete {
+                            Log.d("TEST", "[TOCTW] getStamps - saveStamps: $stamps")
+                        }
                         .subscribeOn(Schedulers.io())
                         .subscribe()
                 }
