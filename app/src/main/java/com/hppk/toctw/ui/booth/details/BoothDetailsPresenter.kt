@@ -37,6 +37,7 @@ class BoothDetailsPresenter(
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
                 .subscribe({
+                    Log.d(TAG, "[TOCTW] isSignedIn - me: $it")
                     view.showSignInButton(View.GONE)
                 }, {
                     view.showSignInButton(View.VISIBLE)
@@ -46,7 +47,7 @@ class BoothDetailsPresenter(
 
     override fun saveMe() {
         auth.currentUser?.let {
-            val me = User(it.email ?: "", it.email ?: "", it.displayName ?: "", it.photoUrl.toString(), Role.GENERAL)
+            val me = User(it.uid, it.email ?: "", it.displayName ?: "", it.photoUrl.toString(), Role.GENERAL)
             userRepo.save(me)
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)

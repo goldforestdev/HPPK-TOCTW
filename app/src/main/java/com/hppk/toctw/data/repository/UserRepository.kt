@@ -19,8 +19,8 @@ class UserRepository(
             if (auth.currentUser == null) {
                 return Single.error(UserNotExistException("me"))
             } else {
-                auth.currentUser?.email?.let { email ->
-                    return get(email).doOnSuccess { me -> cachedMe = me }
+                auth.currentUser?.uid?.let { uid ->
+                    return get(uid).doOnSuccess { me -> cachedMe = me }
                 } ?: return Single.error(UserNotExistException("me"))
             }
         } else {
