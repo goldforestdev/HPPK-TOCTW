@@ -1,15 +1,38 @@
 package com.hppk.toctw.data.repository
 
+import com.google.firebase.auth.FirebaseAuth
+import com.hppk.toctw.data.UserNotExistException
 import com.hppk.toctw.data.model.User
 import com.hppk.toctw.data.source.UserDao
+import io.reactivex.Completable
+import io.reactivex.Single
 
 class UserRepository(
-    private val localUserDao: UserDao? = null, // 혹시 사용자를 로컬 캐시해야 하는 경우를 위해 남겨 둡니다.
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
     private val remoteUserDao: UserDao
 ) {
 
-    fun save(user: User) = remoteUserDao.save(user)
+    private var cachedMe: User? = null
 
-    fun get(id: String) = remoteUserDao.get(id)
+    fun getMe(): Single<User> {
+        if (cachedMe == null) {
+            if (auth.currentUser == null) {
+                return Single.error(UserNotExistException("me"))
+            } else {
+                auth.currentUser?.uid?.let { uid ->
+                    return get(uid).doOnSuccess { me -> cachedMe = me }
+                } ?: return Single.error(UserNotExistException("me"))
+            }
+        } else {
+            return Single.just(cachedMe)
+        }
+    }
+
+    fun save(user: User): Completable {
+        cachedMe = user
+        return remoteUserDao.save(user)
+    }
+
+    fun get(id: String): Single<User> = remoteUserDao.get(id)
 
 }
