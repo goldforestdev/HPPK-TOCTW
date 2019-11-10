@@ -1,23 +1,28 @@
 package com.hppk.toctw.ui.booth.details
 
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.firebase.ui.auth.AuthUI
 import com.google.android.material.appbar.AppBarLayout
 import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Booth
 import com.hppk.toctw.data.model.Review
 import kotlinx.android.synthetic.main.fragment_booth_details.*
 
+private const val RC_SIGN_IN = 2019
 
 class BoothDetailsFragment : Fragment(), BoothDetailsContract.View {
 
@@ -41,6 +46,10 @@ class BoothDetailsFragment : Fragment(), BoothDetailsContract.View {
         initBoothLocation(args.booth)
         initRecyclerView(args.booth)
         initRatingReview()
+
+        signInContainer.setOnClickListener {
+            showSignInView()
+        }
     }
 
     override fun onDestroyView() {
@@ -118,6 +127,7 @@ class BoothDetailsFragment : Fragment(), BoothDetailsContract.View {
             }
         }
 
+        presenter.isSignedIn()
         presenter.getReviews(args.booth)
     }
 
@@ -141,6 +151,33 @@ class BoothDetailsFragment : Fragment(), BoothDetailsContract.View {
         reviewsAdapter.reviews.clear()
         reviewsAdapter.reviews.addAll(reviews)
         reviewsAdapter.notifyDataSetChanged()
+    }
+
+    override fun showSignInButton(visible: Int) {
+        signInContainer.visibility = visible
+    }
+
+    private fun showSignInView() {
+        val providers = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
+
+        startActivityForResult(
+            AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(providers)
+                .build(),
+            RC_SIGN_IN
+        )
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            if (resultCode == Activity.RESULT_OK) {
+                presenter.saveMe()
+            } else {
+                Toast.makeText(context, "로그인 실패", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 }

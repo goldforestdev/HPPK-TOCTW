@@ -5,6 +5,7 @@
     <color name="colorPrimaryDark">#0171AD</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorPrimaryTransparent">#E00197D7</color>
+    <color name="blackTransparent">#E0000000</color>
 
     <color name="grayVeryLight">#fafafa</color>
     <color name="grayLight">#e0e0e0</color>

@@ -4,9 +4,10 @@ data class User(
     val id: String = "",
     val email: String = "",
     val name: String = "",
+    val profile: String = "",
     val role: Role = Role.STAFF
 )
 
 enum class Role {
-    ADMIN, STAFF
+    ADMIN, STAFF, GENERAL
 }
