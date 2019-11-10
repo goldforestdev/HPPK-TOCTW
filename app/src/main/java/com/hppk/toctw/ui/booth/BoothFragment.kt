@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.fragment_booth.*
 class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister,
     BoothAdapter.BusyClickLister, BoothStaffDialog.BoothBusyStatusClickListener,
     BoothAdapter.StampClickLister, SwipeRefreshLayout.OnRefreshListener {
-
     private val presenter: BoothContract.Presenter by lazy { BoothPresenter(this) }
     private val boothAdapter: BoothAdapter by lazy {
         BoothAdapter(

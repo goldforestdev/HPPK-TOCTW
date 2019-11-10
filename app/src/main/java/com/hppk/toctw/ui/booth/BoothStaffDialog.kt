@@ -51,10 +51,11 @@ class BoothStaffDialog(
         initRadioGroup()
         btnOk.setOnClickListener {
             booth?.apply {
-                this.busy = currentBusy
-                boothBusyStatusClickListener.busyState(this)
+                if (this.busy != currentBusy) {
+                    this.busy = currentBusy
+                    boothBusyStatusClickListener.busyState(this)
+                }
             }
-
             dismissAllowingStateLoss()
         }
     }
