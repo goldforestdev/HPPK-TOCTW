@@ -15,13 +15,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Booth
+import com.hppk.toctw.data.model.Review
 import kotlinx.android.synthetic.main.fragment_booth_details.*
 
 
-class BoothDetailsFragment : Fragment() {
+class BoothDetailsFragment : Fragment(), BoothDetailsContract.View {
 
     private val args: BoothDetailsFragmentArgs by navArgs()
+    private val presenter: BoothDetailsContract.Presenter by lazy {
+        BoothDetailsPresenter(this)
+    }
     private val staffsAdapter: StaffsAdapter by lazy { StaffsAdapter() }
+    private val reviewsAdapter: ReviewsAdapter by lazy { ReviewsAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,12 +40,12 @@ class BoothDetailsFragment : Fragment() {
         initBoothInfo(args.booth)
         initBoothLocation(args.booth)
         initRecyclerView(args.booth)
+        initRatingReview()
+    }
 
-        ratingBar.setOnRatingBarChangeListener { _, rating, fromUser ->
-            if (fromUser) {
-                findNavController().navigate(BoothDetailsFragmentDirections.actionBoothDetailsFragmentToAddRatingFragment(args.booth, rating))
-            }
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        presenter.unsubscribe()
     }
 
     private fun initToolbar() {
@@ -70,6 +75,11 @@ class BoothDetailsFragment : Fragment() {
     private fun initRecyclerView(booth: Booth) {
         rcStaffs.layoutManager = LinearLayoutManager(context)
         rcStaffs.adapter = staffsAdapter
+
+        rvReviews.layoutManager = LinearLayoutManager(context)
+        rvReviews.adapter = reviewsAdapter
+
+        staffsAdapter.staffs.clear()
         staffsAdapter.staffs.addAll(booth.members)
         staffsAdapter.notifyDataSetChanged()
     }
@@ -101,12 +111,36 @@ class BoothDetailsFragment : Fragment() {
         }
     }
 
+    private fun initRatingReview() {
+        ratingBar.setOnRatingBarChangeListener { _, rating, fromUser ->
+            if (fromUser) {
+                findNavController().navigate(BoothDetailsFragmentDirections.actionBoothDetailsFragmentToAddRatingFragment(args.booth, rating))
+            }
+        }
+
+        presenter.getReviews(args.booth)
+    }
+
     private fun getColorWrapper(context: Context, id: Int): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             context.getColor(id)
         } else {
             context.resources.getColor(id)
         }
+    }
+
+    override fun onEmptyReviewsLoaded() {
+        rvReviews.visibility = View.GONE
+        tvEmptyReviews.visibility = View.VISIBLE
+    }
+
+    override fun onReviewsLoaded(reviews: List<Review>) {
+        tvEmptyReviews.visibility = View.GONE
+        rvReviews.visibility = View.VISIBLE
+
+        reviewsAdapter.reviews.clear()
+        reviewsAdapter.reviews.addAll(reviews)
+        reviewsAdapter.notifyDataSetChanged()
     }
 
 }
