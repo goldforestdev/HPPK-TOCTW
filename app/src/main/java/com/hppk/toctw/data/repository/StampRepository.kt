@@ -1,6 +1,5 @@
 package com.hppk.toctw.data.repository
 
-import android.util.Log
 import com.hppk.toctw.data.model.ChildStampJoin
 import com.hppk.toctw.data.model.Stamp
 import com.hppk.toctw.data.source.impl.FirestoreBoothDao
