@@ -1,6 +1,9 @@
 package com.hppk.toctw.ui.booth.details.addrating
 
 import android.util.Log
+import com.hppk.toctw.data.model.Booth
+import com.hppk.toctw.data.model.Review
+import com.hppk.toctw.data.model.User
 import com.hppk.toctw.data.repository.ReviewRepository
 import com.hppk.toctw.data.repository.UserRepository
 import com.hppk.toctw.data.source.impl.FirestoreReviewDao
@@ -21,6 +24,8 @@ class AddRatingPresenter(
 
     private val TAG = AddRatingPresenter::class.java.simpleName
 
+    private lateinit var me: User
+
     override fun unsubscribe() {
         disposable.clear()
     }
@@ -31,9 +36,23 @@ class AddRatingPresenter(
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
                 .subscribe({
+                    me = it
                     view.onMeLoaded(it)
                 }, { t ->
                     Log.e(TAG, "[TOCTW] getMe - failed: ${t.message}", t)
+                })
+        )
+    }
+
+    override fun saveReview(booth: Booth, rating: Float, review: String) {
+        disposable.add(
+            reviewRepo.save(booth, Review(me.id, me.name, me.profile, rating, review))
+                .subscribeOn(ioScheduler)
+                .observeOn(uiScheduler)
+                .subscribe({
+                    view.onReviewSaved()
+                }, {t ->
+                    Log.e(TAG, "[TOCTW] saveReview - failed: ${t.message}", t)
                 })
         )
     }

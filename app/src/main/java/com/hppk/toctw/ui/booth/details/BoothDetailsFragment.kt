@@ -31,7 +31,7 @@ class BoothDetailsFragment : Fragment(), BoothDetailsContract.View {
         BoothDetailsPresenter(this)
     }
     private val staffsAdapter: StaffsAdapter by lazy { StaffsAdapter() }
-    private val reviewsAdapter: ReviewsAdapter by lazy { ReviewsAdapter() }
+    private val reviewsAdapter: ReviewsAdapter by lazy { ReviewsAdapter(context!!) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.hppk.toctw.R
@@ -57,9 +58,22 @@ class AddRatingFragment : Fragment(), AddRatingContract.View {
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menuAddReview) {
+            presenter.saveReview(args.booth, ratingBar.rating, etReview.text.toString())
+            return true
+        } else {
+            return super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onMeLoaded(me: User) {
         tvName.text = me.name
         Glide.with(this).load(me.profile).circleCrop().into(ivProfile)
+    }
+
+    override fun onReviewSaved() {
+        findNavController().navigateUp()
     }
 
 }
