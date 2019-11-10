@@ -1,27 +1,25 @@
 package com.hppk.toctw.ui.booth
 
 import android.content.Context
-import android.graphics.Color
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
 import com.hppk.toctw.R
+import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.data.model.Booth
 import com.hppk.toctw.data.model.Busy
 import kotlinx.android.synthetic.main.item_booth_list.view.*
-import android.os.Build
-import android.widget.LinearLayout
-import androidx.core.content.ContextCompat
-import com.google.android.material.chip.Chip
-import com.hppk.toctw.auth.AppAuth
 
 
 class BoothAdapter(
-    val booths : MutableList<Booth> = mutableListOf(),
-    private var context : Context? = null,
+    val booths: MutableList<Booth> = mutableListOf(),
+    private var context: Context? = null,
     private val boothClickLister: BoothClickLister,
     private val busyClickLister: BusyClickLister,
     private val stampClickLister: StampClickLister
@@ -29,7 +27,13 @@ class BoothAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         context = parent.context
-        return SchedulesHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_booth_list, parent, false))
+        return SchedulesHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_booth_list,
+                parent,
+                false
+            )
+        )
     }
 
     interface BoothClickLister {
@@ -44,11 +48,11 @@ class BoothAdapter(
         fun onStampClick(booth: Booth)
     }
 
-    override fun getItemCount(): Int  = booths.size
+    override fun getItemCount(): Int = booths.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is SchedulesHolder) {
-            with (holder) {
+            with(holder) {
                 tvBooth.text = booths[position].title
                 cpLocation.text = booths[position].location
 
@@ -89,7 +93,7 @@ class BoothAdapter(
         if (locationColorRes.isNotEmpty()) {
             var id = context!!.resources.getIdentifier(locationColorRes, "color", context!!.packageName)
             if (id == 0) {
-                id = getColorWrapper(context!!, R.color.five_color)
+                id = R.color.five_color
             }
             cpLocation.setChipBackgroundColorResource(id)
             cpLocation.setOnClickListener {
@@ -134,13 +138,13 @@ class BoothAdapter(
         }
     }
 
-    class SchedulesHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val viewBusy : View = itemView.viewBusy
-        val llBusy : LinearLayout = itemView.llBusy
-        val tvBooth : TextView = itemView.tvBooth
-        val cpLocation : Chip = itemView.cpLocation
-        val tvBusy : TextView = itemView.tvBusy
-        val ivStamp : ImageView = itemView.ivStamp
-        val ivStar : ImageView = itemView.ivStar
+    class SchedulesHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val viewBusy: View = itemView.viewBusy
+        val llBusy: LinearLayout = itemView.llBusy
+        val tvBooth: TextView = itemView.tvBooth
+        val cpLocation: Chip = itemView.cpLocation
+        val tvBusy: TextView = itemView.tvBusy
+        val ivStamp: ImageView = itemView.ivStamp
+        val ivStar: ImageView = itemView.ivStar
     }
 }

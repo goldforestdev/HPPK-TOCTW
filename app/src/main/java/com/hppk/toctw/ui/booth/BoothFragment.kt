@@ -5,25 +5,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.hppk.toctw.R
 import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.data.model.Booth
 import com.hppk.toctw.ui.details.BOOTH_INFO
 import com.hppk.toctw.ui.details.BoothDetailsActivity
-import com.hppk.toctw.ui.home.HomeFragmentDirections
 import kotlinx.android.synthetic.main.fragment_booth.*
 
-class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister
-    , BoothAdapter.BusyClickLister, BoothStaffDialog.BoothBusyStatusClickListener, BoothAdapter.StampClickLister {
+class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister,
+    BoothAdapter.BusyClickLister, BoothStaffDialog.BoothBusyStatusClickListener,
+    BoothAdapter.StampClickLister, SwipeRefreshLayout.OnRefreshListener {
 
-    private val presenter : BoothContract.Presenter by lazy { BoothPresenter(this) }
-    private val boothAdapter: BoothAdapter by lazy { BoothAdapter(boothClickLister = this, busyClickLister = this, stampClickLister = this) }
+    private val presenter: BoothContract.Presenter by lazy { BoothPresenter(this) }
+    private val boothAdapter: BoothAdapter by lazy {
+        BoothAdapter(
+            boothClickLister = this,
+            busyClickLister = this,
+            stampClickLister = this
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,11 +56,13 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         }
     }
 
-    private fun initData () {
+    private fun initData() {
         presenter.loadCollection()
     }
 
-    private fun initRecyclerView(){
+    private fun initRecyclerView() {
+        srlBoothMain.setOnRefreshListener(this)
+        srlBoothMain.setColorSchemeResources(R.color.colorPrimaryDark)
         rcBoothList.layoutManager = LinearLayoutManager(activity)
         rcBoothList.adapter = boothAdapter
     }
@@ -68,7 +75,9 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
     override fun onError(errTitle: Int, errMsg: Int) {
 
     }
+
     override fun onBoothListLoaded(boothDataList: List<Booth>) {
+        boothAdapter.booths.clear()
         boothAdapter.booths.addAll(boothDataList)
         boothAdapter.notifyDataSetChanged()
     }
@@ -101,19 +110,22 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
             bundle.putParcelable(BOOTH_INFO, booth)
             boothStaffDialog.arguments = bundle
             boothStaffDialog.isCancelable = false
-            boothStaffDialog.show(activity!!.supportFragmentManager,null)
+            boothStaffDialog.show(activity!!.supportFragmentManager, null)
         }
 
     }
 
-    override fun showWaitingView(show: Boolean)  {
+    override fun showWaitingView(show: Boolean) {
         if (show) {
             rcBoothList.visibility = View.GONE
-            spin_kit.visibility = View.VISIBLE
+            srlBoothMain.isRefreshing = true
         } else {
             rcBoothList.visibility = View.VISIBLE
-            spin_kit.visibility = View.GONE
+            srlBoothMain.isRefreshing = false
         }
     }
 
+    override fun onRefresh() {
+        presenter.loadCollection()
+    }
 }

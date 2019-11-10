@@ -16,7 +16,8 @@
     <color name="R198_G201_B50">@color/darkYellow</color>
 
     <color name="four_color">#5e03fc</color>
-    <color name="five_color">#fc4903</color>
+    <color name="five_cafeteria_color">#2196F3</color>
+    <color name="five_color">#3F51B5</color>
     <color name="six_color_training">#e600cf</color>
     <color name="six_photo_color">#38e8ce</color>
     <color name="six_sinyunbok_color">#ff8e61</color>
