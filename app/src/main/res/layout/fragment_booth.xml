@@ -16,12 +16,25 @@
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textSize="15sp"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:nestedScrollingEnabled="true"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        android:text="프로그램을 누르시면 자세한 정보 확인이 가능 합니다."/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcBoothList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
