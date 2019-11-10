@@ -41,9 +41,6 @@ class StampRepository(
                 .map { it.map(::Stamp).toList() }
                 .doOnSuccess { stamps ->
                     localStampDao.save(*stamps.toTypedArray())
-                        .doOnComplete {
-                            Log.d("TEST", "[TOCTW] getStamps - saveStamps: $stamps")
-                        }
                         .subscribeOn(Schedulers.io())
                         .subscribe()
                 }
