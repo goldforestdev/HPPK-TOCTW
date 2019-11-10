@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Booth
@@ -13,12 +14,11 @@ import kotlinx.android.synthetic.main.activity_booth_details.*
 import kotlinx.android.synthetic.main.activity_booth_details.appBarLayout
 import kotlinx.android.synthetic.main.activity_booth_details.collapsingToolbarLayout
 import kotlinx.android.synthetic.main.fragment_booth.toolbar
-import kotlinx.android.synthetic.main.fragment_info_schedule.*
 
 
 const val BOOTH_INFO = "boothInfo"
 class BoothDetailsActivity : AppCompatActivity() {
-
+    private val staffsAdapter: StaffsAdapter by lazy { StaffsAdapter() }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_booth_details)
@@ -31,6 +31,7 @@ class BoothDetailsActivity : AppCompatActivity() {
         initToolbar()
         initBoothInfo(booth)
         initBoothLocation(booth)
+        initRecyclerView(booth)
     }
 
     private fun initToolbar() {
@@ -55,6 +56,13 @@ class BoothDetailsActivity : AppCompatActivity() {
                 isShow = false
             }
         })
+    }
+
+    private fun initRecyclerView(booth: Booth){
+        rcStaffs.layoutManager = LinearLayoutManager(this)
+        rcStaffs.adapter = staffsAdapter
+        staffsAdapter.staffs.addAll(booth.members)
+        staffsAdapter.notifyDataSetChanged()
     }
 
     private fun initBoothInfo(booth: Booth) {
