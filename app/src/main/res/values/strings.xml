@@ -74,9 +74,8 @@
     <string name="even_notice">행사 공지</string>
     <string name="event_welcome_msg">에이치피프린팅코리아 판교 Site를 방문하신 임직원 가족 여러분을 진심으로 환영합니다.</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_child">자녀 등록</string>
     <string name="no_children">먼저 아이를 등록해주세요.</string>
+    <string name="program_info">프로그램을 누르면 자세한 정보 확인이 가능합니다.</string>
 
 </resources>

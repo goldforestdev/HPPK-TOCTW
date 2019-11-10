@@ -70,15 +70,6 @@
             app:layout_constraintStart_toStartOf="@id/tvBooth"
             tools:text="원할" />
 
-        <ImageView
-            android:id="@+id/ivLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_place"
-            app:layout_constraintTop_toTopOf="@id/guideline"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvBusy" />
-
         <com.google.android.material.chip.Chip
             android:id="@+id/cpLocation"
             style="@style/Widget.MaterialComponents.Chip.Action"
@@ -86,12 +77,14 @@
             android:layout_height="30dp"
             android:layout_marginStart="5dp"
             android:includeFontPadding="false"
+            app:chipIcon="@drawable/ic_place"
+            app:chipIconTint="@android:color/white"
             app:chipBackgroundColor="@color/five_color"
             android:textColor="@android:color/white"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="@id/guideline"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivLocation"
+            app:layout_constraintStart_toEndOf="@id/tvBusy"
             tools:text="5층 식당" />
 
         <ImageView
