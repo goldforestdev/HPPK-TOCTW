@@ -1,8 +1,10 @@
 package com.hppk.toctw.ui.booth.details.addrating
 
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -59,11 +61,11 @@ class AddRatingFragment : Fragment(), AddRatingContract.View {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menuAddReview) {
+        return if (item.itemId == R.id.menuAddReview) {
             presenter.saveReview(args.booth, ratingBar.rating, etReview.text.toString())
-            return true
+            true
         } else {
-            return super.onOptionsItemSelected(item)
+            super.onOptionsItemSelected(item)
         }
     }
 
@@ -73,7 +75,13 @@ class AddRatingFragment : Fragment(), AddRatingContract.View {
     }
 
     override fun onReviewSaved() {
+        hideSoftKeyboard()
         findNavController().navigateUp()
+    }
+
+    private fun hideSoftKeyboard() {
+        val imm = context!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view!!.windowToken, 0)
     }
 
 }

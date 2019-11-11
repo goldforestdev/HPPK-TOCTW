@@ -14,6 +14,5 @@ interface BoothDetailsContract {
         fun unsubscribe()
         fun isSignedIn()
         fun getReviews(booth: Booth)
-        fun saveMe()
     }
 }
