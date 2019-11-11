@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hppk.toctw.data.BoothNotExistException
 import com.hppk.toctw.data.model.Booth
+import com.hppk.toctw.data.model.Busy
 import com.hppk.toctw.data.source.BoothDao
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -42,8 +43,11 @@ class FirestoreBoothDao(
             }
     }
 
-    override fun getDataList() = Single.create<List<Booth>> { emitter ->
+    override fun getBoothList() = Single.create<List<Booth>> { emitter ->
         db.collection(BOOTH)
+            //.orderBy("id")
+            .whereEqualTo("busy","GOOD")
+            .whereEqualTo("isStamp",true)
             .orderBy("id")
             .get()
             .addOnSuccessListener { result ->
@@ -78,6 +82,25 @@ class FirestoreBoothDao(
                 emitter.onError(exception)
                 Log.e(TAG, "Error getting Collection: ", exception)
             }
+    }
+
+    override fun getBoothBusyStatusList(busyStatus: List<Busy>) =  Single.create<List<Booth>>  { emitter ->
+        val queryDataList = mutableListOf<Booth>()
+        for (data in busyStatus) {
+            db.collection(BOOTH)
+                .whereEqualTo("busy", data)
+                .get()
+                .addOnSuccessListener { result ->
+                    Log.d(TAG, "[TOCTW] getStampBoothList - success")
+                    queryDataList.addAll( result.toObjects(Booth::class.java))
+
+                }
+                .addOnFailureListener { exception ->
+                    Log.e(TAG, "Error getting Collection: ", exception)
+                }
+        }
+
+        emitter.onSuccess(queryDataList)
     }
 
 }

@@ -86,6 +86,7 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         presenter.unsubscribe()
     }
 
+
     override fun onError(errTitle: Int, errMsg: Int) {
 
     }

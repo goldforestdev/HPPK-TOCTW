@@ -1,7 +1,9 @@
 package com.hppk.toctw.data.repository
 
 import com.hppk.toctw.data.model.Booth
+import com.hppk.toctw.data.model.Busy
 import com.hppk.toctw.data.source.BoothDao
+import io.reactivex.Single
 
 class BoothRepository(
     private val localBoothDao: BoothDao? = null,
@@ -12,8 +14,10 @@ class BoothRepository(
 
     fun get(id: String) = remoteBoothDao.get(id)
 
-    fun getDataList() = remoteBoothDao.getDataList()
+    fun getDataList() = remoteBoothDao.getBoothList()
 
     fun updateBoothInfo(booth: Booth) = remoteBoothDao.updateBooth(booth)
+
+    fun getBoothBusyStatusList(busyStatus : List<Busy>)  = remoteBoothDao.getBoothBusyStatusList(busyStatus)
 
 }
