@@ -5,8 +5,8 @@
     <solid android:color="@android:color/holo_green_dark" />
 
     <stroke
-        android:width="3dp"
-        android:color="#ff848482" />
+        android:width="1dp"
+        android:color="@color/colorPrimaryLight" />
 
     <corners android:radius="15dp" />
 

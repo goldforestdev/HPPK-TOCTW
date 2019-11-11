@@ -76,6 +76,7 @@
     <string name="add_child">자녀 등록</string>
     <string name="no_children">먼저 아이를 등록해주세요.</string>
     <string name="program_info">프로그램을 누르면 자세한 정보 확인이 가능합니다.</string>
+
     <string name="empty_reviews">작성된 리뷰가 없습니다.</string>
     <string name="submit">게시</string>
     <string name="hint_input_review">이곳에서의 경험을 자세히 공유해 주세요.</string>
