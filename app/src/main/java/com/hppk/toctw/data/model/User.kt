@@ -5,7 +5,7 @@ data class User(
     val email: String = "",
     val name: String = "",
     val profile: String = "",
-    val role: Role = Role.STAFF
+    var role: Role = Role.STAFF
 )
 
 enum class Role {
