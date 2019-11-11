@@ -7,13 +7,14 @@
 
     <ImageView
         android:id="@+id/clTitleBackground"
-        android:background="@drawable/keepreinventing"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/keepreinventing"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvTitle"
