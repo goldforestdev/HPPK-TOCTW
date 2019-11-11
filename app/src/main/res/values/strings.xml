@@ -4,6 +4,7 @@
     <string name="key_feedback" translatable="false">key_feedback</string>
     <string name="key_version" translatable="false">key_version</string>
     <string name="key_developers" translatable="false">key_developers</string>
+    <string name="key_sign_out">key_sign_out</string>
     <string name="default_notification_channel_id" tanslatable="false">hppk toctw</string>
 
     <string name="app_name">TOCTW 2019</string>

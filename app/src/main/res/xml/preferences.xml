@@ -3,6 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:title="@string/settings">
 
+    <Preference
+        app:key="@string/key_sign_out"
+        app:title="@string/sign_out"
+        app:isPreferenceVisible="false"/>
+
     <PreferenceCategory android:title="@string/app_info">
         <Preference
             app:key="@string/key_rating_review"

@@ -44,18 +44,7 @@ class DevelopersFragment : Fragment(), UserContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setSignOutVisibility()
         initToolbar()
-
-        cvSignOut.setOnClickListener {
-            AuthUI.getInstance()
-                .signOut(context!!)
-                .addOnCompleteListener {
-                    AppAuth.setUser(null)
-                    setSignOutVisibility()
-                    initClick()
-                }
-        }
 
         cvYjLim.setOnClickListener {
             clickLYJ++
@@ -85,14 +74,6 @@ class DevelopersFragment : Fragment(), UserContract.View {
                 actionBar.setDisplayHomeAsUpEnabled(true)
                 actionBar.setTitle(R.string.developers)
             }
-        }
-    }
-
-    private fun setSignOutVisibility() {
-        if (AppAuth.isStaff) {
-            cvSignOut.visibility = View.VISIBLE
-        } else {
-            cvSignOut.visibility = View.INVISIBLE
         }
     }
 
@@ -154,7 +135,6 @@ class DevelopersFragment : Fragment(), UserContract.View {
 
     override fun onFindUserSuccess(user: User) {
         Toast.makeText(context, "로그인 : ${AppAuth.appUser?.email}", Toast.LENGTH_SHORT).show()
-        setSignOutVisibility()
     }
 
     override fun onAddUserError() {
@@ -164,6 +144,5 @@ class DevelopersFragment : Fragment(), UserContract.View {
     override fun onAddUserSuccess(user: User) {
         Log.d(TAG, "AddUser")
         Toast.makeText(context, "로그인 : ${AppAuth.appUser?.email}", Toast.LENGTH_SHORT).show()
-        setSignOutVisibility()
     }
 }
