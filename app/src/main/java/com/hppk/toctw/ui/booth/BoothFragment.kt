@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.hppk.toctw.R
 import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.data.model.Booth
@@ -18,6 +20,7 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
     BoothAdapter.BusyClickLister, BoothStaffDialog.BoothBusyStatusClickListener,
     BoothAdapter.StampClickLister, SwipeRefreshLayout.OnRefreshListener {
     private val presenter: BoothContract.Presenter by lazy { BoothPresenter(this) }
+    private val behavior: BottomSheetBehavior<ConstraintLayout> by lazy { BottomSheetBehavior.from(bottomSheet) }
     private val boothAdapter: BoothAdapter by lazy {
         BoothAdapter(
             boothClickLister = this,
@@ -39,6 +42,10 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         initToolbar()
         initRecyclerView()
         initData()
+
+        ivFilter.setOnClickListener {
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
     }
 
     private fun initToolbar() {
