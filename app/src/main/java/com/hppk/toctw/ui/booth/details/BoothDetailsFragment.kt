@@ -89,6 +89,7 @@ class BoothDetailsFragment : Fragment(), BoothDetailsContract.View {
 
     private fun initBoothInfo(booth: Booth) {
         tvTitle.text = booth.title
+        tvTime.text = booth.time
         tvDetail.text = booth.description
     }
 

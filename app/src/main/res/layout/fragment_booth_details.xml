@@ -85,7 +85,7 @@
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:nestedScrollingEnabled="true"
                 app:layout_constraintTop_toBottomOf="@id/tvTitle"
-                android:text="11월 16, 10:00 ~ 10:30" />
+                android:text="11월 16일, 10:00 ~ 13:00" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/cpLocation"
