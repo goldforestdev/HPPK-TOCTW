@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/app_name"
             android:adjustViewBounds="true"
-            android:src="@drawable/toctw2019"
+            android:src="@drawable/feature_graphic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

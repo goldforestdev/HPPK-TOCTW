@@ -51,7 +51,7 @@ class BoothDetailsFragment : Fragment(), BoothDetailsContract.View {
     private fun initBackgroundImage(photoRes: String) {
         var imgResId = resources.getIdentifier(photoRes, "drawable", activity?.packageName)
         if (imgResId == 0) {
-            imgResId = R.drawable.toctw2019_detail
+            imgResId = R.drawable.feature_graphic
         }
         ivBackground.setImageResource(imgResId)
     }

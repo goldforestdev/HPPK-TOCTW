@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/toctw2019_detail"
+                android:src="@drawable/feature_graphic"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
