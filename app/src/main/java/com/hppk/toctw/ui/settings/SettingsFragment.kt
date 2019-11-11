@@ -10,8 +10,14 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.hppk.toctw.R
 
-class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
+class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener,
+    SettingsContract.View {
 
+    private val presenter: SettingsContract.Presenter by lazy { SettingsPresenter(this) }
+
+    private val prefSignOut : Preference by lazy {
+        findPreference<Preference>(getString(R.string.key_sign_out)) as Preference
+    }
     private val prefRateReview: Preference by lazy {
         findPreference<Preference>(getString(R.string.key_rating_review)) as Preference
     }
@@ -32,9 +38,15 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClic
         )?.versionName ?: "none"
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        presenter.isSignedIn()
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
+        prefSignOut.onPreferenceClickListener = this
         prefRateReview.onPreferenceClickListener = this
         prefFeedback.onPreferenceClickListener = this
         prefDevelopers.onPreferenceClickListener = this
@@ -45,6 +57,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClic
         getString(R.string.key_rating_review) -> goPlayStore()
         getString(R.string.key_feedback) -> sendFeedback()
         getString(R.string.key_developers) -> showDevelopers()
+        getString(R.string.key_sign_out) -> signOut()
         else -> false
     }
 
@@ -86,4 +99,12 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClic
         return true
     }
 
+    private fun signOut(): Boolean {
+        presenter.signOut()
+        return true
+    }
+
+    override fun showSignOutButton(show: Boolean) {
+        prefSignOut.isVisible = show
+    }
 }
