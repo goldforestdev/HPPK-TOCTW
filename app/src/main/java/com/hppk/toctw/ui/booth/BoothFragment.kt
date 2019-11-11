@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hppk.toctw.R
 import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.data.model.Booth
@@ -44,7 +45,17 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         initData()
 
         ivFilter.setOnClickListener {
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+
+        }
+
+        ivBottomHide.setOnClickListener {
+            if (behavior.state != BottomSheetBehavior.STATE_HIDDEN) {
+                behavior.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+
         }
     }
 
