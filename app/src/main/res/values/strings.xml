@@ -76,13 +76,11 @@
     <string name="add_child">자녀 등록</string>
     <string name="no_children">먼저 아이를 등록해주세요.</string>
     <string name="program_info">프로그램을 누르면 자세한 정보 확인이 가능합니다.</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="empty_reviews">작성된 리뷰가 없습니다.</string>
     <string name="submit">게시</string>
     <string name="hint_input_review">이곳에서의 경험을 자세히 공유해 주세요.</string>
     <string name="need_signin">로그인이 필요한 기능입니다.</string>
     <string name="sign_in">로그인</string>
+    <string name="tos_pp">\'Google 계정으로 시작하기\'를 통해 시작하시면, \n본 서비스 이용 약관과 개인정보 취급방침에 동의한 것으로 간주됩니다.</string>
 
 </resources>

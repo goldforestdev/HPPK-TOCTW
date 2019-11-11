@@ -130,6 +130,9 @@
         <action
             android:id="@+id/action_boothDetailsFragment_to_addRatingFragment"
             app:destination="@id/addRatingFragment" />
+        <action
+            android:id="@+id/action_boothDetailsFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
     </fragment>
     <fragment
         android:id="@+id/addRatingFragment"
@@ -144,5 +147,10 @@
             app:argType="float"
             android:defaultValue="5.0" />
     </fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.hppk.toctw.ui.signin.SignInFragment"
+        android:label="fragment_sign_in"
+        tools:layout="@layout/fragment_sign_in" />
 
 </navigation>
