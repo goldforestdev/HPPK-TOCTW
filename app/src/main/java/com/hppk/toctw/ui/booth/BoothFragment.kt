@@ -102,7 +102,6 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
             val bundle = Bundle()
             bundle.putParcelable(BOOTH_INFO, booth)
             boothStaffDialog.arguments = bundle
-            boothStaffDialog.isCancelable = false
             boothStaffDialog.show(activity!!.supportFragmentManager, null)
         }
 
