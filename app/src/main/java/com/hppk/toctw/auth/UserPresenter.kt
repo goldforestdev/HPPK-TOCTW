@@ -1,6 +1,7 @@
 package com.hppk.toctw.auth
 
 import android.util.Log
+import com.hppk.toctw.data.model.Role
 import com.hppk.toctw.data.repository.UserRepository
 import com.hppk.toctw.data.source.impl.FirestoreUserDao
 import io.reactivex.Scheduler
@@ -50,10 +51,17 @@ class UserPresenter(
             userRepository.get(AppAuth.getFirebaseLoginUserId())
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
-                .subscribe({
-                    Log.e(TAG, "[TOCTW] findUser : " + it.email)
-                    AppAuth.setUser(it)
-                    view.onFindUserSuccess(it)
+                .subscribe({ user ->
+                    Log.e(TAG, "[TOCTW] findUser : " + user.email)
+                    if (user.role == Role.GENERAL) {
+                        user.role = Role.STAFF
+                    }
+                    userRepository.save(user)
+                        .subscribeOn(ioScheduler)
+                        .subscribe()
+
+                    AppAuth.setUser(user)
+                    view.onFindUserSuccess(user)
                 }, { t->
                     Log.e(TAG, "[TOCTW] findUser - failed: ${t.message}", t)
                     AppAuth.setUser(null)
