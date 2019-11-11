@@ -9,6 +9,7 @@ data class Booth (
     val title: String = "",
     val location: String = "",
     val description: String = "",
+    val time : String = "11월 16일, 10:00 ~ 15:00",
     val members : List<Staff> = mutableListOf(),
     val category : List<Category> = mutableListOf(),
     var busy : Busy = Busy.NORMAL,
