@@ -21,13 +21,11 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
-                android:id="@+id/ivSchedule"
-                android:background="@drawable/toctw2019_detail"
+                android:id="@+id/ivBackground"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
-                android:padding="14dp"
-                android:transitionName="program"
+                android:src="@drawable/toctw2019_detail"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView

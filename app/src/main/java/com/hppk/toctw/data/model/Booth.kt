@@ -15,6 +15,7 @@ data class Booth (
     var busy : Busy = Busy.NORMAL,
     val locationColorRes : String = "",
     val locationRes : String = "",
+    val photoRes: String = "",
     @field:JvmField
     var isStamp: Boolean = false
 

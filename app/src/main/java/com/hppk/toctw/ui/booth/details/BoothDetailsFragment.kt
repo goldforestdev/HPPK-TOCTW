@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
 import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Booth
@@ -40,10 +41,19 @@ class BoothDetailsFragment : Fragment(), BoothDetailsContract.View {
         initBoothLocation(args.booth)
         initRecyclerView(args.booth)
         initRatingReview()
+        initBackgroundImage(args.booth.photoRes)
 
         signInContainer.setOnClickListener {
             findNavController().navigate(BoothDetailsFragmentDirections.actionBoothDetailsFragmentToSignInFragment())
         }
+    }
+
+    private fun initBackgroundImage(photoRes: String) {
+        var imgResId = resources.getIdentifier(photoRes, "drawable", activity?.packageName)
+        if (imgResId == 0) {
+            imgResId = R.drawable.toctw2019_detail
+        }
+        ivBackground.setImageResource(imgResId)
     }
 
     override fun onDestroyView() {
