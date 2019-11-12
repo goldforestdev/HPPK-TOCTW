@@ -17,23 +17,24 @@ class AvatarsDialog : DialogFragment(), AvatarsAdapter.AvatarClickListener {
 
     private val adapter: AvatarsAdapter by lazy {
         AvatarsAdapter(
+            context!!,
             listOf(
-                R.drawable.ic_boy,
-                R.drawable.ic_boy2,
-                R.drawable.ic_girl,
-                R.drawable.ic_girl2,
-                R.drawable.ic_boy3,
-                R.drawable.ic_boy4,
-                R.drawable.ic_girl3,
-                R.drawable.ic_girl4,
-                R.drawable.ic_boy5,
-                R.drawable.ic_boy6,
-                R.drawable.ic_girl5,
-                R.drawable.ic_girl6,
-                R.drawable.ic_boy7,
-                R.drawable.ic_boy8,
-                R.drawable.ic_girl7,
-                R.drawable.ic_girl8
+                "ic_boy",
+                "ic_boy2",
+                "ic_girl",
+                "ic_girl2",
+                "ic_boy3",
+                "ic_boy4",
+                "ic_girl3",
+                "ic_girl4",
+                "ic_boy5",
+                "ic_boy6",
+                "ic_girl5",
+                "ic_girl6",
+                "ic_boy7",
+                "ic_boy8",
+                "ic_girl7",
+                "ic_girl8"
             ),
             this
         )
@@ -60,8 +61,8 @@ class AvatarsDialog : DialogFragment(), AvatarsAdapter.AvatarClickListener {
         rvAvatars.adapter = adapter
     }
 
-    override fun onAvatarClicked(resId: Int) {
-        model.avatarResId.value = resId
+    override fun onAvatarClicked(resName: String) {
+        model.avatarResName.value = resName
         dismiss()
     }
 

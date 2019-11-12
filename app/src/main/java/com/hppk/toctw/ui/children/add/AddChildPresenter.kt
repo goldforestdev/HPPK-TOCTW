@@ -22,8 +22,8 @@ class AddChildPresenter (
         disposable.clear()
     }
 
-    override fun saveChild(childName: String, avatarResId: Int) {
-        val child = Child(childName, avatarResId)
+    override fun saveChild(childName: String, avatarResName: String) {
+        val child = Child(childName, avatarResName)
         disposable.add(
             childrenRepository.save(child)
                 .subscribeOn(ioScheduler)

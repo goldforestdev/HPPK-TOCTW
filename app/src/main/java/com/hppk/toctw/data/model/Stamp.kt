@@ -24,8 +24,11 @@ data class Stamp(
 data class Child(
     @PrimaryKey
     val name: String = "",
-    var avatar: Int = 0
+    var avatar: String= DEFAULT_AVATAR
 ) : Parcelable
+
+const val DEFAULT_AVATAR = "ic_boy"
+const val DEFAULT_UNKNOWN_AVATAR = "ic_unknown_kid"
 
 @Entity(
     tableName = "child_stamp_join",

@@ -9,6 +9,6 @@ interface AddChildContract {
 
     interface Presenter {
         fun unsubscribe()
-        fun saveChild(childName: String, avatarResId: Int)
+        fun saveChild(childName: String, avatarResName: String)
     }
 }

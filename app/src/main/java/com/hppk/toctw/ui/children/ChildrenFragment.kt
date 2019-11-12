@@ -44,7 +44,7 @@ class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.Chil
         val helper = PagerSnapHelper()
         helper.attachToRecyclerView(rvChildren)
 
-        adapter = ChildrenAdapter(childListener = this)
+        adapter = ChildrenAdapter(context!!, childListener = this)
 
         rvChildren.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         rvChildren.adapter = adapter
