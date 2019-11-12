@@ -17,8 +17,12 @@ import com.hppk.toctw.data.model.Busy
 import kotlinx.android.synthetic.main.item_booth_list.view.*
 
 
+const val VIEW_TYPE_PHOTO = 0
+const val VIEW_TYPE_LIST = 1
+
 class BoothAdapter(
     val booths: MutableList<Booth> = mutableListOf(),
+    var viewType: Int = VIEW_TYPE_PHOTO,
     private var context: Context? = null,
     private val boothClickLister: BoothClickLister,
     private val busyClickLister: BusyClickLister,
@@ -53,15 +57,25 @@ class BoothAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is SchedulesHolder) {
             with(holder) {
-                tvBooth.text = booths[position].title
-                cpLocation.text = booths[position].location
+                val booth = booths[position]
+
+                if (viewType == VIEW_TYPE_PHOTO) {
+                    val imgResId = context!!.resources.getIdentifier(booth.photoRes, "drawable", context!!.packageName)
+                    ivPhoto.setImageResource(imgResId)
+                    ivPhoto.visibility = View.VISIBLE
+                } else {
+                    ivPhoto.visibility = View.GONE
+                }
+
+                tvBooth.text = booth.title
+                cpLocation.text = booth.location
 
                 setLocationViewColor(position)
                 setBusyView(position)
 
-                if (booths[position].isStamp) ivStamp.visibility = View.VISIBLE else ivStamp.visibility = View.GONE
+                if (booth.isStamp) ivStamp.visibility = View.VISIBLE else ivStamp.visibility = View.GONE
 
-                llBusy.setOnClickListener {
+                viewBusy.setOnClickListener {
                     setBoothBusyClickListener(position)
                 }
 
@@ -70,11 +84,11 @@ class BoothAdapter(
                 }
 
                 ivStamp.setOnClickListener {
-                    stampClickLister.onStampClick(booths[position])
+                    stampClickLister.onStampClick(booth)
                 }
 
                 itemView.setOnClickListener {
-                    boothClickLister.onBoothClick(booths[position])
+                    boothClickLister.onBoothClick(booth)
                 }
             }
         }
@@ -139,8 +153,8 @@ class BoothAdapter(
     }
 
     class SchedulesHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val ivPhoto: ImageView = itemView.ivPhoto
         val viewBusy: View = itemView.viewBusy
-        val llBusy: LinearLayout = itemView.llBusy
         val tvBooth: TextView = itemView.tvBooth
         val cpLocation: Chip = itemView.cpLocation
         val tvBusy: TextView = itemView.tvBusy
