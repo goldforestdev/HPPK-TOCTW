@@ -85,4 +85,8 @@
     <string name="sign_in">로그인</string>
     <string name="tos_pp">\'Google 계정으로 시작하기\'를 통해 시작하시면, \n본 서비스 이용 약관과 개인정보 취급방침에 동의한 것으로 간주됩니다.</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="review">리뷰</string>
+
 </resources>
