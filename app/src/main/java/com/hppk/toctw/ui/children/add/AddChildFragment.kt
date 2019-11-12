@@ -14,14 +14,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.hppk.toctw.R
+import com.hppk.toctw.common.getAvatarResId
 import com.hppk.toctw.data.model.Child
+import com.hppk.toctw.data.model.DEFAULT_AVATAR
+import com.hppk.toctw.data.model.DEFAULT_UNKNOWN_AVATAR
 import com.hppk.toctw.data.repository.ChildrenRepository
 import com.hppk.toctw.data.source.local.AppDatabase
 import kotlinx.android.synthetic.main.fragment_add_child.*
 
 
 class SharedViewModel : ViewModel() {
-    val avatarResId = MutableLiveData<Int>()
+    val avatarResName = MutableLiveData<String>()
 }
 
 class AddChildFragment : Fragment(), AddChildContract.View {
@@ -40,9 +43,9 @@ class AddChildFragment : Fragment(), AddChildContract.View {
             ViewModelProviders.of(this)[SharedViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
 
-        model.avatarResId.observe(this, Observer<Int> { avatarResId ->
-            if (avatarResId != 0) {
-                ivUnknownAvatar.setImageResource(avatarResId)
+        model.avatarResName.observe(this, Observer<String> { avatarResName ->
+            if (avatarResName != "ic_unknown_kid") {
+                ivUnknownAvatar.setImageResource(context!!.getAvatarResId(avatarResName))
             }
         })
 
@@ -66,7 +69,7 @@ class AddChildFragment : Fragment(), AddChildContract.View {
         ivUnknownAvatar.setOnClickListener { showAvatarSelectDialog() }
 
         btnDone.setOnClickListener {
-            presenter.saveChild(etName.text.toString(), model.avatarResId.value ?: R.drawable.ic_boy)
+            presenter.saveChild(etName.text.toString(), model.avatarResName.value ?: DEFAULT_AVATAR)
 
             etName.setText("")
             ivUnknownAvatar.setImageResource(R.drawable.ic_unknown_kid)
@@ -85,7 +88,7 @@ class AddChildFragment : Fragment(), AddChildContract.View {
 
     override fun onDestroy() {
         super.onDestroy()
-        model.avatarResId.value = 0
+        model.avatarResName.value = DEFAULT_UNKNOWN_AVATAR
         presenter.unsubscribe()
     }
 

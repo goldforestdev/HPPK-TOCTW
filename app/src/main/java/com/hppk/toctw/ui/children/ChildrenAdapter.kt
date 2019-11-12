@@ -1,16 +1,21 @@
 package com.hppk.toctw.ui.children
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.hppk.toctw.R
+import com.hppk.toctw.common.getAvatarResId
 import com.hppk.toctw.data.model.Child
+import com.hppk.toctw.data.model.DEFAULT_AVATAR
+import com.hppk.toctw.data.model.DEFAULT_UNKNOWN_AVATAR
 import kotlinx.android.synthetic.main.item_child.view.*
 
 
 class ChildrenAdapter(
+    private val context: Context,
     val children: MutableList<Child> = mutableListOf(),
     var viewWidth: Int = 1080,
     private val childListener: ChildClickListener
@@ -50,8 +55,8 @@ class ChildrenAdapter(
         val child = children[position]
         holder.itemView.tvChildName.text = child.name
 
-        val avatarResId = if (child.avatar == 0) R.drawable.ic_boy else child.avatar
-        holder.itemView.ivAvatar.setImageResource(avatarResId)
+        val avatarResName = if (child.avatar == DEFAULT_UNKNOWN_AVATAR) DEFAULT_AVATAR else child.avatar
+        holder.itemView.ivAvatar.setImageResource(context.getAvatarResId(avatarResName))
         holder.itemView.ivDeleteChild.setOnClickListener {
             childListener.deleteChild(child)
         }
