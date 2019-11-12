@@ -1,9 +1,7 @@
 package com.hppk.toctw.ui.booth
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -17,6 +15,7 @@ import kotlinx.android.synthetic.main.fragment_booth.*
 class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister,
     BoothAdapter.BusyClickLister, BoothStaffDialog.BoothBusyStatusClickListener,
     BoothAdapter.StampClickLister, SwipeRefreshLayout.OnRefreshListener {
+
     private val presenter: BoothContract.Presenter by lazy { BoothPresenter(this) }
     private val boothAdapter: BoothAdapter by lazy {
         BoothAdapter(
@@ -24,6 +23,13 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
             busyClickLister = this,
             stampClickLister = this
         )
+    }
+
+    private var viewType = VIEW_TYPE_PHOTO
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -39,6 +45,34 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         initToolbar()
         initRecyclerView()
         initData()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_booth_list, menu)
+
+        val icon = when (viewType) {
+            VIEW_TYPE_PHOTO -> R.drawable.ic_format_list
+            else -> R.drawable.ic_photo
+        }
+        val menuItem = menu.findItem(R.id.menuViewType)
+        menuItem.setIcon(icon)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menuViewType) {
+            val (type, icon) = when (viewType) {
+                VIEW_TYPE_PHOTO -> VIEW_TYPE_LIST to R.drawable.ic_photo
+                else -> VIEW_TYPE_PHOTO to R.drawable.ic_format_list
+            }
+
+            viewType = type
+            boothAdapter.viewType = type
+            boothAdapter.notifyDataSetChanged()
+            item.setIcon(icon)
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initToolbar() {
