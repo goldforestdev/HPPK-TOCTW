@@ -8,4 +8,5 @@ import io.reactivex.Single
 interface ChildStampDao {
     fun save(childStampJoin: ChildStampJoin): Completable
     fun getStampsForChild(name: String): Single<List<Stamp>>
+    fun delete(childName: String): Completable
 }

@@ -25,4 +25,12 @@ interface LocalChildStampDao : ChildStampDao {
            """
     )
     override fun getStampsForChild(name: String): Single<List<Stamp>>
+
+    @Query(
+        """
+            DELETE FROM child_stamp_join 
+            WHERE child_stamp_join.childName=:childName
+            """
+    )
+    override fun delete(childName: String): Completable
 }

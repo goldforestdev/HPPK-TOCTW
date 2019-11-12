@@ -22,8 +22,10 @@ import kotlinx.android.synthetic.main.fragment_children.*
 class ChildrenFragment : Fragment(), ChildrenContract.View, ChildrenAdapter.ChildClickListener {
 
     private val presenter: ChildrenContract.Presenter by lazy {
-        val childDao = AppDatabase.getInstance(context!!).childrenDao()
-        ChildrenPresenter(this, ChildrenRepository(childDao))
+        val db = AppDatabase.getInstance(context!!)
+        val childDao = db.childrenDao()
+        val childStampDao = db.childStampDao()
+        ChildrenPresenter(this, ChildrenRepository(childDao, childStampDao))
     }
     private lateinit var adapter: ChildrenAdapter
 

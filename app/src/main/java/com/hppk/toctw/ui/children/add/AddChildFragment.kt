@@ -32,8 +32,10 @@ class AddChildFragment : Fragment(), AddChildContract.View {
     private lateinit var model: SharedViewModel
 
     private val presenter: AddChildContract.Presenter by lazy {
-        val childDao = AppDatabase.getInstance(context!!).childrenDao()
-        AddChildPresenter(this, ChildrenRepository(childDao))
+        val db = AppDatabase.getInstance(context!!)
+        val childDao = db.childrenDao()
+        val childStampDao = db.childStampDao()
+        AddChildPresenter(this, ChildrenRepository(childDao, childStampDao))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
