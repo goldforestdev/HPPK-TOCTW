@@ -85,7 +85,7 @@ class QRCameraFragment : Fragment(), QRCodeAnalyzer.QRCodeFoundListener, QRCodeC
         qrAnalysis.removeAnalyzer()
         CameraX.unbind(qrAnalysis)
 
-        if (aniDone.visibility != View.VISIBLE) {
+        if (aniDone != null && aniDone.visibility != View.VISIBLE) {
             aniDone.visibility = View.VISIBLE
             aniDone.playAnimation()
 
