@@ -8,5 +8,6 @@ import io.reactivex.Single
 interface ReviewDao {
 
     fun save(booth: Booth, review: Review): Completable
+    fun getLittleReviews(booth: Booth): Single<List<Review>>
     fun getReviews(booth: Booth): Single<List<Review>>
 }

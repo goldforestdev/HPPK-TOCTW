@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
 import com.hppk.toctw.R
 import com.hppk.toctw.data.model.Booth
@@ -45,6 +44,13 @@ class BoothDetailsFragment : Fragment(), BoothDetailsContract.View {
 
         signInContainer.setOnClickListener {
             findNavController().navigate(BoothDetailsFragmentDirections.actionBoothDetailsFragmentToSignInFragment())
+        }
+        btnMoreReviews.setOnClickListener {
+            findNavController().navigate(
+                BoothDetailsFragmentDirections.actionBoothDetailsFragmentToReviewsFragment(
+                    args.booth
+                )
+            )
         }
     }
 
@@ -128,7 +134,12 @@ class BoothDetailsFragment : Fragment(), BoothDetailsContract.View {
     private fun initRatingReview() {
         ratingBar.setOnRatingBarChangeListener { _, rating, fromUser ->
             if (fromUser) {
-                findNavController().navigate(BoothDetailsFragmentDirections.actionBoothDetailsFragmentToAddRatingFragment(args.booth, rating))
+                findNavController().navigate(
+                    BoothDetailsFragmentDirections.actionBoothDetailsFragmentToAddRatingFragment(
+                        args.booth,
+                        rating
+                    )
+                )
             }
         }
 
@@ -160,6 +171,13 @@ class BoothDetailsFragment : Fragment(), BoothDetailsContract.View {
 
     override fun showSignInButton(visible: Int) {
         signInContainer.visibility = visible
+    }
+
+    override fun showMoreReviewButton(show: Boolean) {
+        btnMoreReviews.visibility = when (show) {
+            true -> View.VISIBLE
+            else -> View.GONE
+        }
     }
 
 }

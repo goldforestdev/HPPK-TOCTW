@@ -8,11 +8,13 @@ interface BoothDetailsContract {
         fun onReviewsLoaded(reviews: List<Review>)
         fun onEmptyReviewsLoaded()
         fun showSignInButton(visible: Int)
+        fun showMoreReviewButton(show: Boolean)
     }
 
     interface Presenter {
         fun unsubscribe()
         fun isSignedIn()
         fun getReviews(booth: Booth)
+        fun getReviewsMore(booth: Booth)
     }
 }

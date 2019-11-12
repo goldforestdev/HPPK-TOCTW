@@ -16,7 +16,7 @@ import io.reactivex.schedulers.Schedulers
 class AddRatingPresenter(
     private val view: AddRatingContract.View,
     private val userRepo: UserRepository = UserRepository(remoteUserDao = FirestoreUserDao()),
-    private val reviewRepo: ReviewRepository = ReviewRepository(FirestoreReviewDao()),
+    private val reviewRepo: ReviewRepository = ReviewRepository(),
     private val ioScheduler: Scheduler = Schedulers.io(),
     private val uiScheduler: Scheduler = AndroidSchedulers.mainThread(),
     private val disposable: CompositeDisposable = CompositeDisposable()
