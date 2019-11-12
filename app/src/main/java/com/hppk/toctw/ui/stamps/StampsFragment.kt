@@ -15,6 +15,8 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.TransitionInflater
 import com.hppk.toctw.R
+import com.hppk.toctw.common.getAvatarResId
+import com.hppk.toctw.data.model.DEFAULT_UNKNOWN_AVATAR
 import com.hppk.toctw.data.repository.StampRepository
 import com.hppk.toctw.data.source.local.AppDatabase
 import kotlinx.android.synthetic.main.fragment_stamps.*
@@ -49,8 +51,8 @@ class StampsFragment : Fragment(), StampsContract.View {
         initToolbar()
         initView()
 
-        if (args.child.avatar != 0) {
-            ivAvatar.setImageResource(args.child.avatar)
+        if (args.child.avatar != DEFAULT_UNKNOWN_AVATAR) {
+            ivAvatar.setImageResource(context!!.getAvatarResId(args.child.avatar))
         }
 
         presenter.getStamps(args.child)
