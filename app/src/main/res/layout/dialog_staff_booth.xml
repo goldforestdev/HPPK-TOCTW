@@ -53,7 +53,7 @@
             android:layout_margin="5dp"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:text="원할" />
+            android:text="@string/busy_good" />
 
         <RadioButton
             android:id="@+id/rbNormal"
@@ -67,7 +67,7 @@
             android:textColor="@drawable/radio_busy_text"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:text="보통" />
+            android:text="@string/busy_normal" />
 
         <RadioButton
             android:id="@+id/rbBusy"
@@ -82,7 +82,7 @@
             android:textColor="@drawable/radio_busy_text"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:text="바쁨" />
+            android:text="@string/busy_very" />
 
         <RadioButton
             android:id="@+id/rbClose"
@@ -96,7 +96,7 @@
             android:layout_margin="5dp"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:text="종료" />
+            android:text="@string/busy_close" />
     </RadioGroup>
 
     <TextView
