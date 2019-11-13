@@ -12,6 +12,8 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.hppk.toctw.R
 import com.hppk.toctw.data.model.User
+import com.hppk.toctw.data.repository.AchievementRepository
+import com.hppk.toctw.data.source.local.AppDatabase
 import kotlinx.android.synthetic.main.fragment_add_rating.*
 
 
@@ -19,7 +21,8 @@ class AddRatingFragment : Fragment(), AddRatingContract.View {
 
     private val args: AddRatingFragmentArgs by navArgs()
     private val presenter: AddRatingContract.Presenter by lazy {
-        AddRatingPresenter(this)
+        val db = AppDatabase.getInstance(context!!)
+        AddRatingPresenter(this, achievementRepo = AchievementRepository(db.achievementDao()))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +79,8 @@ class AddRatingFragment : Fragment(), AddRatingContract.View {
 
     override fun onReviewSaved() {
         hideSoftKeyboard()
+        presenter.checkAchievement()
+
         findNavController().navigateUp()
     }
 

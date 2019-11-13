@@ -22,6 +22,8 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun childStampDao(): LocalChildStampDao
 
+    abstract fun achievementDao(): LocalAchievementDao
+
     companion object {
 
         private var INSTANCE: AppDatabase? = null

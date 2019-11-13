@@ -13,5 +13,6 @@ interface AddRatingContract {
         fun unsubscribe()
         fun getMe()
         fun saveReview(booth: Booth, rating: Float, review: String)
+        fun checkAchievement()
     }
 }

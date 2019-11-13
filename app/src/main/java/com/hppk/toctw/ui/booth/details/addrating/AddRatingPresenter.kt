@@ -4,6 +4,7 @@ import android.util.Log
 import com.hppk.toctw.data.model.Booth
 import com.hppk.toctw.data.model.Review
 import com.hppk.toctw.data.model.User
+import com.hppk.toctw.data.repository.AchievementRepository
 import com.hppk.toctw.data.repository.ReviewRepository
 import com.hppk.toctw.data.repository.UserRepository
 import com.hppk.toctw.data.source.impl.FirestoreUserDao
@@ -16,6 +17,7 @@ class AddRatingPresenter(
     private val view: AddRatingContract.View,
     private val userRepo: UserRepository = UserRepository(remoteUserDao = FirestoreUserDao()),
     private val reviewRepo: ReviewRepository = ReviewRepository(),
+    private val achievementRepo: AchievementRepository,
     private val ioScheduler: Scheduler = Schedulers.io(),
     private val uiScheduler: Scheduler = AndroidSchedulers.mainThread(),
     private val disposable: CompositeDisposable = CompositeDisposable()
@@ -54,6 +56,10 @@ class AddRatingPresenter(
                     Log.e(TAG, "[TOCTW] saveReview - failed: ${t.message}", t)
                 })
         )
+    }
+
+    override fun checkAchievement() {
+
     }
 
 }
