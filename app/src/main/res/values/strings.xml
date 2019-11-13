@@ -37,6 +37,7 @@
     <string name="authentication">인증</string>
     <string name="add_notice">공지 추가하기</string>
     <string name="sign_out">로그아웃</string>
+    <string name="sign_out_staff_mode">로그아웃 - 행사 담당자 로그인 중 </string>
 
     <string name="busy_good">여유</string>
     <string name="busy_normal">보통</string>
@@ -85,5 +86,6 @@
     <string name="sign_in">로그인</string>
     <string name="tos_pp">\'Google 계정으로 시작하기\'를 통해 시작하시면, \n본 서비스 이용 약관과 개인정보 취급방침에 동의한 것으로 간주됩니다.</string>
     <string name="review">리뷰</string>
+    <string name="staff">행사 담당</string>
 
 </resources>

@@ -9,12 +9,12 @@ class SettingsPresenter(
 ) : SettingsContract.Presenter {
 
     override fun isSignedIn() {
-        view.showSignOutButton(auth.currentUser != null)
+        view.showSignOutButton(auth.currentUser != null, AppAuth.isStaff)
     }
 
     override fun signOut() {
         auth.signOut()
-        view.showSignOutButton(false)
+        view.showSignOutButton(show = false, isStaff = false)
         AppAuth.setUser(null)
     }
 }

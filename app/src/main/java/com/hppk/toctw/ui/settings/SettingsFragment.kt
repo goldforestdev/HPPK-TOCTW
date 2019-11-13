@@ -38,9 +38,14 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClic
         )?.versionName ?: "none"
     }
 
+    override fun onResume() {
+        super.onResume()
+        presenter.isSignedIn()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter.isSignedIn()
+
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -104,7 +109,10 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClic
         return true
     }
 
-    override fun showSignOutButton(show: Boolean) {
+    override fun showSignOutButton(show: Boolean, isStaff : Boolean) {
         prefSignOut.isVisible = show
+        if (show && isStaff) {
+           prefSignOut.title = context?.getString(R.string.sign_out_staff_mode)
+        }
     }
 }
