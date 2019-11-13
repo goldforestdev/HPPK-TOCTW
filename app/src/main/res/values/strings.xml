@@ -34,7 +34,6 @@
     <string name="previous_events">작년 행사</string>
     <string name="more_program_info">모든 프로그램 정보 보기</string>
     <string name="notice">공지</string>
-    <string name="authentication">인증</string>
     <string name="add_notice">공지 추가하기</string>
     <string name="sign_out">로그아웃</string>
     <string name="sign_out_staff_mode">로그아웃 - 행사 담당자 로그인 중 </string>
@@ -49,7 +48,6 @@
     <string name="message_add_child">스탬프 행사를 위해 자녀의 이름을 알려주세요</string>
     <string name="message_add_child_2">입력하신 정보는 기기 내부에만 저장되며 외부로는 공유되지 않습니다.</string>
 
-    <string name="mission_clear">미션 완료</string>
     <string name="child_stamp">%1$s\'s 스탬프</string>
     <string name="my_children">아이들</string>
     <string name="confirm_delete_child">등록하시 정보를 삭제하시겠습니까?</string>
