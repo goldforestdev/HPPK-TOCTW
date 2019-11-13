@@ -6,12 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.hppk.toctw.data.model.Child
 import com.hppk.toctw.data.model.ChildStampJoin
+import com.hppk.toctw.data.model.Favorites
 import com.hppk.toctw.data.model.Stamp
 
 private const val DB = "hppk_toctw.db"
 
 @Database(
-    entities = [Child::class, Stamp::class, ChildStampJoin::class],
+    entities = [Child::class, Stamp::class, ChildStampJoin::class, Favorites::class],
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -21,6 +22,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun stampDao(): LocalStampDao
 
     abstract fun childStampDao(): LocalChildStampDao
+
+    abstract fun favoritesDao() : LocalFavoritesDao
 
     companion object {
 

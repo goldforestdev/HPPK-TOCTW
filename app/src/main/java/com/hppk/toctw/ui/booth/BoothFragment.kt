@@ -3,20 +3,29 @@ package com.hppk.toctw.ui.booth
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hppk.toctw.R
 import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.data.model.Booth
+import com.hppk.toctw.data.repository.FavoritesRepository
+import com.hppk.toctw.data.source.local.AppDatabase
 import kotlinx.android.synthetic.main.fragment_booth.*
 
 class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister,
     BoothAdapter.BusyClickLister, BoothStaffDialog.BoothBusyStatusClickListener,
     BoothAdapter.StampClickLister, SwipeRefreshLayout.OnRefreshListener {
 
-    private val presenter: BoothContract.Presenter by lazy { BoothPresenter(this) }
+    private val presenter: BoothContract.Presenter by lazy {
+        val db = AppDatabase.getInstance(context!!)
+        BoothPresenter(this, favoritesRepository = FavoritesRepository(localFavoritesDao = db.favoritesDao()))
+    }
+    private val behavior: BottomSheetBehavior<ConstraintLayout> by lazy { BottomSheetBehavior.from(bottomSheet) }
     private val boothAdapter: BoothAdapter by lazy {
         BoothAdapter(
             boothClickLister = this,
@@ -45,6 +54,20 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         initToolbar()
         initRecyclerView()
         initData()
+
+        ivFilter.setOnClickListener {
+            if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+
+        }
+
+        ivBottomHide.setOnClickListener {
+            if (behavior.state != BottomSheetBehavior.STATE_HIDDEN) {
+                behavior.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

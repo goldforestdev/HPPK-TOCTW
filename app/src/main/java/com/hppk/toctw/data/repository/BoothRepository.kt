@@ -12,7 +12,7 @@ class BoothRepository(
 
     fun get(id: String) = remoteBoothDao.get(id)
 
-    fun getDataList() = remoteBoothDao.getDataList()
+    fun getBootList() = remoteBoothDao.getBoothList()
 
     fun updateBoothInfo(booth: Booth) = remoteBoothDao.updateBooth(booth)
 
