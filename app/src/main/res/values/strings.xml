@@ -65,10 +65,11 @@
     <string name="info_lunch">중식 안내</string>
     <string name="base_info">안내 사항</string>
     <string name="security_env_details">
-        - 행사 중에는 반드시 <![CDATA[<font color="#D81B60">보호자와 동행해 주세요.</font><br/>]]>
-        - 행사 당일 <![CDATA[<font color="#D81B60">이름표는 반드시 부착하여 주세요.</font><br/>]]>
-        - 계단 사용 시 <![CDATA[<font color="#D81B60">안전 사고에 유의하여 주세요.</font><br/>]]>
-        - 근무 공간이므로 <![CDATA[<font color="#D81B60">쓰레기는 지정된 장소에 버려주세요.</font>]]>
+        - 어린이는 행사 중 언제나 <![CDATA[<font color="#FFC107">보호자와 동행해 주세요.</font><br/>]]>
+        - 행사 중 <![CDATA[<font color="#FFC107">이름표를 반드시 부착하여 주세요.</font><br/>]]>
+        - 계단 사용 시 <![CDATA[<font color="#FFC107">안전 사고에 유의하여 주세요.</font><br/>]]>
+        - <![CDATA[<font color="#FFC107">쓰레기는 지정된 장소에</font>]]> 버려주세요.<![CDATA[<br/>]]>
+        - 우리의 근무 공간에 <![CDATA[<font color="#FFC107">낙서하거나, 사무환경을 훼손하지 않도록 주의 부탁드립니다.</font><br/>]]>
     </string>
 
     <string name="even_notice">행사 공지</string>

@@ -34,7 +34,6 @@ class BoothDetailsPresenter(
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
                 .subscribe({
-                    Log.d(TAG, "[TOCTW] isSignedIn - me: $it")
                     view.showSignInButton(View.GONE)
                 }, {
                     view.showSignInButton(View.VISIBLE)
@@ -50,6 +49,7 @@ class BoothDetailsPresenter(
                 .subscribe({ reviews ->
                     if (reviews.isNullOrEmpty()) {
                         view.onEmptyReviewsLoaded()
+                        view.showMoreReviewButton(false)
                     } else {
                         view.onReviewsLoaded(reviews.take(MAXIMUM_REVIEW_NUM))
                         view.showMoreReviewButton(reviews.size > MAXIMUM_REVIEW_NUM)

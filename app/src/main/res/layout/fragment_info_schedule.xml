@@ -64,7 +64,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="9:30 ~ 10:00"
+                android:text="9:30 ~ 13:00"
                 app:layout_constraintEnd_toStartOf="@id/tvSchedule1"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
@@ -127,7 +127,7 @@
                 android:id="@+id/tvSchedule3Time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10:30 ~ 15:00"
+                android:text="10:00 ~ 15:00"
                 app:layout_constraintEnd_toEndOf="@id/tvTime1"
                 app:layout_constraintStart_toStartOf="@id/tvTime1"
                 app:layout_constraintTop_toTopOf="@id/tvSchedule3" />
@@ -148,7 +148,7 @@
                 android:id="@+id/tvSchedule3Location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4, 5, 6F 및 10F"
+                android:text="4F ~ 8F"
                 app:layout_constraintEnd_toEndOf="@id/tvTime1Details"
                 app:layout_constraintStart_toStartOf="@id/tvTime1Details"
                 app:layout_constraintTop_toTopOf="@id/tvSchedule3" />
