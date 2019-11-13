@@ -1,7 +1,6 @@
 package com.hppk.toctw.data.repository
 
 import com.hppk.toctw.data.model.Child
-import com.hppk.toctw.data.model.ChildStampJoin
 import com.hppk.toctw.data.source.ChildrenDao
 import com.hppk.toctw.data.source.local.LocalChildStampDao
 import io.reactivex.Completable
