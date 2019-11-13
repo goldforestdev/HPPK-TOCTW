@@ -1,6 +1,5 @@
 package com.hppk.toctw.data.source.local
 
-import android.util.Log
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4

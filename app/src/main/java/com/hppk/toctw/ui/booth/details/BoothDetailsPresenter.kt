@@ -1,9 +1,8 @@
-package com.hppk.toctw.ui.booth.details.addrating
+package com.hppk.toctw.ui.booth.details
 
 import android.util.Log
+import android.view.View
 import com.hppk.toctw.data.model.Booth
-import com.hppk.toctw.data.model.Review
-import com.hppk.toctw.data.model.User
 import com.hppk.toctw.data.repository.ReviewRepository
 import com.hppk.toctw.data.repository.UserRepository
 import com.hppk.toctw.data.source.impl.FirestoreUserDao
@@ -12,48 +11,57 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class AddRatingPresenter(
-    private val view: AddRatingContract.View,
+
+private const val MAXIMUM_REVIEW_NUM = 3
+
+class BoothDetailsPresenter(
+    private val view: BoothDetailsContract.View,
     private val userRepo: UserRepository = UserRepository(remoteUserDao = FirestoreUserDao()),
     private val reviewRepo: ReviewRepository = ReviewRepository(),
     private val ioScheduler: Scheduler = Schedulers.io(),
     private val uiScheduler: Scheduler = AndroidSchedulers.mainThread(),
     private val disposable: CompositeDisposable = CompositeDisposable()
-) : AddRatingContract.Presenter {
-
-    private val TAG = AddRatingPresenter::class.java.simpleName
-
-    private lateinit var me: User
+) : BoothDetailsContract.Presenter {
+    private val TAG = BoothDetailsPresenter::class.java.simpleName
 
     override fun unsubscribe() {
         disposable.clear()
     }
 
-    override fun getMe() {
+    override fun isSignedIn() {
         disposable.add(
             userRepo.getMe()
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
                 .subscribe({
-                    me = it
-                    view.onMeLoaded(it)
-                }, { t ->
-                    Log.e(TAG, "[TOCTW] getMe - failed: ${t.message}", t)
+                    Log.d(TAG, "[TOCTW] isSignedIn - me: $it")
+                    view.showSignInButton(View.GONE)
+                }, {
+                    view.showSignInButton(View.VISIBLE)
                 })
         )
     }
 
-    override fun saveReview(booth: Booth, rating: Float, review: String) {
+    override fun getReviews(booth: Booth) {
         disposable.add(
-            reviewRepo.save(booth, Review(me.id, me.name, me.profile, rating, review))
+            reviewRepo.getLittleReviews(booth)
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
-                .subscribe({
-                    view.onReviewSaved()
-                }, {t ->
-                    Log.e(TAG, "[TOCTW] saveReview - failed: ${t.message}", t)
+                .subscribe({ reviews ->
+                    if (reviews.isNullOrEmpty()) {
+                        view.onEmptyReviewsLoaded()
+                    } else {
+                        view.onReviewsLoaded(reviews.take(MAXIMUM_REVIEW_NUM))
+                        view.showMoreReviewButton(reviews.size > MAXIMUM_REVIEW_NUM)
+                    }
+                }, { t ->
+                    Log.e(TAG, "[TOCTW] getLittleReviews - failed: ${t.message}", t)
                 })
         )
+    }
+
+    override fun getReviewsMore(booth: Booth) {
+
     }
 
 }

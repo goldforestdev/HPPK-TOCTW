@@ -61,9 +61,7 @@ class StampsFragment : Fragment(), StampsContract.View {
     private fun initToolbar() {
         (activity as AppCompatActivity).let {
             it.setSupportActionBar(toolbar)
-            it.supportActionBar?.let { actionBar ->
-                actionBar.setDisplayHomeAsUpEnabled(true)
-            }
+            it.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
         collapsingToolbarLayout.title = getString(R.string.child_stamp, args.child.name)
     }

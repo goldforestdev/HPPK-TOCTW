@@ -13,8 +13,6 @@ import com.hppk.toctw.common.dateFormat
 import com.hppk.toctw.data.model.Notice
 import kotlinx.android.synthetic.main.item_home_header.view.*
 import kotlinx.android.synthetic.main.item_home_notice_list.view.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class HomeAdapter(

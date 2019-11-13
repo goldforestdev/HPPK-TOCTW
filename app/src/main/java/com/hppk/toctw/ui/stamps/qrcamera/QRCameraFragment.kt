@@ -4,7 +4,6 @@ package com.hppk.toctw.ui.stamps.qrcamera
 import android.animation.Animator
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.util.Rational
 import android.util.Size
 import android.view.LayoutInflater
