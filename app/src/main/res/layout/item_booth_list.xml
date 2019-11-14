@@ -91,10 +91,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="24dp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:src="@drawable/ic_star_border"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivPhoto"
             app:layout_constraintBottom_toBottomOf="parent " />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

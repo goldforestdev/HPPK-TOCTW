@@ -1,6 +1,7 @@
 package com.hppk.toctw.ui.booth
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.hppk.toctw.R
 import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.data.model.Booth
 import com.hppk.toctw.data.model.Busy
+import com.hppk.toctw.data.model.Favorites
 import kotlinx.android.synthetic.main.item_booth_list.view.*
 
 
@@ -21,6 +23,7 @@ const val VIEW_TYPE_LIST = 1
 
 class BoothAdapter(
     val booths: MutableList<Booth> = mutableListOf(),
+    val favorites : MutableList<Favorites> = mutableListOf(),
     var viewType: Int = VIEW_TYPE_PHOTO,
     private var context: Context? = null,
     private val boothClickLister: BoothClickLister,
@@ -73,6 +76,13 @@ class BoothAdapter(
                 setBusyView(position)
 
                 if (booth.isStamp) ivStamp.visibility = View.VISIBLE else ivStamp.visibility = View.GONE
+
+                for (data in favorites) {
+                    if(data.id == booth.id) {
+                        ivStar.setImageResource(R.drawable.ic_star_selected)
+                        break
+                    }
+                }
 
                 viewBusy.setOnClickListener {
                     setBoothBusyClickListener(position)

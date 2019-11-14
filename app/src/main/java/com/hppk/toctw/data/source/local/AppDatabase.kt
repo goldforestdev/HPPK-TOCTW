@@ -13,7 +13,7 @@ private const val DB = "hppk_toctw.db"
 
 @Database(
     entities = [Child::class, Stamp::class, ChildStampJoin::class, Favorites::class],
-    version = 1
+    version = 2
 )
 abstract class AppDatabase : RoomDatabase() {
 

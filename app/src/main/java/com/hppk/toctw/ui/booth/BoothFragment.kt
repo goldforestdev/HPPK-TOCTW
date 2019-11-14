@@ -13,6 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hppk.toctw.R
 import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.data.model.Booth
+import com.hppk.toctw.data.model.Favorites
 import com.hppk.toctw.data.repository.FavoritesRepository
 import com.hppk.toctw.data.source.local.AppDatabase
 import kotlinx.android.synthetic.main.fragment_booth.*
@@ -129,9 +130,11 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
 
     }
 
-    override fun onBoothListLoaded(boothDataList: List<Booth>) {
+    override fun onBoothListLoaded(boothDataList: List<Booth>, favorites: List<Favorites>) {
         boothAdapter.booths.clear()
         boothAdapter.booths.addAll(boothDataList)
+        boothAdapter.favorites.clear()
+        boothAdapter.favorites.addAll(favorites)
         boothAdapter.notifyDataSetChanged()
     }
 

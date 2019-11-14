@@ -2,14 +2,19 @@ package com.hppk.toctw.ui.booth
 
 import android.util.Log
 import com.hppk.toctw.data.model.Booth
+import com.hppk.toctw.data.model.Favorites
 import com.hppk.toctw.data.repository.BoothRepository
 import com.hppk.toctw.data.repository.FavoritesRepository
 import com.hppk.toctw.data.source.FavoritesDao
 import com.hppk.toctw.data.source.impl.FirestoreBoothDao
 import com.hppk.toctw.data.source.local.LocalFavoritesDao
+import io.reactivex.Observable
 import io.reactivex.Scheduler
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 
 class BoothPresenter (
@@ -41,42 +46,52 @@ class BoothPresenter (
     }
 
     override fun loadCollection() {
+        val boothList = boothRepository.getBootList()
+            .subscribeOn(ioScheduler)
+            .observeOn(uiScheduler)
+        /*.observeOn(uiScheduler)
+        .doOnSubscribe{view.showWaitingView(true)}
+        .doOnError { view.showWaitingView(false) }
+        .doOnSuccess { view.showWaitingView(false) }
+        .subscribe({
+            view.onBoothListLoaded(it)
+        }, { t->
+            Log.e(TAG, "[TOCTW] loadCollection - failed: ${t.message}", t)
+        })*/
+
+        val favoritesList = favoritesRepository.getAll()
+            .subscribeOn(ioScheduler)
+            /*.observeOn(uiScheduler)
+            .doOnSubscribe{view.showWaitingView(true)}
+            .doOnError { view.showWaitingView(false) }
+            .doOnSuccess { view.showWaitingView(false) }
+            .subscribe({
+                view.onBoothListLoaded(it)
+            }, { t->
+                Log.e(TAG, "[TOCTW] loadCollection - failed: ${t.message}", t)
+            })*/
         disposable.add(
-            boothRepository.getBootList()
+            Single.zip(boothList, favoritesList
+                , BiFunction<List<Booth>,List<Favorites>,Pair<List<Booth>,List<Favorites>>>{t1, t2 -> Pair(t1,t2) })
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
-                .doOnSubscribe{view.showWaitingView(true)}
+                .doOnSubscribe {
+                    view.showWaitingView(true)
+                }
                 .doOnError { view.showWaitingView(false) }
                 .doOnSuccess { view.showWaitingView(false) }
                 .subscribe({
-                    view.onBoothListLoaded(it)
-                    updateFavoritesData(it)
-                }, { t->
-                    Log.e(TAG, "[TOCTW] loadCollection - failed: ${t.message}", t)
+                    view.onBoothListLoaded(it.first, it.second)
+                }, { e ->
+                    view.showWaitingView(false)
+                    Log.e(TAG, "[TOCTW] boothInfo - failed: ${e.message}", e)
                 })
         )
     }
 
 
     private fun updateFavoritesData(boothList : List<Booth>) {
-        if(boothList.isNotEmpty()) {
-            for (data in boothList) {
-                disposable.add(
-                    favoritesRepository.getBoothFavoriteInfo(data.id)
-                        .subscribeOn(ioScheduler)
-                        .observeOn(uiScheduler)
-                        .doOnSubscribe{view.showWaitingView(true)}
-                        .doOnError { view.showWaitingView(false) }
-                        .doOnSuccess { view.showWaitingView(false) }
-                        .subscribe({
-                            Log.e(TAG, "[TOCTW] updateFavoritesData - success:")
 
-                        }, { t->
-                            Log.e(TAG, "[TOCTW] updateFavoritesData - failed: ${t.message}", t)
-                        })
-                )
-            }
-        }
 
     }
 
