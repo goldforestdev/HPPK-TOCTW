@@ -3,13 +3,10 @@ package com.hppk.toctw.ui.booth
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hppk.toctw.R
 import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.data.model.Booth
@@ -40,6 +37,10 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
     private var favoritesMode = false
     private var favoritesIdList: MutableList<String> = mutableListOf()
     private var boothList : MutableList<Booth> = mutableListOf()
+    private lateinit var favoriteMenuItem : MenuItem
+    private val favoritesListSize : Int
+            get() = favoritesIdList.size
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,19 +60,6 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         initToolbar()
         initRecyclerView()
         initData()
-        initFloating()
-    }
-
-    private fun initFloating() {
-        flFavorites.setOnClickListener {
-            favoritesMode = !favoritesMode
-            if (favoritesMode) {
-                flFavorites.setImageResource(R.drawable.ic_menu)
-            } else {
-                flFavorites.setImageResource(R.drawable.ic_star_white)
-            }
-            showBoothList(boothList)
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -84,6 +72,14 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         }
         val menuItem = menu.findItem(R.id.menuViewType)
         menuItem.setIcon(icon)
+
+        val favoriteIcon = when (favoritesMode) {
+            true -> R.drawable.ic_star_white_enable
+            else -> R.drawable.ic_star_white_disable
+        }
+        favoriteMenuItem = menu.findItem(R.id.menuViewFavorite)
+        favoriteMenuItem.setIcon(favoriteIcon)
+        favoriteMenuItem.isVisible = false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -96,6 +92,15 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
             viewType = type
             boothAdapter.viewType = type
             boothAdapter.notifyDataSetChanged()
+            item.setIcon(icon)
+        } else if (item.itemId == R.id.menuViewFavorite) {
+            val (mode , icon) = when (favoritesMode) {
+                true -> false to R.drawable.ic_star_white_disable
+                else -> true to R.drawable.ic_star_white_enable
+            }
+
+            favoritesMode = mode
+            showBoothList(boothList)
             item.setIcon(icon)
         }
 
@@ -150,6 +155,10 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         boothAdapter.notifyDataSetChanged()
     }
 
+    private fun showFavoritesIcon() {
+        favoriteMenuItem.isVisible = favoritesListSize != 0
+    }
+
     override fun onBoothListLoaded(boothDataList: List<Booth>, favorites: List<Favorites>) {
         favoritesIdList.clear()
         boothList.clear()
@@ -160,6 +169,7 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         boothAdapter.favorites.clear()
         boothAdapter.favorites.addAll(favoritesIdList)
         showBoothList(boothList)
+        showFavoritesIcon()
 
     }
 
@@ -205,8 +215,12 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
 
         boothAdapter.favorites.clear()
         boothAdapter.favorites.addAll(favoritesIdList)
+
+        if(favoritesListSize == 0) {
+            favoritesMode = false
+        }
         showBoothList(boothList)
-        boothAdapter.notifyDataSetChanged()
+        showFavoritesIcon()
     }
 
     override fun showWaitingView(show: Boolean) {
@@ -220,6 +234,8 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
     }
 
     override fun onRefresh() {
+
+
         presenter.loadCollection()
     }
 }

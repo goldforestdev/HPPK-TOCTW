@@ -8,4 +8,10 @@
         android:title="보기 방식"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/menuViewFavorite"
+        android:icon="@drawable/ic_star_white_disable"
+        android:title="즐겨찾기 보기"
+        app:showAsAction="ifRoom" />
+
 </menu>

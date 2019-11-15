@@ -77,9 +77,6 @@ class BoothPresenter (
             favoritesRepository.save(favorites)
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
-                .doOnSubscribe{view.showWaitingView(true)}
-                .doOnError { view.showWaitingView(false) }
-                .doOnComplete { view.showWaitingView(false) }
                 .subscribe({
                     view.onUpdateBoothInfoSuccess()
                 }, { t->
@@ -94,9 +91,6 @@ class BoothPresenter (
             favoritesRepository.delete(favorites)
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
-                .doOnSubscribe{view.showWaitingView(true)}
-                .doOnError { view.showWaitingView(false) }
-                .doOnComplete { view.showWaitingView(false) }
                 .subscribe({
                     view.onUpdateBoothInfoSuccess()
                 }, { t->
@@ -110,9 +104,6 @@ class BoothPresenter (
             boothRepository.updateBoothInfo(booth)
                 .subscribeOn(ioScheduler)
                 .observeOn(uiScheduler)
-                .doOnSubscribe{view.showWaitingView(true)}
-                .doOnError { view.showWaitingView(false) }
-                .doOnComplete { view.showWaitingView(false) }
                 .subscribe({
                     view.onUpdateBoothInfoSuccess()
                 }, { t->
