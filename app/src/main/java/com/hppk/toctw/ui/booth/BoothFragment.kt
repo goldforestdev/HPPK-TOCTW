@@ -37,6 +37,10 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
     private var favoritesMode = false
     private var favoritesIdList: MutableList<String> = mutableListOf()
     private var boothList : MutableList<Booth> = mutableListOf()
+    private lateinit var favoriteMenuItem : MenuItem
+    private val favoritesListSize : Int
+            get() = favoritesIdList.size
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,12 +73,12 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         val menuItem = menu.findItem(R.id.menuViewType)
         menuItem.setIcon(icon)
 
-        val icon2 = when (favoritesMode) {
+        val favoriteIcon = when (favoritesMode) {
             true -> R.drawable.ic_star_white_enable
             else -> R.drawable.ic_star_white_disable
         }
-        val menuItem2 = menu.findItem(R.id.menuViewFavorite)
-        menuItem2.setIcon(icon2)
+        favoriteMenuItem = menu.findItem(R.id.menuViewFavorite)
+        favoriteMenuItem.setIcon(favoriteIcon)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -150,6 +154,10 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         boothAdapter.notifyDataSetChanged()
     }
 
+    private fun showFavoritesIcon() {
+        favoriteMenuItem.isVisible = favoritesListSize != 0
+    }
+
     override fun onBoothListLoaded(boothDataList: List<Booth>, favorites: List<Favorites>) {
         favoritesIdList.clear()
         boothList.clear()
@@ -160,6 +168,7 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         boothAdapter.favorites.clear()
         boothAdapter.favorites.addAll(favoritesIdList)
         showBoothList(boothList)
+        showFavoritesIcon()
 
     }
 
@@ -205,8 +214,12 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
 
         boothAdapter.favorites.clear()
         boothAdapter.favorites.addAll(favoritesIdList)
+
+        if(favoritesListSize == 0) {
+            favoritesMode = false
+        }
         showBoothList(boothList)
-        boothAdapter.notifyDataSetChanged()
+        showFavoritesIcon()
     }
 
     override fun showWaitingView(show: Boolean) {
