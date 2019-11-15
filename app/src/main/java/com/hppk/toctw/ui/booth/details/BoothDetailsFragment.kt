@@ -123,7 +123,7 @@ class BoothDetailsFragment : Fragment(), BoothDetailsContract.View {
         if (booth.locationColorRes.isNotEmpty()) {
             var id = resources.getIdentifier(booth.locationColorRes, "color", activity?.packageName)
             if (id == 0) {
-                id = getColorWrapper(context!!, R.color.five_color)
+                id = R.color.five_color
             }
             cpLocation.setChipBackgroundColorResource(id)
         } else {
