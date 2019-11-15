@@ -5,16 +5,12 @@ import com.hppk.toctw.data.model.Booth
 import com.hppk.toctw.data.model.Favorites
 import com.hppk.toctw.data.repository.BoothRepository
 import com.hppk.toctw.data.repository.FavoritesRepository
-import com.hppk.toctw.data.source.FavoritesDao
 import com.hppk.toctw.data.source.impl.FirestoreBoothDao
-import com.hppk.toctw.data.source.local.LocalFavoritesDao
-import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
-import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 
 class BoothPresenter (
@@ -27,6 +23,7 @@ class BoothPresenter (
 ): BoothContract.Presenter {
 
     private val TAG = BoothPresenter::class.java.simpleName
+    private var favorites = Favorites()
 
     override fun unsubscribe() {
         disposable.clear()
@@ -49,27 +46,11 @@ class BoothPresenter (
         val boothList = boothRepository.getBootList()
             .subscribeOn(ioScheduler)
             .observeOn(uiScheduler)
-        /*.observeOn(uiScheduler)
-        .doOnSubscribe{view.showWaitingView(true)}
-        .doOnError { view.showWaitingView(false) }
-        .doOnSuccess { view.showWaitingView(false) }
-        .subscribe({
-            view.onBoothListLoaded(it)
-        }, { t->
-            Log.e(TAG, "[TOCTW] loadCollection - failed: ${t.message}", t)
-        })*/
+
 
         val favoritesList = favoritesRepository.getAll()
             .subscribeOn(ioScheduler)
-            /*.observeOn(uiScheduler)
-            .doOnSubscribe{view.showWaitingView(true)}
-            .doOnError { view.showWaitingView(false) }
-            .doOnSuccess { view.showWaitingView(false) }
-            .subscribe({
-                view.onBoothListLoaded(it)
-            }, { t->
-                Log.e(TAG, "[TOCTW] loadCollection - failed: ${t.message}", t)
-            })*/
+
         disposable.add(
             Single.zip(boothList, favoritesList
                 , BiFunction<List<Booth>,List<Favorites>,Pair<List<Booth>,List<Favorites>>>{t1, t2 -> Pair(t1,t2) })
@@ -90,9 +71,38 @@ class BoothPresenter (
     }
 
 
-    private fun updateFavoritesData(boothList : List<Booth>) {
+    override fun saveFavoritesData(booth: Booth) {
+        favorites.id = booth.id
+        disposable.add(
+            favoritesRepository.save(favorites)
+                .subscribeOn(ioScheduler)
+                .observeOn(uiScheduler)
+                .doOnSubscribe{view.showWaitingView(true)}
+                .doOnError { view.showWaitingView(false) }
+                .doOnComplete { view.showWaitingView(false) }
+                .subscribe({
+                    view.onUpdateBoothInfoSuccess()
+                }, { t->
+                    Log.e(TAG, "[TOCTW] loadCollection - failed: ${t.message}", t)
+                })
+        )
+    }
 
-
+    override fun deleteFavoritesData(booth: Booth) {
+        favorites.id = booth.id
+        disposable.add(
+            favoritesRepository.delete(favorites)
+                .subscribeOn(ioScheduler)
+                .observeOn(uiScheduler)
+                .doOnSubscribe{view.showWaitingView(true)}
+                .doOnError { view.showWaitingView(false) }
+                .doOnComplete { view.showWaitingView(false) }
+                .subscribe({
+                    view.onUpdateBoothInfoSuccess()
+                }, { t->
+                    Log.e(TAG, "[TOCTW] loadCollection - failed: ${t.message}", t)
+                })
+        )
     }
 
     override fun updateBoothInfo(booth: Booth) {

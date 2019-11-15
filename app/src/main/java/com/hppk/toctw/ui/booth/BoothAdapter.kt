@@ -23,12 +23,13 @@ const val VIEW_TYPE_LIST = 1
 
 class BoothAdapter(
     val booths: MutableList<Booth> = mutableListOf(),
-    val favorites : MutableList<Favorites> = mutableListOf(),
+    val favorites : MutableList<String> = mutableListOf(),
     var viewType: Int = VIEW_TYPE_PHOTO,
     private var context: Context? = null,
     private val boothClickLister: BoothClickLister,
     private val busyClickLister: BusyClickLister,
-    private val stampClickLister: StampClickLister
+    private val stampClickLister: StampClickLister,
+    private val favoritesClickLister : FavoritesClickLister
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -54,6 +55,10 @@ class BoothAdapter(
         fun onStampClick(booth: Booth)
     }
 
+    interface FavoritesClickLister {
+        fun onFavoritesClick(booth: Booth, position: Int)
+    }
+
     override fun getItemCount(): Int = booths.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -77,11 +82,14 @@ class BoothAdapter(
 
                 if (booth.isStamp) ivStamp.visibility = View.VISIBLE else ivStamp.visibility = View.GONE
 
-                for (data in favorites) {
-                    if(data.id == booth.id) {
-                        ivStar.setImageResource(R.drawable.ic_star_selected)
-                        break
-                    }
+                if (favorites.contains(booth.id)) {
+                    ivStar.setImageResource(R.drawable.ic_star_selected)
+                } else {
+                    ivStar.setImageResource(R.drawable.ic_star_border)
+                }
+
+                ivStar.setOnClickListener {
+                    favoritesClickLister.onFavoritesClick(booth, position)
                 }
 
                 viewBusy.setOnClickListener {

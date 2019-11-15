@@ -17,10 +17,11 @@ import com.hppk.toctw.data.model.Favorites
 import com.hppk.toctw.data.repository.FavoritesRepository
 import com.hppk.toctw.data.source.local.AppDatabase
 import kotlinx.android.synthetic.main.fragment_booth.*
+import kotlinx.android.synthetic.main.item_booth_list.*
 
 class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister,
     BoothAdapter.BusyClickLister, BoothStaffDialog.BoothBusyStatusClickListener,
-    BoothAdapter.StampClickLister, SwipeRefreshLayout.OnRefreshListener {
+    BoothAdapter.StampClickLister, SwipeRefreshLayout.OnRefreshListener, BoothAdapter.FavoritesClickLister {
 
     private val presenter: BoothContract.Presenter by lazy {
         val db = AppDatabase.getInstance(context!!)
@@ -31,11 +32,13 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         BoothAdapter(
             boothClickLister = this,
             busyClickLister = this,
-            stampClickLister = this
+            stampClickLister = this,
+            favoritesClickLister = this
         )
     }
 
     private var viewType = VIEW_TYPE_PHOTO
+    private var favoritesIdList: MutableList<String> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,10 +134,14 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
     }
 
     override fun onBoothListLoaded(boothDataList: List<Booth>, favorites: List<Favorites>) {
+        favoritesIdList.clear()
+        for (favoritesData in favorites) {
+            favoritesIdList.add(favoritesData.id)
+        }
         boothAdapter.booths.clear()
         boothAdapter.booths.addAll(boothDataList)
         boothAdapter.favorites.clear()
-        boothAdapter.favorites.addAll(favorites)
+        boothAdapter.favorites.addAll(favoritesIdList)
         boothAdapter.notifyDataSetChanged()
     }
 
@@ -165,6 +172,22 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
             boothStaffDialog.show(activity!!.supportFragmentManager, null)
         }
 
+    }
+
+    override fun onFavoritesClick(booth: Booth, position: Int) {
+        if (favoritesIdList.contains(booth.id)) {
+            ivStar.setImageResource(R.drawable.ic_star_border)
+            presenter.deleteFavoritesData(booth)
+            favoritesIdList.remove(booth.id)
+        } else {
+            ivStar.setImageResource(R.drawable.ic_star_selected)
+            presenter.saveFavoritesData(booth)
+            favoritesIdList.add(booth.id)
+        }
+
+        boothAdapter.favorites.clear()
+        boothAdapter.favorites.addAll(favoritesIdList)
+        boothAdapter.notifyItemChanged(position)
     }
 
     override fun showWaitingView(show: Boolean) {

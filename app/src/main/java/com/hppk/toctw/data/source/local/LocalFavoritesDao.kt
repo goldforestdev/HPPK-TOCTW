@@ -14,4 +14,7 @@ interface LocalFavoritesDao : FavoritesDao {
     @Query("SELECT * FROM favorites")
     override fun getAll() : Single<List<Favorites>>
 
+    @Delete
+    override fun delete(vararg favoriteId: Favorites): Completable
+
 }

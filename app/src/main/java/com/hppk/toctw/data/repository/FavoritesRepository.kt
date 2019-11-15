@@ -9,8 +9,8 @@ class FavoritesRepository(
     private val remoteFavoritesDao: FavoritesDao? = null
 )  {
 
-    fun save(favoriteId: Favorites) = localFavoritesDao.save(favoriteId)
+    fun save(favorite: Favorites) = localFavoritesDao.save(favorite)
 
-
+    fun delete(favorite: Favorites) = localFavoritesDao.delete(favorite)
     fun getAll(): Single<List<Favorites>> = localFavoritesDao.getAll()
 }

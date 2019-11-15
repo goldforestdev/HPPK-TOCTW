@@ -17,5 +17,7 @@ interface BoothContract {
         fun loadCollection()
         fun updateBoothInfo(booth: Booth)
         fun unsubscribe()
+        fun saveFavoritesData(booth: Booth)
+        fun deleteFavoritesData(booth: Booth)
     }
 }
