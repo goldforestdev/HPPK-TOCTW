@@ -35,7 +35,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         private val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("CREATE TABLE `Favorites` (`id` TEXT, " +
+                database.execSQL("CREATE TABLE `Favorites` (`id` TEXT NOT NULL, " +
                         "PRIMARY KEY(`id`))")
             }
         }

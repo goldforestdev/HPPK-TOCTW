@@ -25,6 +25,7 @@ class BoothAdapter(
     val booths: MutableList<Booth> = mutableListOf(),
     val favorites : MutableList<String> = mutableListOf(),
     var viewType: Int = VIEW_TYPE_PHOTO,
+    var favoritesMode : Boolean = true,
     private var context: Context? = null,
     private val boothClickLister: BoothClickLister,
     private val busyClickLister: BusyClickLister,
@@ -56,7 +57,7 @@ class BoothAdapter(
     }
 
     interface FavoritesClickLister {
-        fun onFavoritesClick(booth: Booth, position: Int)
+        fun onFavoritesClick(booth: Booth)
     }
 
     override fun getItemCount(): Int = booths.size
@@ -82,16 +83,6 @@ class BoothAdapter(
 
                 if (booth.isStamp) ivStamp.visibility = View.VISIBLE else ivStamp.visibility = View.GONE
 
-                if (favorites.contains(booth.id)) {
-                    ivStar.setImageResource(R.drawable.ic_star_selected)
-                } else {
-                    ivStar.setImageResource(R.drawable.ic_star_border)
-                }
-
-                ivStar.setOnClickListener {
-                    favoritesClickLister.onFavoritesClick(booth, position)
-                }
-
                 viewBusy.setOnClickListener {
                     setBoothBusyClickListener(position)
                 }
@@ -106,6 +97,19 @@ class BoothAdapter(
 
                 itemView.setOnClickListener {
                     boothClickLister.onBoothClick(booth)
+                }
+
+
+                if (favorites.contains(booth.id)) {
+                    ivStar.setImageResource(R.drawable.ic_star_selected)
+
+                } else {
+                    ivStar.setImageResource(R.drawable.ic_star_border)
+
+                }
+
+                ivStar.setOnClickListener {
+                    favoritesClickLister.onFavoritesClick(booth)
                 }
             }
         }

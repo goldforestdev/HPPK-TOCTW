@@ -27,7 +27,6 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         val db = AppDatabase.getInstance(context!!)
         BoothPresenter(this, favoritesRepository = FavoritesRepository(localFavoritesDao = db.favoritesDao()))
     }
-    private val behavior: BottomSheetBehavior<ConstraintLayout> by lazy { BottomSheetBehavior.from(bottomSheet) }
     private val boothAdapter: BoothAdapter by lazy {
         BoothAdapter(
             boothClickLister = this,
@@ -38,7 +37,9 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
     }
 
     private var viewType = VIEW_TYPE_PHOTO
+    private var favoritesMode = false
     private var favoritesIdList: MutableList<String> = mutableListOf()
+    private var boothList : MutableList<Booth> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,19 +59,18 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         initToolbar()
         initRecyclerView()
         initData()
+        initFloating()
+    }
 
-        ivFilter.setOnClickListener {
-            if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+    private fun initFloating() {
+        flFavorites.setOnClickListener {
+            favoritesMode = !favoritesMode
+            if (favoritesMode) {
+                flFavorites.setImageResource(R.drawable.ic_menu)
+            } else {
+                flFavorites.setImageResource(R.drawable.ic_star_white)
             }
-
-        }
-
-        ivBottomHide.setOnClickListener {
-            if (behavior.state != BottomSheetBehavior.STATE_HIDDEN) {
-                behavior.state = BottomSheetBehavior.STATE_HIDDEN
-            }
-
+            showBoothList(boothList)
         }
     }
 
@@ -133,16 +133,34 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
 
     }
 
+    private fun showBoothList(boothDataList: List<Booth>) {
+        boothAdapter.booths.clear()
+        if (favoritesMode) {
+           for (boothData in boothDataList) {
+               for (favoritesId in favoritesIdList) {
+                   if (boothData.id == favoritesId) {
+                       boothAdapter.booths.add(boothData)
+                   }
+               }
+           }
+        } else {
+            boothAdapter.booths.addAll(boothDataList)
+        }
+
+        boothAdapter.notifyDataSetChanged()
+    }
+
     override fun onBoothListLoaded(boothDataList: List<Booth>, favorites: List<Favorites>) {
         favoritesIdList.clear()
+        boothList.clear()
         for (favoritesData in favorites) {
             favoritesIdList.add(favoritesData.id)
         }
-        boothAdapter.booths.clear()
-        boothAdapter.booths.addAll(boothDataList)
+        boothList = boothDataList.toMutableList()
         boothAdapter.favorites.clear()
         boothAdapter.favorites.addAll(favoritesIdList)
-        boothAdapter.notifyDataSetChanged()
+        showBoothList(boothList)
+
     }
 
     override fun onBoothClick(booth: Booth) {
@@ -174,7 +192,7 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
 
     }
 
-    override fun onFavoritesClick(booth: Booth, position: Int) {
+    override fun onFavoritesClick(booth: Booth) {
         if (favoritesIdList.contains(booth.id)) {
             ivStar.setImageResource(R.drawable.ic_star_border)
             presenter.deleteFavoritesData(booth)
@@ -187,7 +205,8 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
 
         boothAdapter.favorites.clear()
         boothAdapter.favorites.addAll(favoritesIdList)
-        boothAdapter.notifyItemChanged(position)
+        showBoothList(boothList)
+        boothAdapter.notifyDataSetChanged()
     }
 
     override fun showWaitingView(show: Boolean) {

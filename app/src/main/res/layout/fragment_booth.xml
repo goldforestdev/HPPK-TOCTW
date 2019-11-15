@@ -50,54 +50,13 @@
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/ivFilter"
-            android:src="@drawable/ic_menu"
+            android:id="@+id/flFavorites"
+            android:src="@drawable/ic_star_white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="24dp"
+            android:layout_margin="50dp"
             app:fabSize="mini"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottomSheet"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/shape_filter_bg"
-        android:paddingBottom="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:behavior_fitToContents="false"
-        app:behavior_peekHeight="0dp"
-        app:behavior_hideable="true"
-        app:layout_behavior="@string/bottom_sheet_behavior">
-
-        <TextView
-            android:id="@+id/tvBottomTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="44dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:lines="1"
-            android:maxLines="1"
-            android:text="필터"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/ivBottomHide" />
-
-        <ImageView
-            android:id="@+id/ivBottomHide"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            android:background="@drawable/ic_hide"
-            android:backgroundTint="@color/colorPrimaryLight"
-            app:layout_constraintTop_toTopOf="@id/tvBottomTitle"
-            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
