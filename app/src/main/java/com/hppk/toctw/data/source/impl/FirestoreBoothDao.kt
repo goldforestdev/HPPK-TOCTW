@@ -42,7 +42,7 @@ class FirestoreBoothDao(
             }
     }
 
-    override fun getDataList() = Single.create<List<Booth>> { emitter ->
+    override fun getBoothList() = Single.create<List<Booth>> { emitter ->
         db.collection(BOOTH)
             .orderBy("id")
             .get()

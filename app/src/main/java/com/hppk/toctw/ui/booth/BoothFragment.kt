@@ -3,29 +3,43 @@ package com.hppk.toctw.ui.booth
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hppk.toctw.R
 import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.data.model.Booth
+import com.hppk.toctw.data.model.Favorites
+import com.hppk.toctw.data.repository.FavoritesRepository
+import com.hppk.toctw.data.source.local.AppDatabase
 import kotlinx.android.synthetic.main.fragment_booth.*
+import kotlinx.android.synthetic.main.item_booth_list.*
 
 class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLister,
     BoothAdapter.BusyClickLister, BoothStaffDialog.BoothBusyStatusClickListener,
-    BoothAdapter.StampClickLister, SwipeRefreshLayout.OnRefreshListener {
+    BoothAdapter.StampClickLister, SwipeRefreshLayout.OnRefreshListener, BoothAdapter.FavoritesClickLister {
 
-    private val presenter: BoothContract.Presenter by lazy { BoothPresenter(this) }
+    private val presenter: BoothContract.Presenter by lazy {
+        val db = AppDatabase.getInstance(context!!)
+        BoothPresenter(this, favoritesRepository = FavoritesRepository(localFavoritesDao = db.favoritesDao()))
+    }
     private val boothAdapter: BoothAdapter by lazy {
         BoothAdapter(
             boothClickLister = this,
             busyClickLister = this,
-            stampClickLister = this
+            stampClickLister = this,
+            favoritesClickLister = this
         )
     }
 
     private var viewType = VIEW_TYPE_PHOTO
+    private var favoritesMode = false
+    private var favoritesIdList: MutableList<String> = mutableListOf()
+    private var boothList : MutableList<Booth> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +59,19 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         initToolbar()
         initRecyclerView()
         initData()
+        initFloating()
+    }
+
+    private fun initFloating() {
+        flFavorites.setOnClickListener {
+            favoritesMode = !favoritesMode
+            if (favoritesMode) {
+                flFavorites.setImageResource(R.drawable.ic_menu)
+            } else {
+                flFavorites.setImageResource(R.drawable.ic_star_white)
+            }
+            showBoothList(boothList)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -106,10 +133,34 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
 
     }
 
-    override fun onBoothListLoaded(boothDataList: List<Booth>) {
+    private fun showBoothList(boothDataList: List<Booth>) {
         boothAdapter.booths.clear()
-        boothAdapter.booths.addAll(boothDataList)
+        if (favoritesMode) {
+           for (boothData in boothDataList) {
+               for (favoritesId in favoritesIdList) {
+                   if (boothData.id == favoritesId) {
+                       boothAdapter.booths.add(boothData)
+                   }
+               }
+           }
+        } else {
+            boothAdapter.booths.addAll(boothDataList)
+        }
+
         boothAdapter.notifyDataSetChanged()
+    }
+
+    override fun onBoothListLoaded(boothDataList: List<Booth>, favorites: List<Favorites>) {
+        favoritesIdList.clear()
+        boothList.clear()
+        for (favoritesData in favorites) {
+            favoritesIdList.add(favoritesData.id)
+        }
+        boothList = boothDataList.toMutableList()
+        boothAdapter.favorites.clear()
+        boothAdapter.favorites.addAll(favoritesIdList)
+        showBoothList(boothList)
+
     }
 
     override fun onBoothClick(booth: Booth) {
@@ -139,6 +190,23 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
             boothStaffDialog.show(activity!!.supportFragmentManager, null)
         }
 
+    }
+
+    override fun onFavoritesClick(booth: Booth) {
+        if (favoritesIdList.contains(booth.id)) {
+            ivStar.setImageResource(R.drawable.ic_star_border)
+            presenter.deleteFavoritesData(booth)
+            favoritesIdList.remove(booth.id)
+        } else {
+            ivStar.setImageResource(R.drawable.ic_star_selected)
+            presenter.saveFavoritesData(booth)
+            favoritesIdList.add(booth.id)
+        }
+
+        boothAdapter.favorites.clear()
+        boothAdapter.favorites.addAll(favoritesIdList)
+        showBoothList(boothList)
+        boothAdapter.notifyDataSetChanged()
     }
 
     override fun showWaitingView(show: Boolean) {

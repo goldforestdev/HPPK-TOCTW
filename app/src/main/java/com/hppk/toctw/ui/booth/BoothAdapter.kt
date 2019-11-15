@@ -1,6 +1,7 @@
 package com.hppk.toctw.ui.booth
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.hppk.toctw.R
 import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.data.model.Booth
 import com.hppk.toctw.data.model.Busy
+import com.hppk.toctw.data.model.Favorites
 import kotlinx.android.synthetic.main.item_booth_list.view.*
 
 
@@ -21,11 +23,14 @@ const val VIEW_TYPE_LIST = 1
 
 class BoothAdapter(
     val booths: MutableList<Booth> = mutableListOf(),
+    val favorites : MutableList<String> = mutableListOf(),
     var viewType: Int = VIEW_TYPE_PHOTO,
+    var favoritesMode : Boolean = true,
     private var context: Context? = null,
     private val boothClickLister: BoothClickLister,
     private val busyClickLister: BusyClickLister,
-    private val stampClickLister: StampClickLister
+    private val stampClickLister: StampClickLister,
+    private val favoritesClickLister : FavoritesClickLister
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -49,6 +54,10 @@ class BoothAdapter(
 
     interface StampClickLister {
         fun onStampClick(booth: Booth)
+    }
+
+    interface FavoritesClickLister {
+        fun onFavoritesClick(booth: Booth)
     }
 
     override fun getItemCount(): Int = booths.size
@@ -88,6 +97,19 @@ class BoothAdapter(
 
                 itemView.setOnClickListener {
                     boothClickLister.onBoothClick(booth)
+                }
+
+
+                if (favorites.contains(booth.id)) {
+                    ivStar.setImageResource(R.drawable.ic_star_selected)
+
+                } else {
+                    ivStar.setImageResource(R.drawable.ic_star_border)
+
+                }
+
+                ivStar.setOnClickListener {
+                    favoritesClickLister.onFavoritesClick(booth)
                 }
             }
         }
