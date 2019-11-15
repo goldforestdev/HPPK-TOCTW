@@ -3,13 +3,10 @@ package com.hppk.toctw.ui.booth
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hppk.toctw.R
 import com.hppk.toctw.auth.AppAuth
 import com.hppk.toctw.data.model.Booth
@@ -59,19 +56,6 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         initToolbar()
         initRecyclerView()
         initData()
-        initFloating()
-    }
-
-    private fun initFloating() {
-        flFavorites.setOnClickListener {
-            favoritesMode = !favoritesMode
-            if (favoritesMode) {
-                flFavorites.setImageResource(R.drawable.ic_menu)
-            } else {
-                flFavorites.setImageResource(R.drawable.ic_star_white)
-            }
-            showBoothList(boothList)
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -84,6 +68,13 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         }
         val menuItem = menu.findItem(R.id.menuViewType)
         menuItem.setIcon(icon)
+
+        val icon2 = when (favoritesMode) {
+            true -> R.drawable.ic_star_white_enable
+            else -> R.drawable.ic_star_white_disable
+        }
+        val menuItem2 = menu.findItem(R.id.menuViewFavorite)
+        menuItem2.setIcon(icon2)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -96,6 +87,15 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
             viewType = type
             boothAdapter.viewType = type
             boothAdapter.notifyDataSetChanged()
+            item.setIcon(icon)
+        } else if (item.itemId == R.id.menuViewFavorite) {
+            val (mode , icon) = when (favoritesMode) {
+                true -> false to R.drawable.ic_star_white_disable
+                else -> true to R.drawable.ic_star_white_enable
+            }
+
+            favoritesMode = mode
+            showBoothList(boothList)
             item.setIcon(icon)
         }
 
