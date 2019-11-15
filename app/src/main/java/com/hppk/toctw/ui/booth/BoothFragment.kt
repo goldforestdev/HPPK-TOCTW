@@ -79,6 +79,7 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
         }
         favoriteMenuItem = menu.findItem(R.id.menuViewFavorite)
         favoriteMenuItem.setIcon(favoriteIcon)
+        favoriteMenuItem.isVisible = false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -233,6 +234,8 @@ class BoothFragment : Fragment(), BoothContract.View, BoothAdapter.BoothClickLis
     }
 
     override fun onRefresh() {
+
+
         presenter.loadCollection()
     }
 }
